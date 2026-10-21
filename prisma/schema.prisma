@@ -1,0 +1,486 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ──────────────────────────────────────────────
+// ENUMS
+// ──────────────────────────────────────────────
+
+enum UserRole {
+  USER
+  ADMIN
+}
+
+enum ArticleStatus {
+  DRAFT
+  SCHEDULED
+  PUBLISHED
+  ARCHIVED
+}
+
+enum AccessLevel {
+  FREE
+  PREMIUM
+}
+
+enum PricingType {
+  FREE
+  FREEMIUM
+  PAID
+}
+
+enum BillingType {
+  MONTHLY
+  YEARLY
+  LIFETIME
+  ONE_TIME
+}
+
+enum PaymentStatus {
+  PENDING
+  AUTHORIZED
+  CAPTURED
+  FAILED
+  REFUNDED
+}
+
+enum MembershipStatus {
+  ACTIVE
+  EXPIRED
+  CANCELLED
+  REVOKED
+}
+
+enum NotificationChannel {
+  EMAIL
+  WHATSAPP
+}
+
+enum NotificationStatus {
+  PENDING
+  SENT
+  FAILED
+  SKIPPED
+}
+
+enum SyncStatus {
+  RUNNING
+  SUCCESS
+  FAILED
+  PARTIAL
+}
+
+enum EnquiryStatus {
+  NEW
+  CONTACTED
+  RESOLVED
+  ARCHIVED
+}
+
+// ──────────────────────────────────────────────
+// AUTHENTICATION & USERS (better-auth compliant)
+// ──────────────────────────────────────────────
+
+model User {
+  id            String    @id @default(cuid())
+  name          String
+  email         String    @unique
+  emailVerified Boolean   @default(false)
+  image         String?
+  role          UserRole  @default(USER)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  sessions      Session[]
+  accounts      Account[]
+  memberships   Membership[]
+  payments      Payment[]
+  auditLogs     AuditLog[]
+  outbox        NotificationOutbox[]
+
+  @@index([email])
+  @@index([role])
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  token     String   @unique
+  expiresAt DateTime
+  ipAddress String?
+  userAgent String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+  @@index([token])
+}
+
+model Account {
+  id                    String    @id @default(cuid())
+  userId                String
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accountId             String
+  providerId            String
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  @@index([userId])
+  @@index([providerId, accountId])
+}
+
+model Verification {
+  id         String   @id @default(cuid())
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([identifier])
+}
+
+// ──────────────────────────────────────────────
+// PLANS & MEMBERSHIPS
+// ──────────────────────────────────────────────
+
+model Plan {
+  id          String       @id @default(cuid())
+  name        String
+  slug        String       @unique
+  description String
+  price       Int          // Price in smallest currency unit (paise for INR)
+  currency    String       @default("INR")
+  billingType BillingType  @default(MONTHLY)
+  durationDays Int?        // null for lifetime, e.g. 30 for monthly, 365 for yearly
+  features    String[]     // List of feature descriptions
+  isActive    Boolean      @default(true)
+  sortOrder   Int          @default(0)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  memberships Membership[]
+  payments    Payment[]
+
+  @@index([slug])
+  @@index([isActive])
+}
+
+model Membership {
+  id              String           @id @default(cuid())
+  userId          String
+  user            User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  planId          String
+  plan            Plan             @relation(fields: [planId], references: [id], onDelete: Restrict)
+  status          MembershipStatus @default(ACTIVE)
+  startDate       DateTime         @default(now())
+  endDate         DateTime?        // null for lifetime
+  autoRenew       Boolean          @default(false)
+  razorpaySubId   String?
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+
+  @@index([userId])
+  @@index([status])
+  @@index([endDate])
+}
+
+// ──────────────────────────────────────────────
+// PAYMENTS (Razorpay)
+// ──────────────────────────────────────────────
+
+model Payment {
+  id                String        @id @default(cuid())
+  userId            String
+  user              User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  planId            String
+  plan              Plan          @relation(fields: [planId], references: [id], onDelete: Restrict)
+  razorpayOrderId   String        @unique
+  razorpayPaymentId String?       @unique
+  razorpaySignature String?
+  amount            Int           // In paise
+  currency          String        @default("INR")
+  status            PaymentStatus @default(PENDING)
+  receiptNumber     String?
+  rawPayload        Json?
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
+
+  @@index([userId])
+  @@index([razorpayOrderId])
+  @@index([razorpayPaymentId])
+  @@index([status])
+}
+
+// ──────────────────────────────────────────────
+// CATEGORIES & TAGS
+// ──────────────────────────────────────────────
+
+model Category {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  name        String
+  description String?
+  icon        String?
+  color       String?  // hex color code
+  sortOrder   Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  articles    Article[]
+  tools       AITool[]
+  resources   LearningResource[]
+
+  @@index([slug])
+}
+
+model Tag {
+  id        String    @id @default(cuid())
+  slug      String    @unique
+  name      String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  articles  Article[]
+  resources LearningResource[]
+
+  @@index([slug])
+}
+
+// ──────────────────────────────────────────────
+// CONTENT: ARTICLES (AI News & Updates)
+// ──────────────────────────────────────────────
+
+model Article {
+  id              String        @id @default(cuid())
+  slug            String        @unique
+  title           String
+  summary         String
+  content         String        // Markdown or HTML body
+  coverImage      String?
+  authorName      String        @default("AI Scout Team")
+  categoryId      String?
+  category        Category?     @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  status          ArticleStatus @default(DRAFT)
+  accessLevel     AccessLevel   @default(FREE)
+  readTimeMinutes Int           @default(3)
+  viewCount       Int           @default(0)
+  sourceUrl       String?
+  publishedAt     DateTime?
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  tags            Tag[]
+
+  @@index([slug])
+  @@index([status])
+  @@index([accessLevel])
+  @@index([publishedAt])
+  @@index([categoryId])
+}
+
+// ──────────────────────────────────────────────
+// CONTENT: AI TOOLS DIRECTORY
+// ──────────────────────────────────────────────
+
+model AITool {
+  id          String      @id @default(cuid())
+  slug        String      @unique
+  name        String
+  tagline     String
+  description String
+  categoryId  String?
+  category    Category?   @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  websiteUrl  String
+  logoUrl     String?
+  pricingType PricingType @default(FREEMIUM)
+  priceStart  String?     // e.g. "Free", "$20/mo", "₹999/mo"
+  isVerified  Boolean     @default(true)
+  isFeatured  Boolean     @default(false)
+  rating      Float       @default(4.8)
+  reviewCount Int         @default(0)
+  sortOrder   Int         @default(0)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  @@index([slug])
+  @@index([pricingType])
+  @@index([isFeatured])
+  @@index([categoryId])
+}
+
+// ──────────────────────────────────────────────
+// CONTENT: LEARNING RESOURCES (Learn AI by Doing)
+// ──────────────────────────────────────────────
+
+model LearningResource {
+  id             String      @id @default(cuid())
+  slug           String      @unique
+  title          String
+  description    String
+  content        String      // Tutorial / guide content
+  categoryId     String?
+  category       Category?   @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  difficulty     String      @default("Beginner") // Beginner, Intermediate, Advanced
+  format         String      @default("Tutorial") // Tutorial, Guide, Project, Case Study
+  estimatedHours Float       @default(1.0)
+  accessLevel    AccessLevel @default(FREE)
+  externalUrl    String?
+  isFeatured     Boolean     @default(false)
+  sortOrder      Int         @default(0)
+  publishedAt    DateTime?
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+
+  tags           Tag[]
+
+  @@index([slug])
+  @@index([difficulty])
+  @@index([accessLevel])
+  @@index([categoryId])
+}
+
+// ──────────────────────────────────────────────
+// CONTACT & TEAM ENQUIRIES
+// ──────────────────────────────────────────────
+
+model ContactEnquiry {
+  id          String        @id @default(cuid())
+  name        String
+  email       String
+  company     String?
+  teamSize    String?
+  enquiryType String        @default("general") // general, enterprise_training, tool_listing, partnership, support
+  message     String
+  status      EnquiryStatus @default(NEW)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  @@index([email])
+  @@index([status])
+  @@index([enquiryType])
+}
+
+// ──────────────────────────────────────────────
+// GOOGLE SHEETS CONTENT SYNC PIPELINE
+// ──────────────────────────────────────────────
+
+model ContentSyncRun {
+  id           String       @id @default(cuid())
+  source       String       @default("GOOGLE_SHEETS")
+  status       SyncStatus   @default(RUNNING)
+  totalRows    Int          @default(0)
+  successRows  Int          @default(0)
+  errorRows    Int          @default(0)
+  errorMessage String?
+  startedAt    DateTime     @default(now())
+  completedAt  DateTime?
+
+  rowLogs      SyncRowLog[]
+
+  @@index([status])
+  @@index([startedAt])
+}
+
+model SyncRowLog {
+  id              String         @id @default(cuid())
+  syncRunId       String
+  syncRun         ContentSyncRun @relation(fields: [syncRunId], references: [id], onDelete: Cascade)
+  sheetRowNumber  Int
+  contentType     String         // article, tool, learn
+  slug            String?
+  status          String         // SUCCESS, ERROR, SKIPPED
+  errorMessage    String?
+  createdAt       DateTime       @default(now())
+
+  @@index([syncRunId])
+}
+
+// ──────────────────────────────────────────────
+// NOTIFICATIONS & OUTBOX
+// ──────────────────────────────────────────────
+
+model NotificationOutbox {
+  id          String              @id @default(cuid())
+  userId      String?
+  user        User?               @relation(fields: [userId], references: [id], onDelete: SetNull)
+  channel     NotificationChannel @default(EMAIL)
+  recipient   String
+  subject     String
+  template    String
+  payload     Json
+  status      NotificationStatus  @default(PENDING)
+  retryCount  Int                 @default(0)
+  maxRetries  Int                 @default(3)
+  lastError   String?
+  sentAt      DateTime?
+  createdAt   DateTime            @default(now())
+  updatedAt   DateTime            @updatedAt
+
+  logs        NotificationLog[]
+
+  @@index([status])
+  @@index([channel])
+  @@index([recipient])
+}
+
+model NotificationLog {
+  id               String             @id @default(cuid())
+  outboxId         String
+  outbox           NotificationOutbox @relation(fields: [outboxId], references: [id], onDelete: Cascade)
+  channel          NotificationChannel
+  recipient        String
+  status           NotificationStatus
+  providerResponse Json?
+  sentAt           DateTime           @default(now())
+  createdAt        DateTime           @default(now())
+
+  @@index([outboxId])
+  @@index([status])
+}
+
+// ──────────────────────────────────────────────
+// AUDIT LOGS & SITE SETTINGS
+// ──────────────────────────────────────────────
+
+model AuditLog {
+  id         String   @id @default(cuid())
+  userId     String?
+  user       User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  action     String   // e.g. "ARTICLE_CREATE", "USER_ROLE_CHANGE", "PLAN_UPDATE"
+  entityType String   // "Article", "User", "Plan", etc.
+  entityId   String?
+  diff       Json?
+  ipAddress  String?
+  userAgent  String?
+  createdAt  DateTime @default(now())
+
+  @@index([userId])
+  @@index([action])
+  @@index([entityType])
+  @@index([createdAt])
+}
+
+model SiteSetting {
+  id          String   @id @default(cuid())
+  key         String   @unique
+  value       String
+  description String?
+  isPublic    Boolean  @default(false)
+  updatedAt   DateTime @updatedAt
+
+  @@index([key])
+}
