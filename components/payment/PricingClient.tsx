@@ -75,7 +75,7 @@ export function PricingClient({ plans }: PricingClientProps) {
         key: orderData.keyId,
         amount: orderData.amount,
         currency: orderData.currency,
-        name: "AI Scout",
+        name: "Savzen",
         description: `Upgrade to ${plan.name}`,
         order_id: orderData.orderId,
         handler: async function (response: any) {

@@ -3,7 +3,7 @@ import Link from "next/link";
 import { AlertCircle, ArrowLeft, RefreshCw, Mail } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Payment Cancelled | AI Scout",
+  title: "Payment Cancelled | Savzen",
 };
 
 export default function PaymentCancelPage() {

@@ -29,7 +29,7 @@ export default async function AdminLayout({
               <span className="w-2.5 h-2.5 rounded-full bg-red-500 animate-pulse" />
               <span className="text-xs font-bold text-red-400 uppercase tracking-widest">Admin Control</span>
             </div>
-            <h2 className="text-lg font-black text-white">AI Scout HQ</h2>
+            <h2 className="text-lg font-black text-white">Savzen HQ</h2>
             <p className="text-xs text-[#6B7FA3] mt-0.5">{admin.email}</p>
           </div>
 

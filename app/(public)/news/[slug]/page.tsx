@@ -20,11 +20,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   });
 
   if (!article) {
-    return { title: "Article Not Found | AI Scout" };
+    return { title: "Article Not Found | Savzen" };
   }
 
   return {
-    title: `${article.title} | AI Scout`,
+    title: `${article.title} | Savzen`,
     description: article.summary,
     alternates: { canonical: `/news/${slug}` },
   };
@@ -131,7 +131,7 @@ export default async function NewsArticlePage({ params }: PageProps) {
               <div>
                 <p className="text-xs text-[#6B7FA3] uppercase tracking-wider font-semibold">Published By</p>
                 <p className="text-sm font-bold text-white mt-0.5">{article.authorName}</p>
-                <p className="text-xs text-[#A7B2CC] mt-1">Research & Technical Intelligence Team at AI Scout</p>
+                <p className="text-xs text-[#A7B2CC] mt-1">Research & Technical Intelligence Team at Savzen</p>
               </div>
               <ShieldCheck className="w-8 h-8 text-[#16C784]" />
             </div>
@@ -157,7 +157,7 @@ export default async function NewsArticlePage({ params }: PageProps) {
 
               <div>
                 <h2 className="text-2xl font-bold text-white">
-                  Exclusive to AI Scout Premium Members
+                  Exclusive to Savzen Premium Members
                 </h2>
                 <p className="text-xs md:text-sm text-[#A7B2CC] max-w-md mx-auto mt-2 leading-relaxed">
                   This report includes proprietary performance benchmarks, production architectures, and deployment blueprints.

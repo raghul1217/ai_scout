@@ -87,7 +87,7 @@ export async function POST(request: NextRequest) {
           userId: user.id,
           channel: "EMAIL",
           recipient: user.email,
-          subject: `Welcome to ${payment.plan.name} — AI Scout`,
+          subject: `Welcome to ${payment.plan.name} — Savzen`,
           template: "payment_confirmation",
           payload: {
             userName: user.name,
@@ -96,7 +96,7 @@ export async function POST(request: NextRequest) {
             currency: payment.currency,
             orderId: razorpay_order_id,
             paymentId: razorpay_payment_id,
-          },
+          }, 
           status: "PENDING",
         },
       }),

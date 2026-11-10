@@ -6,7 +6,7 @@ import { Users, Crown, FileText, Wrench, RefreshCw, AlertCircle, CheckCircle2 } 
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Admin Dashboard | AI Scout",
+  title: "Admin Dashboard | Savzen",
 };
 
 export default async function AdminDashboardPage() {

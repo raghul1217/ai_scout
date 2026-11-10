@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Terms of Service",
-  description: "AI Scout Terms of Service — the rules and agreements for using our platform.",
+  description: "Savzen Terms of Service — the rules and agreements for using our platform.",
   alternates: { canonical: "/terms" },
 };
 
@@ -16,11 +16,11 @@ export default function TermsPage() {
           <div className="prose-dark space-y-8">
             <section>
               <h2>1. Acceptance of Terms</h2>
-              <p>By accessing or using AI Scout, you agree to be bound by these Terms of Service. If you do not agree, please do not use the platform.</p>
+              <p>By accessing or using Savzen, you agree to be bound by these Terms of Service. If you do not agree, please do not use the platform.</p>
             </section>
             <section>
               <h2>2. Use of the Platform</h2>
-              <p>AI Scout grants you a limited, non-exclusive, non-transferable license to access and use the platform for personal, non-commercial purposes. You must not misuse the platform, circumvent security measures, or use it for unlawful purposes.</p>
+              <p>Savzen grants you a limited, non-exclusive, non-transferable license to access and use the platform for personal, non-commercial purposes. You must not misuse the platform, circumvent security measures, or use it for unlawful purposes.</p>
             </section>
             <section>
               <h2>3. Premium Membership</h2>
@@ -28,7 +28,7 @@ export default function TermsPage() {
             </section>
             <section>
               <h2>4. Content</h2>
-              <p>All content on AI Scout is for informational purposes. We make reasonable efforts to ensure accuracy but do not guarantee it. External tool links are provided for convenience — we are not responsible for third-party content or services.</p>
+              <p>All content on Savzen is for informational purposes. We make reasonable efforts to ensure accuracy but do not guarantee it. External tool links are provided for convenience — we are not responsible for third-party content or services.</p>
             </section>
             <section>
               <h2>5. Accounts</h2>
@@ -36,7 +36,7 @@ export default function TermsPage() {
             </section>
             <section>
               <h2>6. Limitation of Liability</h2>
-              <p>To the maximum extent permitted by law, AI Scout is not liable for indirect, incidental, or consequential damages arising from use of the platform.</p>
+              <p>To the maximum extent permitted by law, Savzen is not liable for indirect, incidental, or consequential damages arising from use of the platform.</p>
             </section>
             <section>
               <h2>7. Changes to Terms</h2>
@@ -44,7 +44,7 @@ export default function TermsPage() {
             </section>
             <section>
               <h2>8. Contact</h2>
-              <p>For questions about these terms, contact <a href="mailto:legal@aiscout.in">legal@aiscout.in</a>.</p>
+              <p>For questions about these terms, contact <a href="mailto:legal@savzen.com">legal@savzen.com</a>.</p>
             </section>
           </div>
         </div>

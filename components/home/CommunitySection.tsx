@@ -45,7 +45,7 @@ export function CommunitySection() {
                   Community
                 </p>
                 <h2 className="text-3xl sm:text-4xl font-bold text-[#f8fafc] leading-tight">
-                  Join the AI Scout{" "}
+                  Join the Savzen{" "}
                   <span className="gradient-text">Community</span>
                 </h2>
                 <p className="text-[#a7b2cc] mt-4 leading-relaxed">

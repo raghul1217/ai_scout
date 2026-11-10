@@ -19,11 +19,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   });
 
   if (!res) {
-    return { title: "Tutorial Not Found | AI Scout" };
+    return { title: "Tutorial Not Found | Savzen" };
   }
 
   return {
-    title: `${res.title} | AI Scout Learn`,
+    title: `${res.title} | Savzen Learn`,
     description: res.description,
     alternates: { canonical: `/learn/${slug}` },
   };
@@ -160,7 +160,7 @@ export default async function LearnDetailPage({ params }: PageProps) {
                   Unlock This Production Blueprint
                 </h2>
                 <p className="text-xs md:text-sm text-[#A7B2CC] max-w-md mx-auto mt-2 leading-relaxed">
-                  Join AI Scout Pro to access full source repositories, step-by-step code walkthroughs, and direct author support.
+                  Join Savzen Pro to access full source repositories, step-by-step code walkthroughs, and direct author support.
                 </p>
               </div>
 

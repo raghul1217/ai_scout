@@ -3,7 +3,7 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 async function main() {
-  console.log("Seeding AI Scout database...");
+  console.log("Seeding Savzen database...");
 
   // 1. Categories
   const categoriesData = [
@@ -25,7 +25,7 @@ async function main() {
   }
   console.log(`✓ Seeded ${categories.length} categories`);
 
-  // 2. Plans
+  // 2. Plans (Free Community & ₹499 Pro)
   const plansData = [
     {
       name: "Free Community",
@@ -45,13 +45,13 @@ async function main() {
       sortOrder: 1,
     },
     {
-      name: "AI Scout Pro (Monthly)",
-      slug: "pro-monthly",
-      description: "Full access to premium blueprints, advanced prompt packs, and member lounge.",
-      price: 99900, // ₹999.00
+      name: "Savzen Pro",
+      slug: "pro",
+      description: "Full lifetime access to premium blueprints, advanced prompt packs, and member lounge.",
+      price: 49900, // ₹499.00
       currency: "INR",
-      billingType: "MONTHLY" as const,
-      durationDays: 30,
+      billingType: "LIFETIME" as const,
+      durationDays: null,
       isActive: true,
       features: [
         "Everything in Free Community",
@@ -59,26 +59,9 @@ async function main() {
         "Production-tested agent prompt libraries",
         "Monthly commercial AI benchmark reports",
         "Priority VIP community lounge",
+        "Lifetime access to all future blueprints",
       ],
       sortOrder: 2,
-    },
-    {
-      name: "Founder Lifetime Access",
-      slug: "pro-lifetime",
-      description: "One-time investment for permanent access to all current and future intelligence.",
-      price: 499900, // ₹4,999.00
-      currency: "INR",
-      billingType: "LIFETIME" as const,
-      durationDays: null,
-      isActive: true,
-      features: [
-        "Permanent lifetime access to all vaults",
-        "All future courses, workshops & blueprints",
-        "Private WhatsApp & Discord Founders channel",
-        "Commercial rights to all provided prompt kits",
-        "Direct architectural Q&A with AI Scout authors",
-      ],
-      sortOrder: 3,
     },
   ];
 

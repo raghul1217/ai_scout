@@ -6,7 +6,7 @@ import { Star, ExternalLink, CheckCircle } from "lucide-react";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Manage AI Tools | Admin | AI Scout",
+  title: "Manage AI Tools | Admin | Savzen",
 };
 
 export default async function AdminToolsPage() {

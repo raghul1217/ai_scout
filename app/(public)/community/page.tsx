@@ -4,7 +4,7 @@ import { MessageCircle, Users, Bell, BookOpen, ArrowRight, ExternalLink } from "
 
 export const metadata: Metadata = {
   title: "Community",
-  description: "Join the AI Scout community on WhatsApp for daily AI updates, curated tools, and practical learning resources.",
+  description: "Join the Savzen community on WhatsApp for daily AI updates, curated tools, and practical learning resources.",
   alternates: { canonical: "/community" },
 };
 
@@ -25,7 +25,7 @@ export default function CommunityPage() {
         <div className="text-center max-w-2xl mx-auto mb-16">
           <p className="text-xs font-semibold text-green-400 uppercase tracking-widest mb-3">Community</p>
           <h1 className="text-4xl sm:text-5xl font-bold text-[#f8fafc] mb-4">
-            Join the AI Scout{" "}
+            Join the Savzen{" "}
             <span className="gradient-text">Community</span>
           </h1>
           <p className="text-[#a7b2cc] text-lg leading-relaxed mb-8">

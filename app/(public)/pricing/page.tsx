@@ -6,7 +6,7 @@ import { Crown, Sparkles, Shield, Zap } from "lucide-react";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Pricing & Membership Plans | AI Scout",
+  title: "Pricing & Membership Plans | Savzen",
   description: "Flexible membership tiers with instant access to production AI blueprints, agent prompts, and founder lounges.",
   alternates: { canonical: "/pricing" },
 };
@@ -21,7 +21,10 @@ export default async function PricingPage({
   let plans: any[] = [];
   try {
     plans = await prisma.plan.findMany({
-      where: { isActive: true },
+      where: {
+        isActive: true,
+        slug: { in: ["free", "pro"] },
+      },
       orderBy: { sortOrder: "asc" },
     });
   } catch (error) {
@@ -47,35 +50,20 @@ export default async function PricingPage({
         ],
       },
       {
-        id: "plan_monthly",
-        name: "AI Scout Pro (Monthly)",
-        slug: "pro-monthly",
-        description: "Full access to premium blueprints, advanced prompt packs, and member lounge.",
-        price: 99900,
+        id: "plan_pro",
+        name: "Savzen Pro",
+        slug: "pro",
+        description: "Full lifetime access to premium blueprints, advanced prompt packs, and member lounge.",
+        price: 49900,
         currency: "INR",
-        billingType: "MONTHLY",
+        billingType: "LIFETIME",
         features: [
           "Everything in Free Community",
           "Access to all Premium Blueprints & Guides",
           "Production-tested agent prompt libraries",
           "Monthly commercial AI benchmark reports",
           "Priority VIP community lounge",
-        ],
-      },
-      {
-        id: "plan_lifetime",
-        name: "Founder Lifetime Access",
-        slug: "pro-lifetime",
-        description: "One-time investment for permanent access to all current and future intelligence.",
-        price: 499900,
-        currency: "INR",
-        billingType: "LIFETIME",
-        features: [
-          "Permanent lifetime access to all vaults",
-          "All future courses, workshops & blueprints",
-          "Private WhatsApp & Discord Founders channel",
-          "Commercial rights to all provided prompt kits",
-          "Direct architectural Q&A with AI Scout authors",
+          "Lifetime access with zero recurring fees",
         ],
       },
     ];
@@ -99,7 +87,7 @@ export default async function PricingPage({
 
           {reason === "premium_required" && (
             <div className="p-3.5 rounded-xl bg-[#7C3AED]/15 border border-[#7C3AED]/40 text-xs text-[#9F67FF] font-medium">
-              🔒 That content requires an active AI Scout Pro membership. Select a plan below to unlock immediate access.
+              🔒 That content requires an active Savzen Pro membership. Select a plan below to unlock immediate access.
             </div>
           )}
         </div>

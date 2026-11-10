@@ -35,7 +35,7 @@ const footerLinks = {
     { label: "Pricing", href: "/pricing" },
   ],
   Company: [
-    { label: "About AI Scout", href: "/about" },
+    { label: "About Savzen", href: "/about" },
     { label: "Contact", href: "/contact" },
     { label: "Privacy Policy", href: "/privacy" },
     { label: "Terms of Service", href: "/terms" },
@@ -69,8 +69,8 @@ export function Footer() {
                 <Zap className="w-5 h-5 text-white fill-white" />
               </div>
               <span className="font-bold text-xl tracking-tight">
-                <span className="text-[#f8fafc]">AI</span>
-                <span className="gradient-text"> Scout</span>
+                <span className="text-[#f8fafc]">Sav</span>
+                <span className="gradient-text">zen</span>
               </span>
             </Link>
 
@@ -82,10 +82,10 @@ export function Footer() {
             <div className="flex items-center gap-1 text-sm text-[#a7b2cc]">
               <Mail className="w-4 h-4 shrink-0" />
               <a
-                href={`mailto:${process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "hello@aiscout.in"}`}
+                href={`mailto:${process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "hello@savzen.com"}`}
                 className="hover:text-[#f8fafc] transition-colors"
               >
-                {process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "hello@aiscout.in"}
+                {process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "hello@savzen.com"}
               </a>
             </div>
 
@@ -137,7 +137,7 @@ export function Footer() {
       {/* Bottom Bar */}
       <div className="border-t border-[#24314f]/50">
         <div className="container-max py-5 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[#6b7fa3]">
-          <p>© {year} AI Scout. All rights reserved.</p>
+          <p>© {year} Savzen. All rights reserved.</p>
           <div className="flex items-center gap-4">
             <Link href="/privacy" className="hover:text-[#a7b2cc] transition-colors">Privacy</Link>
             <Link href="/terms" className="hover:text-[#a7b2cc] transition-colors">Terms</Link>

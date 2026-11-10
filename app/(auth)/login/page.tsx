@@ -52,12 +52,12 @@ export default function LoginPage() {
               <Zap className="w-5 h-5 text-white fill-white" />
             </div>
             <span className="font-bold text-xl">
-              <span className="text-[#f8fafc]">AI</span>
-              <span className="gradient-text"> Scout</span>
+              <span className="text-[#f8fafc]">Sav</span>
+              <span className="gradient-text">zen</span>
             </span>
           </Link>
           <h1 className="text-2xl font-bold text-[#f8fafc] mt-6 mb-1">Welcome back</h1>
-          <p className="text-sm text-[#a7b2cc]">Sign in to your AI Scout account</p>
+          <p className="text-sm text-[#a7b2cc]">Sign in to your Savzen account</p>
         </div>
 
         {/* Form */}

@@ -8,8 +8,11 @@ export const razorpayClient = new Razorpay({
 });
 
 export async function createOrderForPlan(planId: string, userId: string) {
-  const plan = await prisma.plan.findUnique({
-    where: { id: planId },
+  const plan = await prisma.plan.findFirst({
+    where: {
+      OR: [{ id: planId }, { slug: planId }],
+      isActive: true,
+    },
   });
 
   if (!plan || !plan.isActive) {

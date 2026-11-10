@@ -4,7 +4,7 @@ import { Search, ExternalLink, Star, CheckCircle, Zap, Shield, ArrowRight } from
 import { prisma } from "@/lib/db/prisma";
 
 export const metadata: Metadata = {
-  title: "AI Tools Directory | AI Scout",
+  title: "AI Tools Directory | Savzen",
   description: "Browse 150+ verified artificial intelligence tools across coding, productivity, design, audio, and reasoning.",
   alternates: { canonical: "/tools" },
 };
@@ -177,7 +177,7 @@ export default async function ToolsPage({
                       {tool.name}
                     </h2>
                     {tool.isVerified && (
-                      <span title="Verified by AI Scout" className="text-[#16C784]">
+                      <span title="Verified by Savzen" className="text-[#16C784]">
                         <CheckCircle className="w-4 h-4" />
                       </span>
                     )}

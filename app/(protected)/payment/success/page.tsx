@@ -7,7 +7,7 @@ import { prisma } from "@/lib/db/prisma";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Payment Successful | Welcome to AI Scout Pro",
+  title: "Payment Successful | Welcome to Savzen Pro",
 };
 
 export default async function PaymentSuccessPage({
@@ -28,7 +28,7 @@ export default async function PaymentSuccessPage({
     orderBy: { createdAt: "desc" },
   });
 
-  const planName = membership?.plan.name || plan || "AI Scout Pro";
+  const planName = membership?.plan.name || plan || "Savzen Pro";
 
   return (
     <div className="min-h-screen py-20 bg-[#050816] text-[#F8FAFC] flex items-center justify-center px-4">

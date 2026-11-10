@@ -7,9 +7,9 @@ import { CommunitySection } from "@/components/home/CommunitySection";
 import { UpskillSection } from "@/components/home/UpskillSection";
 
 export const metadata: Metadata = {
-  title: "AI Scout — Discover, Learn & Stay Ahead in AI",
+  title: "Savzen — Discover, Learn & Stay Ahead in AI",
   description:
-    "Explore curated AI tools, read the latest AI news, and learn with practical tutorials. Join the AI Scout community and stay ahead in the AI revolution.",
+    "Explore curated AI tools, read the latest AI news, and learn with practical tutorials. Join the Savzen community and stay ahead in the AI revolution.",
   alternates: { canonical: "/" },
 };
 

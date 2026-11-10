@@ -4,12 +4,13 @@ import { requireAuth } from "@/lib/auth/session";
 import { prisma } from "@/lib/db/prisma";
 import { formatDate } from "@/lib/utils";
 import { Crown, User, Mail, Shield, Calendar, ArrowRight, Zap, CheckCircle2 } from "lucide-react";
+import { SignOutButton } from "@/components/account/SignOutButton";
 
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "My Account | AI Scout",
-  description: "Manage your AI Scout profile, membership status, and access.",
+  title: "My Account | Savzen",
+  description: "Manage your Savzen profile, membership status, and access.",
 };
 
 export default async function AccountPage() {
@@ -59,6 +60,7 @@ export default async function AccountPage() {
             >
               Back to Home
             </Link>
+            <SignOutButton />
           </div>
         </div>
 

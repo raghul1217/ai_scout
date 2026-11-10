@@ -7,7 +7,7 @@ import { FileText, Plus, Lock, CheckCircle, Edit3 } from "lucide-react";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Manage Articles | Admin | AI Scout",
+  title: "Manage Articles | Admin | Savzen",
 };
 
 export default async function AdminContentPage() {

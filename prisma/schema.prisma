@@ -271,7 +271,7 @@ model Article {
   summary         String
   content         String        // Markdown or HTML body
   coverImage      String?
-  authorName      String        @default("AI Scout Team")
+  authorName      String        @default("Savzen Team")
   categoryId      String?
   category        Category?     @relation(fields: [categoryId], references: [id], onDelete: SetNull)
   status          ArticleStatus @default(DRAFT)

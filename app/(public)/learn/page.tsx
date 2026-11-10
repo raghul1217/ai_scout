@@ -4,7 +4,7 @@ import { Search, BookOpen, Clock, Lock, ArrowRight, Sparkles, Terminal } from "l
 import { prisma } from "@/lib/db/prisma";
 
 export const metadata: Metadata = {
-  title: "Learn AI by Doing | Practical AI Tutorials | AI Scout",
+  title: "Learn AI by Doing | Practical AI Tutorials | Savzen",
   description: "Hands-on AI tutorials, architectural blueprints, and prompt engineering masterclasses designed for developers and practitioners.",
   alternates: { canonical: "/learn" },
 };

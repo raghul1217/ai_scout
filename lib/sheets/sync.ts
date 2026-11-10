@@ -12,7 +12,7 @@ const articleRowSchema = z.object({
   category: z.string().optional(),
   status: z.enum(["DRAFT", "SCHEDULED", "PUBLISHED", "ARCHIVED"]).default("DRAFT"),
   accessLevel: z.enum(["FREE", "PREMIUM"]).default("FREE"),
-  author: z.string().default("AI Scout Team"),
+  author: z.string().default("Savzen Team"),
   readTime: z.number().int().min(1).default(3),
 });
 
@@ -92,7 +92,7 @@ export async function runGoogleSheetsSync(): Promise<SyncResult> {
           category: categorySlug,
           status: statusRaw ? statusRaw.toUpperCase() : "DRAFT",
           accessLevel: accessLevelRaw ? accessLevelRaw.toUpperCase() : "FREE",
-          author: author || "AI Scout Team",
+          author: author || "Savzen Team",
           readTime: readTimeRaw ? parseInt(readTimeRaw, 10) : 3,
         });
 

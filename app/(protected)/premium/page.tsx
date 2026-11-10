@@ -7,8 +7,8 @@ import { Crown, Sparkles, BookOpen, Download, Terminal, Lock, ArrowRight, Shield
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Premium Member Vault | AI Scout",
-  description: "Exclusive tutorials, architectural blueprints, and prompt libraries for AI Scout Premium members.",
+  title: "Premium Member Vault | Savzen",
+  description: "Exclusive tutorials, architectural blueprints, and prompt libraries for Savzen Premium members.",
 };
 
 export default async function PremiumVaultPage() {
@@ -48,7 +48,7 @@ export default async function PremiumVaultPage() {
               Verified Premium Member
             </div>
             <h1 className="text-3xl md:text-5xl font-black tracking-tight text-white mb-4">
-              The AI Scout <span className="text-gradient">Member Vault</span>
+              The Savzen <span className="text-gradient">Member Vault</span>
             </h1>
             <p className="text-sm md:text-base text-[#A7B2CC] leading-relaxed mb-6">
               Welcome, {user.name}. You have unrestricted access to production AI blueprints, multi-agent frameworks, enterprise prompt templates, and direct author discussions.

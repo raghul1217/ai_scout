@@ -14,8 +14,10 @@ import {
   Settings,
   LayoutDashboard,
   Crown,
+  Sparkles,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { authClient, useSession } from "@/lib/auth/auth-client";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -28,6 +30,7 @@ const navLinks = [
 
 interface NavbarProps {
   user?: {
+    id?: string;
     name: string;
     email: string;
     role: string;
@@ -42,17 +45,53 @@ export function Navbar({ user }: NavbarProps) {
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
 
+  // Sync client-side session with server-provided user
+  const { data: session } = useSession();
+  const currentUser = session?.user
+    ? {
+        id: session.user.id,
+        name: session.user.name,
+        email: session.user.email,
+        role: (session.user as any).role || user?.role || "USER",
+        isPremium: user?.isPremium ?? false,
+      }
+    : user;
+
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Close mobile menu on route change
+  // Close mobile and user menus on route change
   useEffect(() => {
     setMobileOpen(false);
     setUserMenuOpen(false);
   }, [pathname]);
+
+  // Click outside to close user menu dropdown
+  useEffect(() => {
+    if (!userMenuOpen) return;
+    const handleClickOutside = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      if (!target.closest("#nav-user-menu-container")) {
+        setUserMenuOpen(false);
+      }
+    };
+    document.addEventListener("click", handleClickOutside);
+    return () => document.removeEventListener("click", handleClickOutside);
+  }, [userMenuOpen]);
+
+  const handleSignOut = async () => {
+    setUserMenuOpen(false);
+    setMobileOpen(false);
+    try {
+      await authClient.signOut();
+    } catch (err) {
+      console.error("Sign out error:", err);
+    }
+    window.location.href = "/";
+  };
 
   return (
     <>
@@ -69,14 +108,14 @@ export function Navbar({ user }: NavbarProps) {
           <Link
             href="/"
             className="flex items-center gap-2.5 group shrink-0"
-            aria-label="AI Scout Home"
+            aria-label="Savzen Home"
           >
             <div className="w-8 h-8 rounded-lg bg-gradient-brand flex items-center justify-center shadow-lg group-hover:shadow-purple-500/30 transition-shadow">
               <Zap className="w-4 h-4 text-white fill-white" />
             </div>
             <span className="font-bold text-lg tracking-tight">
-              <span className="text-[#f8fafc]">AI</span>
-              <span className="gradient-text"> Scout</span>
+              <span className="text-[#f8fafc]">Sav</span>
+              <span className="gradient-text">zen</span>
             </span>
           </Link>
 
@@ -102,112 +141,242 @@ export function Navbar({ user }: NavbarProps) {
             {/* Search */}
             <button
               onClick={() => setSearchOpen(true)}
-              className="btn btn-ghost btn-sm p-2"
+              className="p-2 text-[#a7b2cc] hover:text-[#f8fafc] hover:bg-white/5 rounded-lg transition-colors"
               aria-label="Search"
               id="nav-search-btn"
             >
               <Search className="w-4 h-4" />
             </button>
 
-            {user ? (
-              /* User Menu */
-              <div className="relative">
-                <button
-                  id="nav-user-menu-btn"
-                  onClick={() => setUserMenuOpen((v) => !v)}
-                  className="flex items-center gap-2 btn btn-ghost btn-sm"
-                  aria-expanded={userMenuOpen}
-                  aria-haspopup="true"
-                >
-                  <div className="w-7 h-7 rounded-full bg-gradient-brand flex items-center justify-center text-xs font-bold text-white">
-                    {user.name.charAt(0).toUpperCase()}
-                  </div>
-                  <span className="text-sm font-medium text-[#f8fafc] max-w-[100px] truncate">
-                    {user.name}
-                  </span>
-                  {user.isPremium && (
-                    <Crown className="w-3.5 h-3.5 text-yellow-400" />
-                  )}
-                  <ChevronDown
-                    className={cn(
-                      "w-3.5 h-3.5 text-[#6b7fa3] transition-transform",
-                      userMenuOpen && "rotate-180"
-                    )}
-                  />
-                </button>
+            {currentUser?.isPremium ? (
+              /* User has Premium: Display User Icon in top right with /account page */
+              <div className="relative" id="nav-user-menu-container">
+                <div className="flex items-center gap-1.5 bg-[#0d1730]/90 border border-[#24314f] hover:border-[#7c3aed] rounded-full p-1 pr-2 transition-all shadow-sm">
+                  <Link
+                    href="/account"
+                    id="nav-user-account-btn"
+                    className="flex items-center gap-2 text-xs font-semibold text-[#f8fafc] hover:text-white transition-colors group"
+                    title="My Account"
+                    aria-label="My Account"
+                  >
+                    <div className="w-7 h-7 rounded-full bg-gradient-brand flex items-center justify-center text-white shadow-sm group-hover:scale-105 transition-transform shrink-0">
+                      <User className="w-3.5 h-3.5 text-white" />
+                    </div>
+                    <span className="max-w-[120px] truncate">
+                      {currentUser.name}
+                    </span>
+                    <Crown className="w-3.5 h-3.5 text-yellow-400 shrink-0" />
+                  </Link>
+
+                  <button
+                    onClick={() => setUserMenuOpen((v) => !v)}
+                    className="p-1 text-[#6b7fa3] hover:text-[#f8fafc] rounded-full hover:bg-white/10 transition-colors"
+                    aria-label="Open user dropdown"
+                    aria-expanded={userMenuOpen}
+                  >
+                    <ChevronDown
+                      className={cn(
+                        "w-3.5 h-3.5 transition-transform duration-200",
+                        userMenuOpen && "rotate-180"
+                      )}
+                    />
+                  </button>
+                </div>
 
                 {userMenuOpen && (
-                  <div className="absolute right-0 top-full mt-2 w-52 glass-dark rounded-xl border border-[#24314f] shadow-xl py-1 animate-fade-in">
-                    <div className="px-3 py-2 border-b border-[#24314f]/60">
-                      <p className="text-xs text-[#6b7fa3]">Signed in as</p>
-                      <p className="text-sm font-medium text-[#f8fafc] truncate">{user.email}</p>
-                      {user.isPremium && (
-                        <span className="badge badge-yellow mt-1">
-                          <Crown className="w-2.5 h-2.5" />
-                          Premium
-                        </span>
-                      )}
+                  <div className="absolute right-0 top-full mt-2 w-56 glass-dark rounded-xl border border-[#24314f] shadow-2xl py-1 animate-fade-in z-50">
+                    <div className="px-3.5 py-2.5 border-b border-[#24314f]/60">
+                      <p className="text-[11px] text-[#6b7fa3] font-medium">Signed in as</p>
+                      <p className="text-sm font-semibold text-[#f8fafc] truncate">{currentUser.email}</p>
+                      <span className="inline-flex items-center gap-1 px-2 py-0.5 mt-1.5 rounded-full text-[10px] font-bold bg-yellow-500/10 text-yellow-400 border border-yellow-500/20">
+                        <Crown className="w-2.5 h-2.5" />
+                        Pro Member
+                      </span>
                     </div>
-                    <Link href="/account" className="flex items-center gap-2 px-3 py-2 text-sm text-[#a7b2cc] hover:text-[#f8fafc] hover:bg-white/5 transition-colors">
-                      <User className="w-4 h-4" /> My Account
+                    <Link
+                      href="/account"
+                      onClick={() => setUserMenuOpen(false)}
+                      className="flex items-center gap-2.5 px-3.5 py-2 text-xs font-medium text-[#a7b2cc] hover:text-[#f8fafc] hover:bg-white/5 transition-colors"
+                    >
+                      <User className="w-4 h-4 text-[#3b82f6]" /> My Account
                     </Link>
-                    {user.isPremium && (
-                      <Link href="/premium" className="flex items-center gap-2 px-3 py-2 text-sm text-[#a7b2cc] hover:text-[#f8fafc] hover:bg-white/5 transition-colors">
-                        <Crown className="w-4 h-4" /> Premium Resources
-                      </Link>
-                    )}
-                    {user.role === "ADMIN" && (
-                      <Link href="/admin" className="flex items-center gap-2 px-3 py-2 text-sm text-[#a7b2cc] hover:text-[#f8fafc] hover:bg-white/5 transition-colors">
-                        <LayoutDashboard className="w-4 h-4" /> Admin Dashboard
+                    <Link
+                      href="/premium"
+                      onClick={() => setUserMenuOpen(false)}
+                      className="flex items-center gap-2.5 px-3.5 py-2 text-xs font-medium text-[#a7b2cc] hover:text-[#f8fafc] hover:bg-white/5 transition-colors"
+                    >
+                      <Crown className="w-4 h-4 text-yellow-400" /> Member Vault
+                    </Link>
+                    {currentUser.role === "ADMIN" && (
+                      <Link
+                        href="/admin"
+                        onClick={() => setUserMenuOpen(false)}
+                        className="flex items-center gap-2.5 px-3.5 py-2 text-xs font-medium text-[#a7b2cc] hover:text-[#f8fafc] hover:bg-white/5 transition-colors"
+                      >
+                        <LayoutDashboard className="w-4 h-4 text-purple-400" /> Admin Dashboard
                       </Link>
                     )}
                     <div className="border-t border-[#24314f]/60 mt-1 pt-1">
-                      <form action="/api/auth/sign-out" method="POST">
-                        <button type="submit" className="w-full flex items-center gap-2 px-3 py-2 text-sm text-[#ef4444] hover:bg-red-500/10 transition-colors">
-                          <LogOut className="w-4 h-4" /> Sign Out
-                        </button>
-                      </form>
+                      <button
+                        onClick={handleSignOut}
+                        className="w-full flex items-center gap-2.5 px-3.5 py-2 text-xs font-medium text-[#ef4444] hover:bg-red-500/10 transition-colors"
+                      >
+                        <LogOut className="w-4 h-4" /> Sign Out
+                      </button>
                     </div>
                   </div>
                 )}
               </div>
+            ) : currentUser ? (
+              /* Signed in Free user: Show Join • ₹499 + User Icon */
+              <div className="flex items-center gap-2.5">
+                <Link
+                  href="/register?plan=pro"
+                  id="nav-join-pro-btn"
+                  className="relative inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold text-white bg-gradient-to-r from-[#7C3AED] to-[#3B82F6] hover:opacity-95 shadow-lg shadow-[#7C3AED]/25 hover:shadow-[#7C3AED]/40 transition-all group"
+                >
+                  <span>Join • ₹499</span>
+                </Link>
+
+                <div className="relative" id="nav-user-menu-container">
+                  <div className="flex items-center gap-1.5 bg-[#0d1730]/90 border border-[#24314f] hover:border-[#7c3aed] rounded-full p-1 pr-2 transition-all shadow-sm">
+                    <Link
+                      href="/account"
+                      id="nav-user-account-btn"
+                      className="flex items-center gap-2 text-xs font-semibold text-[#f8fafc] hover:text-white transition-colors group"
+                      title="My Account"
+                      aria-label="My Account"
+                    >
+                      <div className="w-7 h-7 rounded-full bg-gradient-brand flex items-center justify-center text-white shadow-sm group-hover:scale-105 transition-transform shrink-0">
+                        <User className="w-3.5 h-3.5 text-white" />
+                      </div>
+                      <span className="max-w-[100px] truncate">
+                        {currentUser.name}
+                      </span>
+                    </Link>
+
+                    <button
+                      onClick={() => setUserMenuOpen((v) => !v)}
+                      className="p-1 text-[#6b7fa3] hover:text-[#f8fafc] rounded-full hover:bg-white/10 transition-colors"
+                      aria-label="Open user dropdown"
+                      aria-expanded={userMenuOpen}
+                    >
+                      <ChevronDown
+                        className={cn(
+                          "w-3.5 h-3.5 transition-transform duration-200",
+                          userMenuOpen && "rotate-180"
+                        )}
+                      />
+                    </button>
+                  </div>
+
+                  {userMenuOpen && (
+                    <div className="absolute right-0 top-full mt-2 w-56 glass-dark rounded-xl border border-[#24314f] shadow-2xl py-1 animate-fade-in z-50">
+                      <div className="px-3.5 py-2.5 border-b border-[#24314f]/60">
+                        <p className="text-[11px] text-[#6b7fa3] font-medium">Signed in as</p>
+                        <p className="text-sm font-semibold text-[#f8fafc] truncate">{currentUser.email}</p>
+                        <span className="inline-flex items-center gap-1 px-2 py-0.5 mt-1.5 rounded-full text-[10px] font-medium bg-blue-500/10 text-blue-400 border border-blue-500/20">
+                          Free Community Tier
+                        </span>
+                      </div>
+                      <Link
+                        href="/account"
+                        onClick={() => setUserMenuOpen(false)}
+                        className="flex items-center gap-2.5 px-3.5 py-2 text-xs font-medium text-[#a7b2cc] hover:text-[#f8fafc] hover:bg-white/5 transition-colors"
+                      >
+                        <User className="w-4 h-4 text-[#3b82f6]" /> My Account
+                      </Link>
+                      <Link
+                        href="/register?plan=pro"
+                        onClick={() => setUserMenuOpen(false)}
+                        className="flex items-center gap-2.5 px-3.5 py-2 text-xs font-semibold text-yellow-400 hover:text-yellow-300 hover:bg-white/5 transition-colors"
+                      >
+                        <Crown className="w-4 h-4 text-yellow-400" /> Upgrade to Pro (₹499)
+                      </Link>
+                      {currentUser.role === "ADMIN" && (
+                        <Link
+                          href="/admin"
+                          onClick={() => setUserMenuOpen(false)}
+                          className="flex items-center gap-2.5 px-3.5 py-2 text-xs font-medium text-[#a7b2cc] hover:text-[#f8fafc] hover:bg-white/5 transition-colors"
+                        >
+                          <LayoutDashboard className="w-4 h-4 text-purple-400" /> Admin Dashboard
+                        </Link>
+                      )}
+                      <div className="border-t border-[#24314f]/60 mt-1 pt-1">
+                        <button
+                          onClick={handleSignOut}
+                          className="w-full flex items-center gap-2.5 px-3.5 py-2 text-xs font-medium text-[#ef4444] hover:bg-red-500/10 transition-colors"
+                        >
+                          <LogOut className="w-4 h-4" /> Sign Out
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
             ) : (
-              <>
-                <Link href="/login" className="btn btn-ghost btn-sm">
-                  Login
+              /* User NOT Signed In: Join • ₹499 button and subtle Log In */
+              <div className="flex items-center gap-2.5">
+                <Link
+                  href="/login"
+                  id="nav-login-btn"
+                  className="px-3 py-1.5 rounded-lg text-xs font-medium text-[#a7b2cc] hover:text-[#f8fafc] hover:bg-white/5 transition-colors"
+                >
+                  Log In
                 </Link>
                 <Link
-                  href="/community"
-                  id="nav-join-community-btn"
-                  className="btn btn-primary btn-sm"
+                  href="/register?plan=pro"
+                  id="nav-join-pro-btn"
+                  className="relative inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-bold text-white bg-gradient-to-r from-[#7C3AED] to-[#3B82F6] hover:opacity-95 shadow-lg shadow-[#7C3AED]/25 hover:shadow-[#7C3AED]/40 transition-all group"
                 >
-                  Join Community
+                  <span>Join • ₹499</span>
                 </Link>
-              </>
+              </div>
             )}
           </div>
 
-          {/* Mobile Menu Toggle */}
-          <button
-            className="md:hidden btn btn-ghost p-2"
-            onClick={() => setMobileOpen((v) => !v)}
-            aria-label={mobileOpen ? "Close menu" : "Open menu"}
-            aria-expanded={mobileOpen}
-            id="nav-mobile-toggle"
-          >
-            {mobileOpen ? (
-              <X className="w-5 h-5" />
+          {/* Mobile Right Controls: User Icon or Join Button + Hamburger Toggle (STRICTLY md:hidden, no .btn) */}
+          <div className="flex md:hidden items-center gap-2">
+            {currentUser?.isPremium ? (
+              <Link
+                href="/account"
+                className="flex items-center justify-center w-8 h-8 rounded-full bg-gradient-brand text-white shadow-sm"
+                title="My Account"
+                aria-label="My Account"
+              >
+                <User className="w-4 h-4 text-white" />
+              </Link>
             ) : (
-              <Menu className="w-5 h-5" />
+              <Link
+                href="/register?plan=pro"
+                className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-bold text-white bg-gradient-to-r from-[#7C3AED] to-[#3B82F6] shadow-sm"
+              >
+                <span>Join ₹499</span>
+              </Link>
             )}
-          </button>
+
+            {/* Mobile Menu Toggle - NEVER shows on desktop because no .btn overrides md:hidden */}
+            <button
+              className="flex md:hidden items-center justify-center w-9 h-9 rounded-lg text-[#a7b2cc] hover:text-[#f8fafc] hover:bg-white/5 transition-colors border border-[#24314f]/60"
+              onClick={() => setMobileOpen((v) => !v)}
+              aria-label={mobileOpen ? "Close menu" : "Open menu"}
+              aria-expanded={mobileOpen}
+              id="nav-mobile-toggle"
+            >
+              {mobileOpen ? (
+                <X className="w-5 h-5" />
+              ) : (
+                <Menu className="w-5 h-5" />
+              )}
+            </button>
+          </div>
         </nav>
       </header>
 
       {/* Mobile Menu Overlay */}
       {mobileOpen && (
         <div
-          className="fixed inset-0 z-40 md:hidden"
+          className="fixed inset-0 z-40 md:hidden bg-black/60 backdrop-blur-sm animate-fade-in"
           onClick={() => setMobileOpen(false)}
           aria-hidden="true"
         />
@@ -216,7 +385,7 @@ export function Navbar({ user }: NavbarProps) {
       {/* Mobile Menu Drawer */}
       <div
         className={cn(
-          "fixed top-0 right-0 bottom-0 z-50 w-72 glass-dark border-l border-[#24314f] md:hidden transition-transform duration-300 flex flex-col",
+          "fixed top-0 right-0 bottom-0 z-50 w-72 glass-dark border-l border-[#24314f] md:hidden transition-transform duration-300 flex flex-col shadow-2xl",
           mobileOpen ? "translate-x-0" : "translate-x-full"
         )}
       >
@@ -226,13 +395,13 @@ export function Navbar({ user }: NavbarProps) {
               <Zap className="w-3.5 h-3.5 text-white fill-white" />
             </div>
             <span className="font-bold">
-              <span className="text-[#f8fafc]">AI</span>
-              <span className="gradient-text"> Scout</span>
+              <span className="text-[#f8fafc]">Sav</span>
+              <span className="gradient-text">zen</span>
             </span>
           </Link>
           <button
             onClick={() => setMobileOpen(false)}
-            className="btn btn-ghost p-2"
+            className="p-1.5 text-[#a7b2cc] hover:text-[#f8fafc] rounded-lg hover:bg-white/5 transition-colors"
             aria-label="Close menu"
           >
             <X className="w-5 h-5" />
@@ -258,14 +427,31 @@ export function Navbar({ user }: NavbarProps) {
             ))}
           </ul>
 
-          {user && (
+          {currentUser && (
             <div className="mt-4 pt-4 border-t border-[#24314f] space-y-1">
-              <Link href="/account" className="flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm text-[#a7b2cc] hover:text-[#f8fafc] hover:bg-white/5 transition-colors">
-                <User className="w-4 h-4" /> My Account
+              <Link
+                href="/account"
+                onClick={() => setMobileOpen(false)}
+                className="flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm text-[#a7b2cc] hover:text-[#f8fafc] hover:bg-white/5 transition-colors"
+              >
+                <User className="w-4 h-4 text-[#3b82f6]" /> My Account
               </Link>
-              {user.role === "ADMIN" && (
-                <Link href="/admin" className="flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm text-[#a7b2cc] hover:text-[#f8fafc] hover:bg-white/5 transition-colors">
-                  <Settings className="w-4 h-4" /> Admin Dashboard
+              {currentUser.isPremium && (
+                <Link
+                  href="/premium"
+                  onClick={() => setMobileOpen(false)}
+                  className="flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm text-[#a7b2cc] hover:text-[#f8fafc] hover:bg-white/5 transition-colors"
+                >
+                  <Crown className="w-4 h-4 text-yellow-400" /> Member Vault
+                </Link>
+              )}
+              {currentUser.role === "ADMIN" && (
+                <Link
+                  href="/admin"
+                  onClick={() => setMobileOpen(false)}
+                  className="flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm text-[#a7b2cc] hover:text-[#f8fafc] hover:bg-white/5 transition-colors"
+                >
+                  <Settings className="w-4 h-4 text-purple-400" /> Admin Dashboard
                 </Link>
               )}
             </div>
@@ -273,32 +459,58 @@ export function Navbar({ user }: NavbarProps) {
         </nav>
 
         <div className="p-4 border-t border-[#24314f] space-y-2">
-          {user ? (
+          {currentUser ? (
             <div className="space-y-2">
-              <div className="flex items-center gap-2 px-3 py-2">
-                <div className="w-8 h-8 rounded-full bg-gradient-brand flex items-center justify-center text-sm font-bold text-white">
-                  {user.name.charAt(0).toUpperCase()}
+              {!currentUser.isPremium && (
+                <Link
+                  href="/register?plan=pro"
+                  onClick={() => setMobileOpen(false)}
+                  className="btn btn-primary w-full text-xs font-bold flex items-center justify-center gap-1.5 shadow-lg shadow-purple-500/20"
+                >
+                  <Sparkles className="w-3.5 h-3.5 text-yellow-300" />
+                  Upgrade to Pro • ₹499
+                </Link>
+              )}
+              <Link
+                href="/account"
+                onClick={() => setMobileOpen(false)}
+                className="flex items-center gap-2.5 px-3 py-2 rounded-xl bg-white/5 border border-[#24314f] hover:border-[#7c3aed] transition-colors"
+              >
+                <div className="w-8 h-8 rounded-full bg-gradient-brand flex items-center justify-center text-white shrink-0">
+                  <User className="w-4 h-4 text-white" />
                 </div>
-                <div className="min-w-0">
-                  <p className="text-sm font-medium text-[#f8fafc] truncate">{user.name}</p>
-                  <p className="text-xs text-[#6b7fa3] truncate">{user.email}</p>
+                <div className="min-w-0 flex-1">
+                  <p className="text-sm font-medium text-[#f8fafc] truncate">{currentUser.name}</p>
+                  <p className="text-xs text-[#6b7fa3] truncate">{currentUser.email}</p>
                 </div>
-              </div>
-              <form action="/api/auth/sign-out" method="POST">
-                <button type="submit" className="btn btn-secondary w-full">
-                  <LogOut className="w-4 h-4" /> Sign Out
-                </button>
-              </form>
+                {currentUser.isPremium && (
+                  <Crown className="w-3.5 h-3.5 text-yellow-400 shrink-0" />
+                )}
+              </Link>
+              <button
+                onClick={handleSignOut}
+                className="btn btn-secondary w-full"
+              >
+                <LogOut className="w-4 h-4" /> Sign Out
+              </button>
             </div>
           ) : (
-            <>
-              <Link href="/login" className="btn btn-secondary w-full" onClick={() => setMobileOpen(false)}>
-                Login
+            <div className="space-y-2">
+              <Link
+                href="/register?plan=pro"
+                className="btn btn-primary w-full text-xs font-bold flex items-center justify-center gap-1.5 shadow-lg shadow-purple-500/20"
+                onClick={() => setMobileOpen(false)}
+              >
+                Join Savzen Pro • ₹499
               </Link>
-              <Link href="/community" className="btn btn-primary w-full" onClick={() => setMobileOpen(false)}>
-                Join Community
+              <Link
+                href="/login"
+                className="btn btn-secondary w-full"
+                onClick={() => setMobileOpen(false)}
+              >
+                Log In
               </Link>
-            </>
+            </div>
           )}
         </div>
       </div>
@@ -339,7 +551,7 @@ function SearchModal({ onClose }: { onClose: () => void }) {
               }
             }}
           />
-          <button onClick={onClose} className="btn btn-ghost p-1">
+          <button onClick={onClose} className="p-1.5 text-[#a7b2cc] hover:text-[#f8fafc] rounded-md hover:bg-white/5 transition-colors">
             <X className="w-4 h-4" />
           </button>
         </div>

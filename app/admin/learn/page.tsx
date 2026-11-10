@@ -6,7 +6,7 @@ import { GraduationCap, Lock, Clock } from "lucide-react";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Manage Learning Vault | Admin | AI Scout",
+  title: "Manage Learning Vault | Admin | Savzen",
 };
 
 export default async function AdminLearnPage() {
