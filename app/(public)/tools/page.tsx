@@ -1,11 +1,14 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Search, ExternalLink, Star, CheckCircle, Zap, Shield, ArrowRight } from "lucide-react";
+import { Search, Zap } from "lucide-react";
 import { prisma } from "@/lib/db/prisma";
+import { ToolCard } from "@/components/tools/ToolCard";
+import { BEST_OF_AI_TOOLS, syncBestOfAITools } from "@/lib/tools/bestofai";
 
 export const metadata: Metadata = {
   title: "AI Tools Directory | Savzen",
-  description: "Browse 150+ verified artificial intelligence tools across coding, productivity, design, audio, and reasoning.",
+  description:
+    "Browse 150+ verified artificial intelligence tools across coding, productivity, design, and reasoning, benchmarked and synchronized with Best of AI.",
   alternates: { canonical: "/tools" },
 };
 
@@ -48,31 +51,75 @@ export default async function ToolsPage({
       }),
       prisma.category.findMany({ orderBy: { sortOrder: "asc" } }),
     ]);
+
+    // If database has very few tools and no search filter is active, automatically populate from Best of AI catalog
+    if (
+      tools.length < 8 &&
+      !q &&
+      (!category || category === "All") &&
+      (!pricing || pricing === "All")
+    ) {
+      try {
+        await syncBestOfAITools();
+        [tools, categories] = await Promise.all([
+          prisma.aITool.findMany({
+            where: whereClause,
+            include: { category: true },
+            orderBy: [{ isFeatured: "desc" }, { rating: "desc" }],
+          }),
+          prisma.category.findMany({ orderBy: { sortOrder: "asc" } }),
+        ]);
+      } catch (syncErr) {
+        console.warn("Auto-sync from Best of AI skipped:", syncErr);
+      }
+    }
   } catch (error) {
-    console.warn("Error fetching tools:", error);
+    console.warn("Error fetching tools from DB:", error);
+  }
+
+  // Resilient fallback if DB had an issue or returns empty on default view
+  if (tools.length === 0 && !q && (!category || category === "All") && (!pricing || pricing === "All")) {
+    tools = BEST_OF_AI_TOOLS.map((t) => ({
+      id: t.slug,
+      slug: t.slug,
+      name: t.name,
+      tagline: t.tagline,
+      description: t.description,
+      websiteUrl: t.websiteUrl,
+      logoUrl: t.logoUrl,
+      pricingType: t.pricingType,
+      priceStart: t.priceStart,
+      isVerified: t.isVerified,
+      rating: t.rating,
+      reviewCount: t.reviewCount,
+      category: {
+        name: t.categoryName,
+        slug: t.categorySlug,
+      },
+    }));
   }
 
   const pricingFilters = ["All", "FREE", "FREEMIUM", "PAID"];
 
   return (
-    <div className="min-h-screen py-14 bg-[#050816] text-[#F8FAFC]">
+    <div className="min-h-screen py-12 bg-[#050816] text-[#F8FAFC]">
       <div className="container-max">
         {/* Header */}
-        <div className="mb-10 max-w-2xl">
+        <div className="mb-8 max-w-3xl">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#10B981]/10 border border-[#10B981]/30 text-xs font-semibold text-[#10B981] mb-3">
             <Zap className="w-3.5 h-3.5" />
-            Verified Tool Index
+            Verified Tool Index • Best of AI
           </div>
-          <h1 className="text-3xl md:text-5xl font-black text-white tracking-tight mb-3">
+          <h1 className="text-3xl md:text-5xl font-black text-white tracking-tight mb-2">
             AI Tools Directory
           </h1>
           <p className="text-sm md:text-base text-[#A7B2CC] leading-relaxed">
-            Curated and benchmarked software for developers, creatives, and enterprises. No sponsored spam.
+            Curated and benchmarked software for developers, creatives, and enterprises. Synchronized with Best of AI repository standards.
           </p>
         </div>
 
         {/* Filter Controls */}
-        <div className="space-y-4 mb-10">
+        <div className="space-y-4 mb-8">
           <div className="flex flex-col md:flex-row gap-4 items-stretch md:items-center justify-between">
             {/* Search */}
             <form method="GET" action="/tools" className="relative flex-1 max-w-md">
@@ -108,7 +155,7 @@ export default async function ToolsPage({
           {/* Categories Tab */}
           <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-none">
             <Link
-              href="/tools"
+              href={`/tools${pricing ? `?pricing=${pricing}` : ""}${q ? `${pricing ? "&" : "?"}q=${encodeURIComponent(q)}` : ""}`}
               className={`px-3.5 py-1.5 rounded-full text-xs font-medium border transition whitespace-nowrap ${
                 !category || category === "All"
                   ? "bg-[#10B981] text-white border-[#10B981]"
@@ -133,7 +180,15 @@ export default async function ToolsPage({
           </div>
         </div>
 
-        {/* Tools Grid */}
+        {/* Tools Count Indicator */}
+        <div className="flex items-center justify-between text-xs text-[#6B7FA3] mb-4 px-1">
+          <span>Showing {tools.length} curated AI tools</span>
+          {category && category !== "All" && (
+            <span>Category: <strong className="text-white capitalize">{category.replace("-", " ")}</strong></span>
+          )}
+        </div>
+
+        {/* Small Tools Grid (4 columns on desktop, like Best of AI) */}
         {tools.length === 0 ? (
           <div className="text-center py-20 border border-dashed border-[#24314F] rounded-2xl bg-[#0D1730]/40">
             <p className="text-base font-semibold text-white mb-2">No tools match your criteria</p>
@@ -148,77 +203,9 @@ export default async function ToolsPage({
             </Link>
           </div>
         ) : (
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4">
             {tools.map((tool) => (
-              <div
-                key={tool.id}
-                className="bg-[#0D1730] border border-[#24314F] hover:border-[#3B82F6] rounded-2xl p-6 transition flex flex-col justify-between group"
-              >
-                <div>
-                  <div className="flex items-center justify-between gap-2 mb-3">
-                    <span className="text-[11px] font-bold text-[#60A5FA] uppercase tracking-wider">
-                      {tool.category?.name ?? "AI Tool"}
-                    </span>
-                    <span
-                      className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase ${
-                        tool.pricingType === "FREE"
-                          ? "bg-[#16C784]/20 text-[#16C784]"
-                          : tool.pricingType === "FREEMIUM"
-                          ? "bg-[#3B82F6]/20 text-[#60A5FA]"
-                          : "bg-[#F59E0B]/20 text-[#F59E0B]"
-                      }`}
-                    >
-                      {tool.pricingType}
-                    </span>
-                  </div>
-
-                  <div className="flex items-center justify-between mb-2">
-                    <h2 className="text-xl font-bold text-white group-hover:text-[#60A5FA] transition">
-                      {tool.name}
-                    </h2>
-                    {tool.isVerified && (
-                      <span title="Verified by Savzen" className="text-[#16C784]">
-                        <CheckCircle className="w-4 h-4" />
-                      </span>
-                    )}
-                  </div>
-
-                  <p className="text-xs font-medium text-[#9F67FF] mb-2">
-                    {tool.tagline}
-                  </p>
-
-                  <p className="text-xs text-[#A7B2CC] line-clamp-3 leading-relaxed mb-6">
-                    {tool.description}
-                  </p>
-                </div>
-
-                <div className="pt-4 border-t border-[#24314F]/50 flex items-center justify-between">
-                  <div className="flex items-center gap-1.5 text-xs text-[#F59E0B] font-semibold">
-                    <Star className="w-3.5 h-3.5 fill-current" />
-                    <span>{tool.rating.toFixed(1)}</span>
-                    <span className="text-[#6B7FA3] font-normal text-[11px]">
-                      ({tool.reviewCount})
-                    </span>
-                  </div>
-
-                  <div className="flex items-center gap-3">
-                    <Link
-                      href={`/tools/${tool.slug}`}
-                      className="text-xs font-semibold text-[#A7B2CC] hover:text-white transition"
-                    >
-                      Overview
-                    </Link>
-                    <a
-                      href={tool.websiteUrl}
-                      target="_blank"
-                      rel="noopener noreferrer nofollow"
-                      className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-semibold bg-[#112040] hover:bg-[#3B82F6] text-white border border-[#24314F] hover:border-[#3B82F6] transition"
-                    >
-                      Visit <ExternalLink className="w-3 h-3" />
-                    </a>
-                  </div>
-                </div>
-              </div>
+              <ToolCard key={tool.id} tool={tool} />
             ))}
           </div>
         )}

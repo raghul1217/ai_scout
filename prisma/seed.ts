@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client";
+import { BEST_OF_AI_TOOLS } from "../lib/tools/bestofai";
 
 const prisma = new PrismaClient();
 
@@ -74,94 +75,51 @@ async function main() {
   }
   console.log("✓ Seeded subscription plans");
 
-  // 3. AI Tools
-  const prodCat = categories.find((c) => c.slug === "productivity");
-  const devCat = categories.find((c) => c.slug === "coding-dev");
-  const designCat = categories.find((c) => c.slug === "design-video");
+  // 3. AI Tools (from Best of AI Directory)
+  const categoryMap = new Map<string, string>();
+  for (const c of categories) {
+    categoryMap.set(c.slug, c.id);
+  }
 
-  const toolsData = [
-    {
-      slug: "claude-3-7-sonnet",
-      name: "Claude 3.7 Sonnet",
-      tagline: "Hybrid reasoning LLM with toggleable deep-thinking mode",
-      description: "Anthropic's flagship model combining ultra-fast response generation with extended step-by-step thinking for deep coding and complex logic.",
-      categoryId: devCat?.id,
-      websiteUrl: "https://anthropic.com/claude",
-      pricingType: "FREEMIUM" as const,
-      priceStart: "Free / $20/mo",
-      rating: 4.9,
-      reviewCount: 420,
-      isFeatured: true,
-      isVerified: true,
-    },
-    {
-      slug: "cursor-ai",
-      name: "Cursor",
-      tagline: "The AI-first code editor designed for pair programming velocity",
-      description: "A VS Code fork engineered for AI code generation, whole-repo semantic indexing, multi-file edits, and automated terminal debugging.",
-      categoryId: devCat?.id,
-      websiteUrl: "https://cursor.com",
-      pricingType: "FREEMIUM" as const,
-      priceStart: "Free / $20/mo",
-      rating: 4.8,
-      reviewCount: 890,
-      isFeatured: true,
-      isVerified: true,
-    },
-    {
-      slug: "v0-by-vercel",
-      name: "v0 by Vercel",
-      tagline: "Generative UI system producing production-ready React components",
-      description: "Prompt-driven component generator outputting modern Tailwind CSS, shadcn/ui, and React code that drop right into Next.js applications.",
-      categoryId: devCat?.id,
-      websiteUrl: "https://v0.dev",
-      pricingType: "FREEMIUM" as const,
-      priceStart: "Free / $20/mo",
-      rating: 4.7,
-      reviewCount: 310,
-      isFeatured: true,
-      isVerified: true,
-    },
-    {
-      slug: "perplexity-ai",
-      name: "Perplexity AI",
-      tagline: "Conversational answer engine with live web sources & citations",
-      description: "Combines real-time web search with multi-model synthesis to deliver synthesized, cited answers instead of standard search link pages.",
-      categoryId: prodCat?.id,
-      websiteUrl: "https://perplexity.ai",
-      pricingType: "FREEMIUM" as const,
-      priceStart: "Free / $20/mo",
-      rating: 4.9,
-      reviewCount: 1250,
-      isFeatured: true,
-      isVerified: true,
-    },
-    {
-      slug: "elevenlabs-voice",
-      name: "ElevenLabs",
-      tagline: "State-of-the-art voice AI for speech synthesis and voice cloning",
-      description: "High-fidelity, emotionally nuanced text-to-speech supporting over 30 languages with conversational latency.",
-      categoryId: designCat?.id,
-      websiteUrl: "https://elevenlabs.io",
-      pricingType: "PAID" as const,
-      priceStart: "$5/mo",
-      rating: 4.8,
-      reviewCount: 650,
-      isFeatured: false,
-      isVerified: true,
-    },
-  ];
-
-  for (const tool of toolsData) {
+  for (const tool of BEST_OF_AI_TOOLS) {
+    const categoryId = categoryMap.get(tool.categorySlug) ?? null;
     await prisma.aITool.upsert({
       where: { slug: tool.slug },
-      update: tool,
-      create: tool,
+      update: {
+        name: tool.name,
+        tagline: tool.tagline,
+        description: tool.description,
+        websiteUrl: tool.websiteUrl,
+        logoUrl: tool.logoUrl,
+        pricingType: tool.pricingType,
+        priceStart: tool.priceStart,
+        rating: tool.rating,
+        reviewCount: tool.reviewCount,
+        isFeatured: tool.isFeatured,
+        isVerified: tool.isVerified,
+        ...(categoryId ? { categoryId } : {}),
+      },
+      create: {
+        slug: tool.slug,
+        name: tool.name,
+        tagline: tool.tagline,
+        description: tool.description,
+        websiteUrl: tool.websiteUrl,
+        logoUrl: tool.logoUrl,
+        pricingType: tool.pricingType,
+        priceStart: tool.priceStart,
+        rating: tool.rating,
+        reviewCount: tool.reviewCount,
+        isFeatured: tool.isFeatured,
+        isVerified: tool.isVerified,
+        categoryId,
+      },
     });
   }
-  console.log("✓ Seeded AI tools directory");
+  console.log(`✓ Seeded ${BEST_OF_AI_TOOLS.length} AI tools from Best of AI catalog`);
 
   // 4. Articles
+  const devCat = categories.find((c) => c.slug === "coding-dev");
   const articlesData = [
     {
       slug: "anthropic-claude-3-7-hybrid-reasoning",

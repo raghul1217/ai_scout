@@ -32,6 +32,7 @@ const footerLinks = {
     { label: "AI Tools", href: "/tools" },
     { label: "Learn AI", href: "/learn" },
     { label: "Community", href: "/community" },
+    { label: "Collab", href: "/collab" },
     { label: "Pricing", href: "/pricing" },
   ],
   Company: [
@@ -43,7 +44,7 @@ const footerLinks = {
   Community: [
     { label: "WhatsApp Community", href: process.env.NEXT_PUBLIC_WHATSAPP_COMMUNITY_URL ?? "/community", external: true },
     { label: "Join as a Creator", href: "/contact" },
-    { label: "Partner with Us", href: "/contact" },
+    { label: "Partner with Us", href: "/collab" },
   ],
 };
 
@@ -58,9 +59,9 @@ export function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="border-t border-[#24314f] bg-[#050816]">
+    <footer className="border-t border-[#24314f] bg-[#050816] mt-16 sm:mt-24">
       {/* Top Section */}
-      <div className="container-max py-14">
+      <div className="container-max pt-16 pb-12 sm:pt-20 sm:pb-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10">
           {/* Brand Column */}
           <div className="lg:col-span-2 space-y-4">

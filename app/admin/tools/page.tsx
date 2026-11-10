@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { prisma } from "@/lib/db/prisma";
 import { Star, ExternalLink, CheckCircle } from "lucide-react";
+import { SyncBestOfAIButton } from "@/components/admin/SyncBestOfAIButton";
 
 export const dynamic = "force-dynamic";
 
@@ -26,9 +27,10 @@ export default async function AdminToolsPage() {
         <div>
           <h1 className="text-2xl font-black text-white">AI Tools Directory</h1>
           <p className="text-xs text-[#A7B2CC] mt-1">
-            Review listed tools, ratings, and category assignments.
+            Review listed tools, ratings, and category assignments synchronized from Best of AI.
           </p>
         </div>
+        <SyncBestOfAIButton />
       </div>
 
       <div className="bg-[#0D1730] border border-[#24314F] rounded-2xl p-6">

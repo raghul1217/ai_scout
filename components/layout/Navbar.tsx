@@ -150,38 +150,53 @@ export function Navbar({ user }: NavbarProps) {
 
             {currentUser?.isPremium ? (
               /* User has Premium: Display User Icon in top right with /account page */
-              <div className="relative" id="nav-user-menu-container">
-                <div className="flex items-center gap-1.5 bg-[#0d1730]/90 border border-[#24314f] hover:border-[#7c3aed] rounded-full p-1 pr-2 transition-all shadow-sm">
-                  <Link
-                    href="/account"
-                    id="nav-user-account-btn"
-                    className="flex items-center gap-2 text-xs font-semibold text-[#f8fafc] hover:text-white transition-colors group"
-                    title="My Account"
-                    aria-label="My Account"
-                  >
-                    <div className="w-7 h-7 rounded-full bg-gradient-brand flex items-center justify-center text-white shadow-sm group-hover:scale-105 transition-transform shrink-0">
-                      <User className="w-3.5 h-3.5 text-white" />
-                    </div>
-                    <span className="max-w-[120px] truncate">
-                      {currentUser.name}
-                    </span>
-                    <Crown className="w-3.5 h-3.5 text-yellow-400 shrink-0" />
-                  </Link>
+              <div className="flex items-center gap-2.5">
+                <Link
+                  href="/collab"
+                  id="nav-collab-btn"
+                  className={cn(
+                    "relative inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold transition-all border",
+                    pathname === "/collab"
+                      ? "bg-[#10B981]/20 text-[#10B981] border-[#10B981]/50 shadow-sm shadow-[#10B981]/20"
+                      : "bg-[#0D1730] border-[#24314F] text-[#A7B2CC] hover:text-white hover:border-[#10B981]/50 hover:bg-[#112040]"
+                  )}
+                >
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#10B981] animate-pulse" />
+                  <span>Collab</span>
+                </Link>
 
-                  <button
-                    onClick={() => setUserMenuOpen((v) => !v)}
-                    className="p-1 text-[#6b7fa3] hover:text-[#f8fafc] rounded-full hover:bg-white/10 transition-colors"
-                    aria-label="Open user dropdown"
-                    aria-expanded={userMenuOpen}
-                  >
-                    <ChevronDown
-                      className={cn(
-                        "w-3.5 h-3.5 transition-transform duration-200",
-                        userMenuOpen && "rotate-180"
-                      )}
-                    />
-                  </button>
-                </div>
+                <div className="relative" id="nav-user-menu-container">
+                  <div className="flex items-center gap-1.5 bg-[#0d1730]/90 border border-[#24314f] hover:border-[#7c3aed] rounded-full p-1 pr-2 transition-all shadow-sm">
+                    <Link
+                      href="/account"
+                      id="nav-user-account-btn"
+                      className="flex items-center gap-2 text-xs font-semibold text-[#f8fafc] hover:text-white transition-colors group"
+                      title="My Account"
+                      aria-label="My Account"
+                    >
+                      <div className="w-7 h-7 rounded-full bg-gradient-brand flex items-center justify-center text-white shadow-sm group-hover:scale-105 transition-transform shrink-0">
+                        <User className="w-3.5 h-3.5 text-white" />
+                      </div>
+                      <span className="max-w-[120px] truncate">
+                        {currentUser.name}
+                      </span>
+                      <Crown className="w-3.5 h-3.5 text-yellow-400 shrink-0" />
+                    </Link>
+
+                    <button
+                      onClick={() => setUserMenuOpen((v) => !v)}
+                      className="p-1 text-[#6b7fa3] hover:text-[#f8fafc] rounded-full hover:bg-white/10 transition-colors"
+                      aria-label="Open user dropdown"
+                      aria-expanded={userMenuOpen}
+                    >
+                      <ChevronDown
+                        className={cn(
+                          "w-3.5 h-3.5 transition-transform duration-200",
+                          userMenuOpen && "rotate-180"
+                        )}
+                      />
+                    </button>
+                  </div>
 
                 {userMenuOpen && (
                   <div className="absolute right-0 top-full mt-2 w-56 glass-dark rounded-xl border border-[#24314f] shadow-2xl py-1 animate-fade-in z-50">
@@ -226,9 +241,10 @@ export function Navbar({ user }: NavbarProps) {
                     </div>
                   </div>
                 )}
+                </div>
               </div>
             ) : currentUser ? (
-              /* Signed in Free user: Show Join • ₹499 + User Icon */
+              /* Signed in Free user: Show Join • ₹499 + Collab + User Icon */
               <div className="flex items-center gap-2.5">
                 <Link
                   href="/register?plan=pro"
@@ -236,6 +252,20 @@ export function Navbar({ user }: NavbarProps) {
                   className="relative inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold text-white bg-gradient-to-r from-[#7C3AED] to-[#3B82F6] hover:opacity-95 shadow-lg shadow-[#7C3AED]/25 hover:shadow-[#7C3AED]/40 transition-all group"
                 >
                   <span>Join • ₹499</span>
+                </Link>
+
+                <Link
+                  href="/collab"
+                  id="nav-collab-btn"
+                  className={cn(
+                    "relative inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all border",
+                    pathname === "/collab"
+                      ? "bg-[#10B981]/20 text-[#10B981] border-[#10B981]/50 shadow-sm shadow-[#10B981]/20"
+                      : "bg-[#0D1730] border-[#24314F] text-[#A7B2CC] hover:text-white hover:border-[#10B981]/50 hover:bg-[#112040]"
+                  )}
+                >
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#10B981] animate-pulse" />
+                  <span>Collab</span>
                 </Link>
 
                 <div className="relative" id="nav-user-menu-container">
@@ -315,7 +345,7 @@ export function Navbar({ user }: NavbarProps) {
                 </div>
               </div>
             ) : (
-              /* User NOT Signed In: Join • ₹499 button and subtle Log In */
+              /* User NOT Signed In: Join • ₹499 button, Collab and subtle Log In */
               <div className="flex items-center gap-2.5">
                 <Link
                   href="/login"
@@ -330,6 +360,19 @@ export function Navbar({ user }: NavbarProps) {
                   className="relative inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-bold text-white bg-gradient-to-r from-[#7C3AED] to-[#3B82F6] hover:opacity-95 shadow-lg shadow-[#7C3AED]/25 hover:shadow-[#7C3AED]/40 transition-all group"
                 >
                   <span>Join • ₹499</span>
+                </Link>
+                <Link
+                  href="/collab"
+                  id="nav-collab-btn"
+                  className={cn(
+                    "relative inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all border",
+                    pathname === "/collab"
+                      ? "bg-[#10B981]/20 text-[#10B981] border-[#10B981]/50 shadow-sm shadow-[#10B981]/20"
+                      : "bg-[#0D1730] border-[#24314F] text-[#A7B2CC] hover:text-white hover:border-[#10B981]/50 hover:bg-[#112040]"
+                  )}
+                >
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#10B981] animate-pulse" />
+                  <span>Collab</span>
                 </Link>
               </div>
             )}
@@ -425,6 +468,26 @@ export function Navbar({ user }: NavbarProps) {
                 </Link>
               </li>
             ))}
+            <li>
+              <Link
+                href="/collab"
+                onClick={() => setMobileOpen(false)}
+                className={cn(
+                  "flex items-center justify-between px-3 py-2.5 rounded-lg text-sm font-semibold transition-colors border",
+                  pathname === "/collab"
+                    ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/30"
+                    : "text-[#10B981] border-emerald-500/20 bg-emerald-500/5 hover:bg-emerald-500/10"
+                )}
+              >
+                <span className="flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-[#10B981] animate-pulse" />
+                  Collaborate with Us
+                </span>
+                <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/20 font-bold uppercase">
+                  Partner
+                </span>
+              </Link>
+            </li>
           </ul>
 
           {currentUser && (

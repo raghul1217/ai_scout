@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import { prisma } from "@/lib/db/prisma";
 import { formatDate } from "@/lib/utils";
 import { SyncTriggerButton } from "./SyncClient";
-import { Table, Sheet, Info, AlertTriangle, CheckCircle } from "lucide-react";
+import { SyncBestOfAIButton } from "@/components/admin/SyncBestOfAIButton";
+import { Table, Sheet, Info, AlertTriangle, CheckCircle, Zap } from "lucide-react";
 
 export const dynamic = "force-dynamic";
 
@@ -65,6 +66,27 @@ export default async function AdminSyncPage() {
               <code className="text-white font-mono">curl -X POST -H &quot;Authorization: Bearer $SYNC_SECRET&quot; https://savzen.com/api/sync/sheets</code>
             </p>
           </div>
+        </div>
+      </div>
+
+      {/* Best of AI Sync Pipeline */}
+      <div className="bg-[#0D1730] border border-[#24314F] rounded-2xl p-6 space-y-4">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <div>
+            <h2 className="text-base font-bold text-white flex items-center gap-2">
+              <Zap className="w-5 h-5 text-[#10B981]" />
+              Best of AI Open-Source Repository Sync
+            </h2>
+            <p className="text-xs text-[#A7B2CC] mt-1 max-w-xl">
+              Pulls and maps categorized tools directly from <a href="https://github.com/best-of-ai/best-of-ai" target="_blank" rel="noreferrer" className="text-[#60A5FA] hover:underline">github.com/best-of-ai/best-of-ai</a> into your database.
+            </p>
+          </div>
+          <SyncBestOfAIButton />
+        </div>
+        <div className="pt-3 border-t border-[#24314F]/50">
+          <p className="text-[11px] text-[#6B7FA3]">
+            Automated Cron endpoint: <code className="text-white font-mono">curl -X POST -H &quot;Authorization: Bearer $SYNC_SECRET&quot; https://savzen.com/api/sync/bestofai</code>
+          </p>
         </div>
       </div>
 
