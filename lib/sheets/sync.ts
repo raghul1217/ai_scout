@@ -70,7 +70,7 @@ export async function runGoogleSheetsSync(): Promise<SyncResult> {
     // Fetch Articles sheet
     const response = await sheets.spreadsheets.values.get({
       spreadsheetId,
-      range: "Articles!A2:H100", // Header is row 1
+      range: "Articles!A2:H", // Reads all rows dynamically (header is row 1)
     });
 
     const rows = response.data.values || [];

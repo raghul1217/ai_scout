@@ -23,8 +23,9 @@ export function SyncTriggerButton() {
         throw new Error(data.error || "Sync request failed");
       }
 
+      const errorDetails = data.errorMessage ? ` (${data.errorMessage})` : "";
       setMessage({
-        text: `Sync finished with status: ${data.status}. Rows: ${data.successRows ?? 0} updated, ${data.errorRows ?? 0} errors.`,
+        text: `Sync finished with status: ${data.status}. Rows: ${data.successRows ?? 0} updated, ${data.errorRows ?? 0} errors.${errorDetails}`,
         error: data.status === "FAILED",
       });
       router.refresh();

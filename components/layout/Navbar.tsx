@@ -100,7 +100,7 @@ export function Navbar({ user }: NavbarProps) {
           "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
           scrolled
             ? "glass-dark border-b border-[#24314f]/60 shadow-lg shadow-black/20"
-            : "bg-transparent"
+            : "bg-[#050816]/80 backdrop-blur-md border-b border-[#24314f]/30"
         )}
       >
         <nav className="container-max flex items-center justify-between h-16">

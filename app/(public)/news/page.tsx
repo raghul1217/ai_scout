@@ -177,26 +177,45 @@ export default async function NewsPage({
 
         {/* Pagination */}
         {totalPages > 1 && (
-          <div className="flex items-center justify-center gap-2 mt-12">
-            {currentPage > 1 && (
-              <Link
-                href={`/news?page=${currentPage - 1}${category ? `&category=${category}` : ""}${q ? `&q=${encodeURIComponent(q)}` : ""}`}
-                className="px-4 py-2 rounded-lg text-xs font-semibold bg-[#0D1730] border border-[#24314F] text-[#A7B2CC] hover:text-white transition"
-              >
-                Previous
-              </Link>
-            )}
-            <span className="px-4 py-2 rounded-lg text-xs font-bold bg-[#3B82F6] text-white">
-              Page {currentPage} of {totalPages}
-            </span>
-            {currentPage < totalPages && (
-              <Link
-                href={`/news?page=${currentPage + 1}${category ? `&category=${category}` : ""}${q ? `&q=${encodeURIComponent(q)}` : ""}`}
-                className="px-4 py-2 rounded-lg text-xs font-semibold bg-[#0D1730] border border-[#24314F] text-[#A7B2CC] hover:text-white transition"
-              >
-                Next
-              </Link>
-            )}
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mt-12 pt-6 border-t border-[#24314F]/50">
+            <p className="text-xs text-[#6B7FA3]">
+              Showing <span className="text-white font-semibold">{(currentPage - 1) * pageSize + 1}–{Math.min(currentPage * pageSize, totalArticles)}</span> of{" "}
+              <span className="text-white font-semibold">{totalArticles}</span> articles
+            </p>
+
+            <div className="flex items-center gap-1.5">
+              {currentPage > 1 && (
+                <Link
+                  href={`/news?page=${currentPage - 1}${category ? `&category=${category}` : ""}${q ? `&q=${encodeURIComponent(q)}` : ""}`}
+                  className="px-3 py-1.5 rounded-lg text-xs font-semibold bg-[#0D1730] border border-[#24314F] text-[#A7B2CC] hover:text-white hover:border-[#3B82F6] transition"
+                >
+                  Previous
+                </Link>
+              )}
+
+              {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
+                <Link
+                  key={p}
+                  href={`/news?page=${p}${category ? `&category=${category}` : ""}${q ? `&q=${encodeURIComponent(q)}` : ""}`}
+                  className={`w-8 h-8 rounded-lg text-xs font-bold flex items-center justify-center transition border ${
+                    p === currentPage
+                      ? "bg-[#3B82F6] text-white border-[#3B82F6] shadow-md shadow-blue-500/20"
+                      : "bg-[#0D1730] border-[#24314F] text-[#A7B2CC] hover:text-white hover:border-[#3B82F6]"
+                  }`}
+                >
+                  {p}
+                </Link>
+              ))}
+
+              {currentPage < totalPages && (
+                <Link
+                  href={`/news?page=${currentPage + 1}${category ? `&category=${category}` : ""}${q ? `&q=${encodeURIComponent(q)}` : ""}`}
+                  className="px-3 py-1.5 rounded-lg text-xs font-semibold bg-[#0D1730] border border-[#24314F] text-[#A7B2CC] hover:text-white hover:border-[#3B82F6] transition"
+                >
+                  Next
+                </Link>
+              )}
+            </div>
           </div>
         )}
       </div>
