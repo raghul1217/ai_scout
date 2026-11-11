@@ -5,8 +5,8 @@ import { RegisterClient, type PlanItem } from "./RegisterClient";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Join Savzen | Account & Membership",
-  description: "Create your Savzen account and unlock lifetime access to production blueprints and AI intelligence.",
+  title: "Join Savzyen | Account & Membership",
+  description: "Create your Savzyen account and unlock lifetime access to production blueprints and AI intelligence.",
 };
 
 const defaultPlans: PlanItem[] = [
@@ -27,7 +27,7 @@ const defaultPlans: PlanItem[] = [
   },
   {
     id: "plan_pro",
-    name: "Savzen Pro",
+    name: "Savzyen Pro",
     slug: "pro",
     description: "Full lifetime access to premium blueprints, advanced prompt packs, and member lounge.",
     price: 49900,
@@ -57,7 +57,7 @@ export default async function RegisterPage() {
       await prisma.plan.upsert({
         where: { slug: "pro" },
         update: {
-          name: "Savzen Pro",
+          name: "Savzyen Pro",
           description: "Full lifetime access to premium blueprints, advanced prompt packs, and member lounge.",
           price: 49900, // ₹499.00
           currency: "INR",
@@ -75,7 +75,7 @@ export default async function RegisterPage() {
           ],
         },
         create: {
-          name: "Savzen Pro",
+          name: "Savzyen Pro",
           slug: "pro",
           description: "Full lifetime access to premium blueprints, advanced prompt packs, and member lounge.",
           price: 49900, // ₹499.00

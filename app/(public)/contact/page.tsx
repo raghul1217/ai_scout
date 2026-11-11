@@ -8,7 +8,7 @@ import { Mail, MessageCircle, MapPin, Send, CheckCircle, Loader2 } from "lucide-
 // Contact page is a client component for form state
 
 const contactMethods = [
-  { icon: Mail, label: "Email", value: "hello@savzen.com", href: "mailto:hello@savzen.com" },
+  { icon: Mail, label: "Email", value: "hello@savzyen.com", href: "mailto:hello@savzyen.com" },
   { icon: MessageCircle, label: "WhatsApp Community", value: "Join our community", href: "#community" },
 ];
 

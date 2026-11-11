@@ -53,11 +53,11 @@ export default function LoginPage() {
             </div>
             <span className="font-bold text-xl">
               <span className="text-[#f8fafc]">Sav</span>
-              <span className="gradient-text">zen</span>
+              <span className="gradient-text">zyen</span>
             </span>
           </Link>
           <h1 className="text-2xl font-bold text-[#f8fafc] mt-6 mb-1">Welcome back</h1>
-          <p className="text-sm text-[#a7b2cc]">Sign in to your Savzen account</p>
+          <p className="text-sm text-[#a7b2cc]">Sign in to your Savzyen account</p>
         </div>
 
         {/* Form */}

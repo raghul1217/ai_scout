@@ -38,7 +38,7 @@ export function HeroSection() {
 
             {/* Subheading */}
             <p className="text-lg text-[#a7b2cc] max-w-xl leading-relaxed">
-              Savzen helps you discover useful AI tools, stay updated with the latest 
+              Savzyen helps you discover useful AI tools, stay updated with the latest 
               AI news, and learn through practical tutorials — all in one place.
             </p>
 

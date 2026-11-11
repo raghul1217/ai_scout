@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Privacy Policy",
-  description: "Savzen Privacy Policy — how we collect, use, and protect your data.",
+  description: "Savzyen Privacy Policy — how we collect, use, and protect your data.",
   alternates: { canonical: "/privacy" },
 };
 
@@ -40,7 +40,7 @@ export default function PrivacyPage() {
             </section>
             <section>
               <h2>7. Contact</h2>
-              <p>For privacy-related enquiries, contact us at <a href="mailto:privacy@savzen.com">privacy@savzen.com</a>.</p>
+              <p>For privacy-related enquiries, contact us at <a href="mailto:privacy@savzyen.com">privacy@savzyen.com</a>.</p>
             </section>
           </div>
         </div>

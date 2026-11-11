@@ -10,8 +10,8 @@ services:
       - NODE_ENV=production
       - DATABASE_URL=postgresql://${POSTGRES_USER:-aiscout_user}:${POSTGRES_PASSWORD:-aiscout_secure_pwd_2026}@postgres:5432/${POSTGRES_DB:-aiscout_db}?schema=public
       - BETTER_AUTH_SECRET=${BETTER_AUTH_SECRET}
-      - BETTER_AUTH_URL=${BETTER_AUTH_URL:-https://savzen.com}
-      - NEXT_PUBLIC_APP_URL=${NEXT_PUBLIC_APP_URL:-https://savzen.com}
+      - BETTER_AUTH_URL=${BETTER_AUTH_URL:-https://savzyen.com}
+      - NEXT_PUBLIC_APP_URL=${NEXT_PUBLIC_APP_URL:-https://savzyen.com}
       - RAZORPAY_KEY_ID=${RAZORPAY_KEY_ID}
       - RAZORPAY_KEY_SECRET=${RAZORPAY_KEY_SECRET}
       - RAZORPAY_WEBHOOK_SECRET=${RAZORPAY_WEBHOOK_SECRET}
@@ -24,7 +24,7 @@ services:
       - SMTP_PORT=${SMTP_PORT:-587}
       - SMTP_USER=${SMTP_USER}
       - SMTP_PASSWORD=${SMTP_PASSWORD}
-      - EMAIL_FROM=${EMAIL_FROM:-Savzen <hello@savzen.com>}
+      - EMAIL_FROM=${EMAIL_FROM:-Savzyen <hello@savzyen.com>}
     depends_on:
       postgres:
         condition: service_healthy

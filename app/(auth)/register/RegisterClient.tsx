@@ -86,7 +86,7 @@ export function RegisterClient({ plans }: RegisterClientProps) {
     plans.find((p) => p.slug === "pro") ||
     plans.find((p) => p.price === 49900) || {
       id: "plan_pro",
-      name: "Savzen Pro",
+      name: "Savzyen Pro",
       slug: "pro",
       description: "Full lifetime access to premium blueprints, advanced prompt packs, and member lounge.",
       price: 49900,
@@ -221,7 +221,7 @@ export function RegisterClient({ plans }: RegisterClientProps) {
         key: orderData.keyId,
         amount: orderData.amount,
         currency: orderData.currency || "INR",
-        name: "Savzen",
+        name: "Savzyen",
         description: `Unlock ${currentPlan.name}`,
         order_id: orderData.orderId,
         prefill: {
@@ -289,11 +289,11 @@ export function RegisterClient({ plans }: RegisterClientProps) {
             </div>
             <span className="font-bold text-2xl tracking-tight">
               <span className="text-[#f8fafc]">Sav</span>
-              <span className="gradient-text">zen</span>
+              <span className="gradient-text">zyen</span>
             </span>
           </Link>
           <h1 className="text-3xl md:text-4xl font-extrabold text-white tracking-tight">
-            {isPro ? "Join Savzen Pro" : "Join Savzen Community"}
+            {isPro ? "Join Savzyen Pro" : "Join Savzyen Community"}
           </h1>
           <p className="text-sm text-[#A7B2CC] max-w-md mx-auto">
             {isPro

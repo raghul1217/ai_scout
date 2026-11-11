@@ -4,7 +4,7 @@ import { BEST_OF_AI_TOOLS } from "../lib/tools/bestofai";
 const prisma = new PrismaClient();
 
 async function main() {
-  console.log("Seeding Savzen database...");
+  console.log("Seeding Savzyen database...");
 
   // 1. Categories
   const categoriesData = [
@@ -46,7 +46,7 @@ async function main() {
       sortOrder: 1,
     },
     {
-      name: "Savzen Pro",
+      name: "Savzyen Pro",
       slug: "pro",
       description: "Full lifetime access to premium blueprints, advanced prompt packs, and member lounge.",
       price: 49900, // ₹499.00

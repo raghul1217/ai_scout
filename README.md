@@ -1,6 +1,6 @@
-# Savzen — Production AI Discovery & Learning Platform
+# Savzyen — Production AI Discovery & Learning Platform
 
-Savzen is a full-stack AI discovery, intelligence, and learning platform designed for developers, students, creators, and enterprise teams.
+Savzyen is a full-stack AI discovery, intelligence, and learning platform designed for developers, students, creators, and enterprise teams.
 
 ---
 
@@ -108,7 +108,7 @@ ai_scout/
 
 ## 5. Google Sheets Publishing Pipeline
 
-Savzen can synchronize content directly from a Google Sheet into the database:
+Savzyen can synchronize content directly from a Google Sheet into the database:
 
 ### Spreadsheet Structure (Sheet tab name: `Articles`)
 Columns must follow this exact order:
@@ -127,7 +127,7 @@ Columns must follow this exact order:
   ```bash
   crontab -e
   # Sync every hour:
-  0 * * * * curl -X POST -H "Authorization: Bearer YOUR_SYNC_SECRET" https://savzen.com/api/sync/sheets
+  0 * * * * curl -X POST -H "Authorization: Bearer YOUR_SYNC_SECRET" https://savzyen.com/api/sync/sheets
   ```
 
 ---
@@ -137,7 +137,7 @@ Columns must follow this exact order:
 1. Obtain your API Keys from the [Razorpay Dashboard](https://dashboard.razorpay.com).
 2. Set `RAZORPAY_KEY_ID`, `RAZORPAY_KEY_SECRET`, and `NEXT_PUBLIC_RAZORPAY_KEY_ID` in your environment.
 3. In Razorpay Settings → Webhooks, add your webhook URL:
-   - **URL**: `https://savzen.com/api/webhooks/razorpay`
+   - **URL**: `https://savzyen.com/api/webhooks/razorpay`
    - **Secret**: Set matching `RAZORPAY_WEBHOOK_SECRET`
    - **Events**: `payment.captured`, `payment.failed`, `refund.created`
 
@@ -151,8 +151,8 @@ Ensure Docker and Docker Compose are installed on your Linux server (Ubuntu 22.0
 ### 2. Deployment
 ```bash
 # Clone repository onto VPS
-git clone <your-repo-url> /opt/savzen
-cd /opt/savzen
+git clone <your-repo-url> /opt/savzyen
+cd /opt/savzyen
 
 # Configure production environment
 cp .env.example .env
@@ -160,7 +160,7 @@ nano .env
 
 # Obtain SSL Certificate via Certbot
 sudo apt install certbot
-sudo certbot certonly --standalone -d savzen.com -d www.savzen.com
+sudo certbot certonly --standalone -d savzyen.com -d www.savzyen.com
 
 # Start all containers
 docker compose up -d --build

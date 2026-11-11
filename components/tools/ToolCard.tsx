@@ -81,7 +81,7 @@ export function ToolCard({ tool }: ToolCardProps) {
               >
                 <span className="truncate">{tool.name}</span>
                 {tool.isVerified && (
-                  <span title="Verified by Savzen" className="shrink-0">
+                  <span title="Verified by Savzyen" className="shrink-0">
                     <CheckCircle className="w-3.5 h-3.5 text-[#10B981]" />
                   </span>
                 )}

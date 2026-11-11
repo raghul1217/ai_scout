@@ -5,7 +5,7 @@ import { prisma } from "@/lib/db/prisma";
 import { formatDate } from "@/lib/utils";
 
 export const metadata: Metadata = {
-  title: "AI News & Intelligence | Savzen",
+  title: "AI News & Intelligence | Savzyen",
   description: "Curated updates on artificial intelligence, model releases, research benchmarks, and industry developments.",
   alternates: { canonical: "/news" },
 };

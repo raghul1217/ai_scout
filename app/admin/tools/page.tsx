@@ -7,7 +7,7 @@ import { SyncBestOfAIButton } from "@/components/admin/SyncBestOfAIButton";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Manage AI Tools | Admin | Savzen",
+  title: "Manage AI Tools | Admin | Savzyen",
 };
 
 export default async function AdminToolsPage() {

@@ -36,7 +36,7 @@ const footerLinks = {
     { label: "Pricing", href: "/pricing" },
   ],
   Company: [
-    { label: "About Savzen", href: "/about" },
+    { label: "About Savzyen", href: "/about" },
     { label: "Contact", href: "/contact" },
     { label: "Privacy Policy", href: "/privacy" },
     { label: "Terms of Service", href: "/terms" },
@@ -71,7 +71,7 @@ export function Footer() {
               </div>
               <span className="font-bold text-xl tracking-tight">
                 <span className="text-[#f8fafc]">Sav</span>
-                <span className="gradient-text">zen</span>
+                <span className="gradient-text">zyen</span>
               </span>
             </Link>
 
@@ -83,10 +83,10 @@ export function Footer() {
             <div className="flex items-center gap-1 text-sm text-[#a7b2cc]">
               <Mail className="w-4 h-4 shrink-0" />
               <a
-                href={`mailto:${process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "hello@savzen.com"}`}
+                href={`mailto:${process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "hello@savzyen.com"}`}
                 className="hover:text-[#f8fafc] transition-colors"
               >
-                {process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "hello@savzen.com"}
+                {process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "hello@savzyen.com"}
               </a>
             </div>
 
@@ -138,7 +138,7 @@ export function Footer() {
       {/* Bottom Bar */}
       <div className="border-t border-[#24314f]/50">
         <div className="container-max py-5 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[#6b7fa3]">
-          <p>© {year} Savzen. All rights reserved.</p>
+          <p>© {year} Savzyen. All rights reserved.</p>
           <div className="flex items-center gap-4">
             <Link href="/privacy" className="hover:text-[#a7b2cc] transition-colors">Privacy</Link>
             <Link href="/terms" className="hover:text-[#a7b2cc] transition-colors">Terms</Link>

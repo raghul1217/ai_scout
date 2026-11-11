@@ -16,11 +16,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   });
 
   if (!tool) {
-    return { title: "Tool Not Found | Savzen" };
+    return { title: "Tool Not Found | Savzyen" };
   }
 
   return {
-    title: `${tool.name} — AI Tool Review & Specs | Savzen`,
+    title: `${tool.name} — AI Tool Review & Specs | Savzyen`,
     description: tool.tagline || tool.description,
     alternates: { canonical: `/tools/${slug}` },
   };

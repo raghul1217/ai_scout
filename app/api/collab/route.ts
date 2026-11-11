@@ -65,7 +65,7 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({
       success: true,
-      message: "Thank you for partnering with Savzen! Our collaboration team will review your proposal and get in touch within 24 hours.",
+      message: "Thank you for partnering with Savzyen! Our collaboration team will review your proposal and get in touch within 24 hours.",
     });
   } catch (err) {
     console.error("[Collab API Error]", err);

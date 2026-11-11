@@ -108,14 +108,14 @@ export function Navbar({ user }: NavbarProps) {
           <Link
             href="/"
             className="flex items-center gap-2.5 group shrink-0"
-            aria-label="Savzen Home"
+            aria-label="Savzyen Home"
           >
             <div className="w-8 h-8 rounded-lg bg-gradient-brand flex items-center justify-center shadow-lg group-hover:shadow-purple-500/30 transition-shadow">
               <Zap className="w-4 h-4 text-white fill-white" />
             </div>
             <span className="font-bold text-lg tracking-tight">
               <span className="text-[#f8fafc]">Sav</span>
-              <span className="gradient-text">zen</span>
+              <span className="gradient-text">zyen</span>
             </span>
           </Link>
 
@@ -439,7 +439,7 @@ export function Navbar({ user }: NavbarProps) {
             </div>
             <span className="font-bold">
               <span className="text-[#f8fafc]">Sav</span>
-              <span className="gradient-text">zen</span>
+              <span className="gradient-text">zyen</span>
             </span>
           </Link>
           <button
@@ -564,7 +564,7 @@ export function Navbar({ user }: NavbarProps) {
                 className="btn btn-primary w-full text-xs font-bold flex items-center justify-center gap-1.5 shadow-lg shadow-purple-500/20"
                 onClick={() => setMobileOpen(false)}
               >
-                Join Savzen Pro • ₹499
+                Join Savzyen Pro • ₹499
               </Link>
               <Link
                 href="/login"

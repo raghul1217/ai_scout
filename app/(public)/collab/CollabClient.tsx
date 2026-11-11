@@ -175,7 +175,7 @@ const COLLABORATORS: Collaborator[] = [
     type: "COMPANY",
     badge: "Hiring & Placement Partner",
     focus: "Enterprise Multi-Agent Systems & RAG",
-    description: "Direct talent pipeline hiring pre-screened, portfolio-verified student developers directly from the Savzen community.",
+    description: "Direct talent pipeline hiring pre-screened, portfolio-verified student developers directly from the Savzyen community.",
     collaborationTrack: "Direct Placement & Summer Internships",
     stats: "18 student developers hired in 2025",
     accentColor: "from-blue-600 to-cyan-800",
@@ -201,7 +201,7 @@ const COLLABORATORS: Collaborator[] = [
     type: "MENTOR",
     badge: "Visiting Research Lead",
     focus: "Transformer Architectures & Mathematical Foundations",
-    description: "Former AI lab researcher guiding Savzen's curriculum benchmarks and authoring technical blueprints on distributed training.",
+    description: "Former AI lab researcher guiding Savzyen's curriculum benchmarks and authoring technical blueprints on distributed training.",
     collaborationTrack: "Curriculum Advisor & Keynote Speaker",
     accentColor: "from-indigo-600 to-blue-700",
   },
@@ -330,7 +330,7 @@ export function CollabClient() {
             <Users className="w-5 h-5" />
           </div>
           <p className="text-2xl sm:text-3xl font-black text-white">18,500+</p>
-          <p className="text-xs text-[#A7B2CC] mt-1 font-medium">Student Learners on Savzen</p>
+          <p className="text-xs text-[#A7B2CC] mt-1 font-medium">Student Learners on Savzyen</p>
         </div>
 
         <div className="bg-[#0D1730] border border-[#24314F] rounded-2xl p-5 text-center hover:border-purple-500/50 transition-all">
@@ -358,7 +358,7 @@ export function CollabClient() {
               Our Active Collaborators
             </h2>
             <p className="text-xs sm:text-sm text-[#A7B2CC] mt-1">
-              Universities, schools, innovators, and industry leaders building the future with Savzen.
+              Universities, schools, innovators, and industry leaders building the future with Savzyen.
             </p>
           </div>
 
@@ -452,7 +452,7 @@ export function CollabClient() {
             Partnership Tracks
           </span>
           <h2 className="text-2xl sm:text-3xl font-black text-white mt-1">
-            How You Can Collaborate with Savzen
+            How You Can Collaborate with Savzyen
           </h2>
           <p className="text-xs sm:text-sm text-[#A7B2CC] mt-2">
             Tailored programs crafted for campuses, schools, startups, and community champions.
@@ -466,7 +466,7 @@ export function CollabClient() {
             </div>
             <h4 className="text-sm font-bold text-white mb-1.5">Colleges & Universities</h4>
             <p className="text-xs text-[#A7B2CC] leading-relaxed">
-              Launch official Savzen student clubs, sponsor hackathon tracks, and give your students verified hands-on AI toolkits and placement credentials.
+              Launch official Savzyen student clubs, sponsor hackathon tracks, and give your students verified hands-on AI toolkits and placement credentials.
             </p>
           </div>
 
@@ -515,7 +515,7 @@ export function CollabClient() {
               Join the Ecosystem
             </div>
             <h2 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
-              Collaborate With Savzen
+              Collaborate With Savzyen
             </h2>
             <p className="text-xs sm:text-sm text-[#A7B2CC] mt-2 leading-relaxed">
               Whether you are an engineering college dean, a school principal, a startup founder, or a technical mentor, fill in your details below to start collaborating.

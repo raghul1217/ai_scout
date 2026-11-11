@@ -6,7 +6,7 @@ import { Crown, Sparkles, Shield, Zap } from "lucide-react";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Pricing & Membership Plans | Savzen",
+  title: "Pricing & Membership Plans | Savzyen",
   description: "Flexible membership tiers with instant access to production AI blueprints, agent prompts, and founder lounges.",
   alternates: { canonical: "/pricing" },
 };
@@ -51,7 +51,7 @@ export default async function PricingPage({
       },
       {
         id: "plan_pro",
-        name: "Savzen Pro",
+        name: "Savzyen Pro",
         slug: "pro",
         description: "Full lifetime access to premium blueprints, advanced prompt packs, and member lounge.",
         price: 49900,
@@ -87,7 +87,7 @@ export default async function PricingPage({
 
           {reason === "premium_required" && (
             <div className="p-3.5 rounded-xl bg-[#7C3AED]/15 border border-[#7C3AED]/40 text-xs text-[#9F67FF] font-medium">
-              🔒 That content requires an active Savzen Pro membership. Select a plan below to unlock immediate access.
+              🔒 That content requires an active Savzyen Pro membership. Select a plan below to unlock immediate access.
             </div>
           )}
         </div>

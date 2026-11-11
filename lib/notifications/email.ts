@@ -17,7 +17,7 @@ export async function processNotificationOutbox() {
   const smtpPort = process.env.SMTP_PORT ? parseInt(process.env.SMTP_PORT, 10) : 587;
   const smtpUser = process.env.SMTP_USER;
   const smtpPass = process.env.SMTP_PASSWORD;
-  const emailFrom = process.env.EMAIL_FROM || "Savzen <hello@savzen.com>";
+  const emailFrom = process.env.EMAIL_FROM || "Savzyen <hello@savzyen.com>";
 
   const isConfigured = Boolean(smtpHost && smtpUser && smtpPass);
 
@@ -44,9 +44,9 @@ export async function processNotificationOutbox() {
           from: emailFrom,
           to: notif.recipient,
           subject: notif.subject,
-          text: `Hello ${payload.userName || "there"},\n\nThank you for joining ${payload.planName || "Savzen"}! Your transaction (${payload.orderId || ""}) has been completed.\n\nBest regards,\nThe Savzen Team`,
+          text: `Hello ${payload.userName || "there"},\n\nThank you for joining ${payload.planName || "Savzyen"}! Your transaction (${payload.orderId || ""}) has been completed.\n\nBest regards,\nThe Savzyen Team`,
           html: `<div style="font-family: sans-serif; background: #050816; color: #f8fafc; padding: 24px; border-radius: 8px;">
-            <h2 style="color: #9f67ff;">Welcome to ${payload.planName || "Savzen"}</h2>
+            <h2 style="color: #9f67ff;">Welcome to ${payload.planName || "Savzyen"}</h2>
             <p>Hello ${payload.userName || "there"},</p>
             <p>Your membership has been confirmed. You now have unrestricted access to all member vaults and blueprints.</p>
             <p style="color: #a7b2cc; font-size: 12px;">Order ID: ${payload.orderId || ""}</p>

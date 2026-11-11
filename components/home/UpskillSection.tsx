@@ -76,7 +76,7 @@ export function UpskillSection() {
                 <span className="gradient-text">with AI</span>
               </h2>
               <p className="text-[#a7b2cc] mt-4 leading-relaxed">
-                Savzen offers structured AI training, workshops, and partnership programs 
+                Savzyen offers structured AI training, workshops, and partnership programs 
                 to help organizations stay competitive in the age of artificial intelligence.
               </p>
             </div>

@@ -4,9 +4,9 @@ import { Handshake, ArrowDown, Sparkles } from "lucide-react";
 import { CollabClient } from "./CollabClient";
 
 export const metadata: Metadata = {
-  title: "Collaborate with Savzen | Colleges, Schools & Industry Partnerships",
+  title: "Collaborate with Savzyen | Colleges, Schools & Industry Partnerships",
   description:
-    "Partner with Savzen. Empowering 18,500+ students across top engineering colleges, forward-thinking schools, and leading tech companies to build with artificial intelligence.",
+    "Partner with Savzyen. Empowering 18,500+ students across top engineering colleges, forward-thinking schools, and leading tech companies to build with artificial intelligence.",
   alternates: { canonical: "/collab" },
 };
 
@@ -24,11 +24,11 @@ export default function CollabPage() {
           <h1 className="text-3xl sm:text-5xl md:text-6xl font-black text-white tracking-tight leading-tight">
             Empowering Campuses, Schools & Builders with{" "}
             <span className="text-[#f8fafc]">Sav</span>
-            <span className="gradient-text">zen</span>
+            <span className="gradient-text">zyen</span>
           </h1>
 
           <p className="text-sm sm:text-base text-[#A7B2CC] leading-relaxed max-w-2xl mx-auto">
-            From premier engineering universities training thousands of student engineers to forward-looking schools and tech enterprises — discover who collaborates with Savzen, and partner with us.
+            From premier engineering universities training thousands of student engineers to forward-looking schools and tech enterprises — discover who collaborates with Savzyen, and partner with us.
           </p>
 
           <div className="pt-2 flex flex-wrap items-center justify-center gap-3">

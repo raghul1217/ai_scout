@@ -9,8 +9,8 @@ import { SignOutButton } from "@/components/account/SignOutButton";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "My Account | Savzen",
-  description: "Manage your Savzen profile, membership status, and access.",
+  title: "My Account | Savzyen",
+  description: "Manage your Savzyen profile, membership status, and access.",
 };
 
 export default async function AccountPage() {

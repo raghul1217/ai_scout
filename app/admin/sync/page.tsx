@@ -8,7 +8,7 @@ import { Table, Sheet, Info, AlertTriangle, CheckCircle, Zap } from "lucide-reac
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Google Sheets Sync Manager | Admin | Savzen",
+  title: "Google Sheets Sync Manager | Admin | Savzyen",
 };
 
 export default async function AdminSyncPage() {
@@ -34,7 +34,7 @@ export default async function AdminSyncPage() {
       <div>
         <h1 className="text-2xl font-black text-white">Google Sheets Publishing Pipeline</h1>
         <p className="text-xs md:text-sm text-[#A7B2CC] mt-1">
-          Automate content publishing from Google Sheets directly to Savzen with validation and error reporting.
+          Automate content publishing from Google Sheets directly to Savzyen with validation and error reporting.
         </p>
       </div>
 
@@ -63,7 +63,7 @@ export default async function AdminSyncPage() {
             <p className="text-[11px] text-[#6B7FA3]">
               Tip: Automated cron on a Linux VPS can trigger sync periodically using:
               <br />
-              <code className="text-white font-mono">curl -X POST -H &quot;Authorization: Bearer $SYNC_SECRET&quot; https://savzen.com/api/sync/sheets</code>
+              <code className="text-white font-mono">curl -X POST -H &quot;Authorization: Bearer $SYNC_SECRET&quot; https://savzyen.com/api/sync/sheets</code>
             </p>
           </div>
         </div>
@@ -85,7 +85,7 @@ export default async function AdminSyncPage() {
         </div>
         <div className="pt-3 border-t border-[#24314F]/50">
           <p className="text-[11px] text-[#6B7FA3]">
-            Automated Cron endpoint: <code className="text-white font-mono">curl -X POST -H &quot;Authorization: Bearer $SYNC_SECRET&quot; https://savzen.com/api/sync/bestofai</code>
+            Automated Cron endpoint: <code className="text-white font-mono">curl -X POST -H &quot;Authorization: Bearer $SYNC_SECRET&quot; https://savzyen.com/api/sync/bestofai</code>
           </p>
         </div>
       </div>

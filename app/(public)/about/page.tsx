@@ -3,8 +3,8 @@ import Link from "next/link";
 import { Zap, Target, Users, Heart } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "About Savzen",
-  description: "Savzen is your trusted AI discovery and learning platform — built to help everyone navigate and benefit from the AI revolution.",
+  title: "About Savzyen",
+  description: "Savzyen is your trusted AI discovery and learning platform — built to help everyone navigate and benefit from the AI revolution.",
   alternates: { canonical: "/about" },
 };
 
@@ -12,7 +12,7 @@ const values = [
   { icon: Target, title: "Curated, Not Cluttered", description: "We hand-pick every tool, article, and tutorial for quality and relevance. No fluff." },
   { icon: Heart, title: "Community First", description: "Built for learners and builders. We grow with our community, not ahead of it." },
   { icon: Zap, title: "Practical Over Theoretical", description: "We focus on what you can actually use and learn today, not just ideas." },
-  { icon: Users, title: "Accessible to Everyone", description: "From students to professionals, Savzen is built for people at every skill level." },
+  { icon: Users, title: "Accessible to Everyone", description: "From students to professionals, Savzyen is built for people at every skill level." },
 ];
 
 export default function AboutPage() {
@@ -26,10 +26,10 @@ export default function AboutPage() {
               <Zap className="w-8 h-8 text-white fill-white" />
             </div>
             <h1 className="text-4xl sm:text-5xl font-bold text-[#f8fafc] mb-4">
-              About <span className="gradient-text">Savzen</span>
+              About <span className="gradient-text">Savzyen</span>
             </h1>
             <p className="text-[#a7b2cc] text-lg leading-relaxed">
-              Savzen is your all-in-one destination for discovering AI tools, 
+              Savzyen is your all-in-one destination for discovering AI tools, 
               staying updated with AI news, and learning practical AI skills — 
               designed for curious minds in the age of artificial intelligence.
             </p>
@@ -40,7 +40,7 @@ export default function AboutPage() {
             <h2 className="text-xl font-bold text-[#f8fafc] mb-3">Our Mission</h2>
             <p className="text-[#a7b2cc] leading-relaxed">
               The AI world moves incredibly fast. New tools emerge daily, research 
-              breaks barriers weekly, and the landscape shifts constantly. Savzen 
+              breaks barriers weekly, and the landscape shifts constantly. Savzyen 
               exists to cut through the noise — delivering curated, practical, and 
               honest information to help you stay ahead without feeling overwhelmed.
             </p>

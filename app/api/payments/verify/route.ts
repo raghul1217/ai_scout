@@ -87,7 +87,7 @@ export async function POST(request: NextRequest) {
           userId: user.id,
           channel: "EMAIL",
           recipient: user.email,
-          subject: `Welcome to ${payment.plan.name} — Savzen`,
+          subject: `Welcome to ${payment.plan.name} — Savzyen`,
           template: "payment_confirmation",
           payload: {
             userName: user.name,

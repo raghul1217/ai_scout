@@ -3,20 +3,20 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: {
-    default: "Savzen — Discover, Learn & Stay Ahead in AI",
-    template: "%s | Savzen",
+    default: "Savzyen — Discover, Learn & Stay Ahead in AI",
+    template: "%s | Savzyen",
   },
   description:
-    "Savzen is your all-in-one AI discovery and learning platform. Explore curated AI tools, read the latest AI news, and access practical tutorials to stay ahead.",
-  keywords: ["AI tools", "AI news", "learn AI", "artificial intelligence", "AI community", "AI tutorials", "Savzen"],
-  authors: [{ name: "Savzen" }],
-  creator: "Savzen",
-  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL ?? "https://savzen.com"),
+    "Savzyen is your all-in-one AI discovery and learning platform. Explore curated AI tools, read the latest AI news, and access practical tutorials to stay ahead.",
+  keywords: ["AI tools", "AI news", "learn AI", "artificial intelligence", "AI community", "AI tutorials", "Savzyen"],
+  authors: [{ name: "Savzyen" }],
+  creator: "Savzyen",
+  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL ?? "https://savzyen.com"),
   openGraph: {
     type: "website",
     locale: "en_IN",
-    siteName: "Savzen",
-    title: "Savzen — Discover, Learn & Stay Ahead in AI",
+    siteName: "Savzyen",
+    title: "Savzyen — Discover, Learn & Stay Ahead in AI",
     description:
       "Your all-in-one AI discovery and learning platform. Curated tools, latest news, practical tutorials.",
     images: [
@@ -24,13 +24,13 @@ export const metadata: Metadata = {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "Savzen",
+        alt: "Savzyen",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Savzen — Discover, Learn & Stay Ahead in AI",
+    title: "Savzyen — Discover, Learn & Stay Ahead in AI",
     description: "Curated AI tools, latest AI news, practical tutorials.",
     images: ["/og-image.png"],
   },

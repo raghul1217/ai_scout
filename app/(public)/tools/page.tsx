@@ -6,7 +6,7 @@ import { ToolCard } from "@/components/tools/ToolCard";
 import { BEST_OF_AI_TOOLS, syncBestOfAITools } from "@/lib/tools/bestofai";
 
 export const metadata: Metadata = {
-  title: "AI Tools Directory | Savzen",
+  title: "AI Tools Directory | Savzyen",
   description:
     "Browse 150+ verified artificial intelligence tools across coding, productivity, design, and reasoning, benchmarked and synchronized with Best of AI.",
   alternates: { canonical: "/tools" },

@@ -499,7 +499,7 @@ export async function fetchToolsFromBestOfAI(): Promise<{
       {
         headers: {
           Accept: "application/vnd.github.v3+json",
-          "User-Agent": "Savzen-BestOfAI-Sync",
+          "User-Agent": "Savzyen-BestOfAI-Sync",
         },
         signal: controller.signal,
       }
@@ -538,10 +538,10 @@ export async function fetchToolsFromBestOfAI(): Promise<{
 
         const name = parsed.title || parsed.name;
         const slug = parsed.slug || file.name.replace(/\.md$/, "");
-        const website = parsed.website || parsed.url || "https://savzen.com";
+        const website = parsed.website || parsed.url || "https://savzyen.com";
         const categoryRaw = (parsed.category || "productivity").toLowerCase();
 
-        // Map to Savzen categories
+        // Map to Savzyen categories
         let categorySlug = "productivity";
         let categoryName = "Productivity";
         if (categoryRaw.includes("code") || categoryRaw.includes("dev")) {
@@ -600,7 +600,7 @@ export async function fetchToolsFromBestOfAI(): Promise<{
 }
 
 /**
- * Syncs Best of AI tools into the Savzen PostgreSQL database.
+ * Syncs Best of AI tools into the Savzyen PostgreSQL database.
  */
 export async function syncBestOfAITools(): Promise<{
   success: boolean;
