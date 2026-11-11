@@ -59,7 +59,7 @@ export function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="border-t border-[#24314f] bg-[#050816] mt-16 sm:mt-24">
+    <footer className="border-t border-[#24314f] bg-[#050816]">
       {/* Top Section */}
       <div className="container-max pt-16 pb-12 sm:pt-20 sm:pb-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10">

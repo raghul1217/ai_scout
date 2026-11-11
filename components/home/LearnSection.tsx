@@ -72,8 +72,8 @@ export function LearnSection() {
           </Link>
         </div>
 
-        {/* Resources List */}
-        <div className="space-y-4">
+        {/* Resources Grid - Vertical Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {resources.map((resource) => {
             const diff = difficultyConfig[resource.difficulty];
             const Icon = resource.icon;
@@ -82,44 +82,56 @@ export function LearnSection() {
               <Link
                 key={resource.id}
                 href={resource.href}
-                className="card card-glow block group overflow-hidden"
+                className="card card-glow flex flex-col group overflow-hidden h-full"
               >
-                <div className="flex flex-col sm:flex-row gap-0">
-                  {/* Icon panel */}
-                  <div
-                    className={`sm:w-24 h-24 sm:h-auto bg-gradient-to-br ${resource.gradient} flex items-center justify-center shrink-0`}
-                  >
-                    <Icon className="w-8 h-8 text-white/60" />
+                {/* Top Icon / Thumbnail Banner */}
+                <div
+                  className={`h-40 bg-gradient-to-br ${resource.gradient} flex items-center justify-center shrink-0 relative overflow-hidden`}
+                >
+                  {/* Subtle decorative geometry */}
+                  <div className="absolute inset-0 flex items-center justify-center opacity-20 pointer-events-none">
+                    <div className="w-24 h-24 rounded-full border-2 border-white/30" />
+                    <div className="absolute w-36 h-36 rounded-full border border-white/10" />
                   </div>
+                  <div className="w-14 h-14 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-lg">
+                    <Icon className="w-7 h-7 text-white" />
+                  </div>
+                </div>
 
-                  {/* Content */}
-                  <div className="flex-1 p-5">
-                    <div className="flex flex-wrap items-center gap-2 mb-2">
+                {/* Content */}
+                <div className="flex-1 p-5 sm:p-6 flex flex-col justify-between space-y-4">
+                  <div>
+                    <div className="flex flex-wrap items-center gap-2 mb-3">
                       <span className={`badge ${diff.class}`}>{diff.label}</span>
                       <span className="badge badge-gray">{resource.category}</span>
-                      {resource.tags.map((tag) => (
-                        <span key={tag} className="text-xs text-[#6b7fa3]">#{tag}</span>
-                      ))}
                     </div>
 
-                    <h3 className="text-base font-semibold text-[#f8fafc] group-hover:text-purple-300 transition-colors mb-1.5">
+                    <h3 className="text-lg font-bold text-[#f8fafc] group-hover:text-purple-300 transition-colors mb-2 leading-snug">
                       {resource.title}
                     </h3>
 
-                    <p className="text-sm text-[#a7b2cc] leading-relaxed line-clamp-2">
+                    <p className="text-sm text-[#a7b2cc] leading-relaxed line-clamp-3">
                       {resource.summary}
                     </p>
 
-                    <div className="flex items-center gap-4 mt-3">
-                      <span className="flex items-center gap-1.5 text-xs text-[#6b7fa3]">
-                        <Clock className="w-3.5 h-3.5" />
-                        {resource.readTime} min read
-                      </span>
-                      <span className="flex items-center gap-1 text-xs text-purple-400 font-medium group-hover:gap-2 transition-all">
-                        Start Learning
-                        <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-                      </span>
+                    <div className="flex flex-wrap gap-1.5 mt-3">
+                      {resource.tags.map((tag) => (
+                        <span key={tag} className="text-xs text-[#6b7fa3]">
+                          #{tag}
+                        </span>
+                      ))}
                     </div>
+                  </div>
+
+                  <div className="flex items-center justify-between pt-3 border-t border-[#24314F]/60">
+                    <span className="flex items-center gap-1.5 text-xs text-[#6b7fa3]">
+                      <Clock className="w-3.5 h-3.5" />
+                      {resource.readTime} min read
+                    </span>
+                    <span className="flex items-center gap-1 text-xs text-purple-400 font-semibold group-hover:gap-2 transition-all">
+                      Start Learning
+                      <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                    </span>
                   </div>
                 </div>
               </Link>

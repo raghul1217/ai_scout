@@ -368,6 +368,31 @@ body {
   50% { transform: translateY(-7px); }
 }
 
+@keyframes marquee {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee 56s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+.animate-marquee-testimonials {
+  display: flex;
+  width: max-content;
+  animation: marquee 68s linear infinite;
+}
+
+.animate-marquee-testimonials:hover {
+  animation-play-state: paused;
+}
+
 .animate-fade-in-up {
   animation: fadeInUp 0.5s ease forwards;
 }

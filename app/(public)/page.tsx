@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import { HeroSection } from "@/components/home/HeroSection";
+import { CollaboratorMarquee } from "@/components/home/CollaboratorMarquee";
 import { FeaturedSection } from "@/components/home/FeaturedSection";
 import { ToolsSection } from "@/components/home/ToolsSection";
 import { LearnSection } from "@/components/home/LearnSection";
-import { CommunitySection } from "@/components/home/CommunitySection";
 import { UpskillSection } from "@/components/home/UpskillSection";
+import { TestimonialsSection } from "@/components/home/TestimonialsSection";
 
 export const metadata: Metadata = {
   title: "Savzyen — Discover, Learn & Stay Ahead in AI",
@@ -17,10 +18,11 @@ export default function HomePage() {
   return (
     <>
       <HeroSection />
+      <CollaboratorMarquee />
       <FeaturedSection />
       <ToolsSection />
       <LearnSection />
-      <CommunitySection />
+      <TestimonialsSection />
       <UpskillSection />
     </>
   );

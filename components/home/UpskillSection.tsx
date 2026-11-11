@@ -62,7 +62,7 @@ export function UpskillSection() {
   };
 
   return (
-    <section className="py-24 bg-[#0a1024]">
+    <section className="py-24 bg-[#0a1024] border-t border-[#24314F]/60">
       <div className="container-max">
         <div className="grid lg:grid-cols-2 gap-12 items-start">
           {/* Left: Content */}
