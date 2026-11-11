@@ -1,12 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, Zap, Users, BookOpen, Newspaper } from "lucide-react";
-
-const highlights = [
-  { icon: Zap, label: "Curated AI Tools" },
-  { icon: Newspaper, label: "Daily AI News" },
-  { icon: BookOpen, label: "Practical Learning" },
-  { icon: Users, label: "Active Community" },
-];
+import { ArrowRight, Zap, Users } from "lucide-react";
 
 export function HeroSection() {
   return (
@@ -60,21 +53,6 @@ export function HeroSection() {
               >
                 Explore AI Tools
               </Link>
-            </div>
-
-            {/* Highlights */}
-            <div className="flex flex-wrap gap-4 pt-2">
-              {highlights.map(({ icon: Icon, label }) => (
-                <div
-                  key={label}
-                  className="flex items-center gap-2 text-sm text-[#a7b2cc]"
-                >
-                  <div className="w-7 h-7 rounded-lg bg-purple-500/10 border border-purple-500/20 flex items-center justify-center">
-                    <Icon className="w-3.5 h-3.5 text-purple-400" />
-                  </div>
-                  {label}
-                </div>
-              ))}
             </div>
           </div>
 

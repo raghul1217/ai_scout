@@ -107,6 +107,15 @@ export async function runGoogleSheetsSync(): Promise<SyncResult> {
           if (category) categoryId = category.id;
         }
 
+        // Check if article already exists so we preserve original publishedAt timestamp
+        const existingArticle = await prisma.article.findUnique({
+          where: { slug: articleSlug },
+          select: { id: true, publishedAt: true, status: true },
+        });
+
+        const shouldSetPublishedAt =
+          parsed.status === "PUBLISHED" && (!existingArticle || !existingArticle.publishedAt);
+
         // Idempotent upsert
         await prisma.article.upsert({
           where: { slug: articleSlug },
@@ -119,7 +128,7 @@ export async function runGoogleSheetsSync(): Promise<SyncResult> {
             accessLevel: parsed.accessLevel as any,
             authorName: parsed.author,
             readTimeMinutes: parsed.readTime,
-            publishedAt: parsed.status === "PUBLISHED" ? new Date() : undefined,
+            ...(shouldSetPublishedAt ? { publishedAt: new Date() } : {}),
           },
           create: {
             slug: articleSlug,
