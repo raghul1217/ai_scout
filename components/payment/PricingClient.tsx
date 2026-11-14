@@ -131,9 +131,7 @@ export function PricingClient({ plans }: PricingClientProps) {
 
       <div className="grid md:grid-cols-3 gap-8 items-stretch">
         {plans.map((plan) => {
-          const isPro = plan.price > 0 && plan.billingType !== "LIFETIME";
-          const isLifetime = plan.billingType === "LIFETIME";
-          const isPopular = isPro || isLifetime;
+          const isPopular = plan.price > 0;
 
           return (
             <div
@@ -146,7 +144,7 @@ export function PricingClient({ plans }: PricingClientProps) {
             >
               {isPopular && (
                 <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full bg-gradient-to-r from-[#7C3AED] to-[#3B82F6] text-white text-[10px] font-extrabold uppercase tracking-widest shadow-md">
-                  {isLifetime ? "Best Value" : "Most Popular"}
+                  Most Popular
                 </div>
               )}
 
@@ -159,14 +157,12 @@ export function PricingClient({ plans }: PricingClientProps) {
                 <div className="mb-6 pb-6 border-b border-[#24314F]">
                   <div className="flex items-baseline gap-1">
                     <span className="text-4xl font-black text-white">
-                      ₹{(plan.price / 100).toLocaleString("en-IN")}
+                      ₹{(plan.price / 100).toLocaleString("en-IN")}{plan.price > 0 ? "/year" : ""}
                     </span>
                     <span className="text-xs text-[#6B7FA3]">
                       {plan.price === 0
                         ? "forever"
-                        : plan.billingType === "LIFETIME"
-                        ? "one-time"
-                        : "/month"}
+                        : "annual access"}
                     </span>
                   </div>
                 </div>

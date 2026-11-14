@@ -315,7 +315,8 @@ export function CollabClient() {
 
   return (
     <div className="space-y-20">
-      {/* ─── METRICS CARDS ───────────────────────────────────────────────────── */}
+      {/* ─── METRICS CARDS (Commented out) ───────────────────────────────────── */}
+      {/*
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-5xl mx-auto">
         <div className="bg-[#0D1730] border border-[#24314F] rounded-2xl p-5 text-center hover:border-[#3B82F6]/50 transition-all">
           <div className="w-10 h-10 rounded-xl bg-blue-500/10 text-blue-400 flex items-center justify-center mx-auto mb-3">
@@ -349,8 +350,10 @@ export function CollabClient() {
           <p className="text-xs text-[#A7B2CC] mt-1 font-medium">Campus AI Hackathons & Labs</p>
         </div>
       </div>
+      */}
 
-      {/* ─── COLLABORATORS DIRECTORY ─────────────────────────────────────────── */}
+      {/* ─── COLLABORATORS DIRECTORY (Commented out) ─────────────────────────── */}
+      {/*
       <div className="space-y-8">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#24314F]/60 pb-5">
           <div>
@@ -362,7 +365,6 @@ export function CollabClient() {
             </p>
           </div>
 
-          {/* Filter Pills */}
           <div className="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none">
             {[
               { id: "ALL", label: "All" },
@@ -386,7 +388,6 @@ export function CollabClient() {
           </div>
         </div>
 
-        {/* Collaborators Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
           {filteredCollaborators.map((collab) => (
             <div
@@ -394,7 +395,6 @@ export function CollabClient() {
               className="group relative bg-[#0D1730] hover:bg-[#112040] border border-[#24314F] hover:border-[#3B82F6]/60 rounded-2xl p-5 transition-all duration-200 hover:-translate-y-1 hover:shadow-xl hover:shadow-blue-500/5 flex flex-col justify-between"
             >
               <div>
-                {/* Header Row: Type Icon + Badges */}
                 <div className="flex items-start justify-between gap-3 mb-3">
                   <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${collab.accentColor} flex items-center justify-center text-white font-bold shrink-0 shadow-md`}>
                     {collab.type === "COLLEGE" && <GraduationCap className="w-5 h-5" />}
@@ -408,13 +408,11 @@ export function CollabClient() {
                   </span>
                 </div>
 
-                {/* Name & Location */}
                 <h3 className="text-base font-bold text-white group-hover:text-[#60A5FA] transition-colors leading-snug">
                   {collab.name}
                 </h3>
                 <p className="text-xs text-[#6B7FA3] mt-0.5">{collab.location}</p>
 
-                {/* Student Count Pill (Prominently requested) */}
                 {collab.studentCount && (
                   <div className="inline-flex items-center gap-1.5 mt-3 px-3 py-1 rounded-lg bg-emerald-500/10 border border-emerald-500/25 text-emerald-400 text-xs font-bold">
                     <Users className="w-3.5 h-3.5" />
@@ -422,13 +420,11 @@ export function CollabClient() {
                   </div>
                 )}
 
-                {/* Description */}
                 <p className="text-xs text-[#A7B2CC] leading-relaxed mt-3">
                   {collab.description}
                 </p>
               </div>
 
-              {/* Bottom Track / Metric */}
               <div className="pt-4 mt-4 border-t border-[#24314F]/60 space-y-1.5">
                 <div className="flex items-center gap-1.5 text-[11px] font-semibold text-[#9F67FF]">
                   <BadgeCheck className="w-3.5 h-3.5 shrink-0" />
@@ -444,6 +440,7 @@ export function CollabClient() {
           ))}
         </div>
       </div>
+      */}
 
       {/* ─── HOW WE COLLABORATE (TRACKS) ────────────────────────────────────── */}
       <div className="bg-[#0D1730]/60 border border-[#24314F] rounded-3xl p-8 md:p-10">

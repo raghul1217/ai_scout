@@ -25,7 +25,7 @@ const benefits = [
 ];
 
 export function CommunitySection() {
-  const whatsappUrl = process.env.NEXT_PUBLIC_WHATSAPP_COMMUNITY_URL ?? "/community";
+  const whatsappUrl = process.env.NEXT_PUBLIC_WHATSAPP_COMMUNITY_URL;
 
   return (
     <section className="py-24 bg-[#050816] relative overflow-hidden">
@@ -71,16 +71,27 @@ export function CommunitySection() {
 
               {/* CTAs */}
               <div className="flex flex-wrap gap-3 pt-2">
-                <a
-                  href={whatsappUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  id="community-whatsapp-btn"
-                  className="btn btn-success btn-lg"
-                >
-                  <MessageCircle className="w-5 h-5" />
-                  Join WhatsApp Community
-                </a>
+                {whatsappUrl ? (
+                  <a
+                    href={whatsappUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    id="community-whatsapp-btn"
+                    className="btn btn-success btn-lg"
+                  >
+                    <MessageCircle className="w-5 h-5" />
+                    Join WhatsApp Community
+                  </a>
+                ) : (
+                  <Link
+                    href="/register"
+                    id="community-join-btn"
+                    className="btn btn-primary btn-lg inline-flex items-center gap-2"
+                  >
+                    <Users className="w-5 h-5" />
+                    Join Community
+                  </Link>
+                )}
                 <Link href="/community" className="btn btn-secondary btn-lg">
                   Learn More
                   <ArrowRight className="w-5 h-5" />

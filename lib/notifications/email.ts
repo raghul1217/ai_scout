@@ -17,7 +17,7 @@ export async function processNotificationOutbox() {
   const smtpPort = process.env.SMTP_PORT ? parseInt(process.env.SMTP_PORT, 10) : 587;
   const smtpUser = process.env.SMTP_USER;
   const smtpPass = process.env.SMTP_PASSWORD;
-  const emailFrom = process.env.EMAIL_FROM || "Savzyen <hello@savzyen.com>";
+  const emailFrom = process.env.EMAIL_FROM || "Savzyen <support@savzyen.si>";
 
   const isConfigured = Boolean(smtpHost && smtpUser && smtpPass);
 

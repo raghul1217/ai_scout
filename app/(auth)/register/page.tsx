@@ -6,40 +6,42 @@ export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Join Savzyen | Account & Membership",
-  description: "Create your Savzyen account and unlock lifetime access to production blueprints and AI intelligence.",
+  description: "Create your Savzyen account and unlock lifetime access to SAVZYEN Premium, daily AI challenges, and real-time agent blueprints.",
 };
 
 const defaultPlans: PlanItem[] = [
   {
     id: "plan_free",
-    name: "Free Community",
+    name: "Savzyen Free",
     slug: "free",
-    description: "Essential AI tool directory and weekly curated updates.",
+    description: "Essential AI tool directory and curated daily updates.",
     price: 0,
     currency: "INR",
     billingType: "ONE_TIME",
     features: [
-      "Curated directory of 150+ verified AI tools",
-      "Weekly AI newsletter & curated headlines",
-      "Public community access on WhatsApp",
-      "Basic search and filtering",
+      "AI Updates Daily 1",
+      "Weekly 1 news",
     ],
   },
   {
     id: "plan_pro",
-    name: "Savzyen Pro",
+    name: "SAVZYEN Premium",
     slug: "pro",
-    description: "Full lifetime access to premium blueprints, advanced prompt packs, and member lounge.",
+    description: "Stay Ahead. Learn Faster. Build Smarter.",
     price: 49900,
     currency: "INR",
-    billingType: "LIFETIME",
+    billingType: "YEARLY",
     features: [
-      "Everything in Free Community",
-      "Access to all Premium Blueprints & Guides",
-      "Production-tested agent prompt libraries",
-      "Monthly commercial AI benchmark reports",
-      "Priority VIP community lounge",
-      "Lifetime access with zero recurring fees",
+      "Daily AI News & Industry Updates",
+      "Latest AI Tools & Feature Discoveries",
+      "Practical AI Daily Challenges with Tutorials & Learning Resources",
+      "Industry Insights & Weekly Reports",
+      "Weekly AI Challenges",
+      "Tech Events, Meetups & Conferences",
+      "Exclusive Live Sessions with Founders & Experts",
+      "Exclusive Learning & Career Opportunities",
+      "GitHub News, Projects & Trending Repositories",
+      "Build Real-Time AI Agents & Practical Modules",
     ],
   },
 ];
@@ -48,59 +50,95 @@ export default async function RegisterPage() {
   let plans: PlanItem[] = [];
 
   try {
-    // 1. Ensure the ₹499 Pro plan exists in DB and deactivate legacy ₹999 / ₹4999 plans
-    let proPlan = await prisma.plan.findFirst({
-      where: { slug: "pro", isActive: true },
+    // 1. Ensure the ₹499 SAVZYEN Premium plan exists in DB and update its features/descriptions
+    await prisma.plan.upsert({
+      where: { slug: "pro" },
+      update: {
+        name: "SAVZYEN Premium",
+        description: "Stay Ahead. Learn Faster. Build Smarter.",
+        price: 49900, // ₹499.00
+        currency: "INR",
+        billingType: "YEARLY",
+        durationDays: 365,
+        isActive: true,
+        sortOrder: 2,
+        features: [
+          "Daily AI News & Industry Updates",
+          "Latest AI Tools & Feature Discoveries",
+          "Practical AI Daily Challenges with Tutorials & Learning Resources",
+          "Industry Insights & Weekly Reports",
+          "Weekly AI Challenges",
+          "Tech Events, Meetups & Conferences",
+          "Exclusive Live Sessions with Founders & Experts",
+          "Exclusive Learning & Career Opportunities",
+          "GitHub News, Projects & Trending Repositories",
+          "Build Real-Time AI Agents & Practical Modules",
+        ],
+      },
+      create: {
+        name: "SAVZYEN Premium",
+        slug: "pro",
+        description: "Stay Ahead. Learn Faster. Build Smarter.",
+        price: 49900, // ₹499.00
+        currency: "INR",
+        billingType: "YEARLY",
+        durationDays: 365,
+        isActive: true,
+        sortOrder: 2,
+        features: [
+          "Daily AI News & Industry Updates",
+          "Latest AI Tools & Feature Discoveries",
+          "Practical AI Daily Challenges with Tutorials & Learning Resources",
+          "Industry Insights & Weekly Reports",
+          "Weekly AI Challenges",
+          "Tech Events, Meetups & Conferences",
+          "Exclusive Live Sessions with Founders & Experts",
+          "Exclusive Learning & Career Opportunities",
+          "GitHub News, Projects & Trending Repositories",
+          "Build Real-Time AI Agents & Practical Modules",
+        ],
+      },
     });
 
-    if (!proPlan) {
-      await prisma.plan.upsert({
-        where: { slug: "pro" },
-        update: {
-          name: "Savzyen Pro",
-          description: "Full lifetime access to premium blueprints, advanced prompt packs, and member lounge.",
-          price: 49900, // ₹499.00
-          currency: "INR",
-          billingType: "LIFETIME",
-          durationDays: null,
-          isActive: true,
-          sortOrder: 2,
-          features: [
-            "Everything in Free Community",
-            "Access to all Premium Blueprints & Guides",
-            "Production-tested agent prompt libraries",
-            "Monthly commercial AI benchmark reports",
-            "Priority VIP community lounge",
-            "Lifetime access with zero recurring fees",
-          ],
-        },
-        create: {
-          name: "Savzyen Pro",
-          slug: "pro",
-          description: "Full lifetime access to premium blueprints, advanced prompt packs, and member lounge.",
-          price: 49900, // ₹499.00
-          currency: "INR",
-          billingType: "LIFETIME",
-          durationDays: null,
-          isActive: true,
-          sortOrder: 2,
-          features: [
-            "Everything in Free Community",
-            "Access to all Premium Blueprints & Guides",
-            "Production-tested agent prompt libraries",
-            "Monthly commercial AI benchmark reports",
-            "Priority VIP community lounge",
-            "Lifetime access with zero recurring fees",
-          ],
-        },
-      });
+    // Also update Free plan features in DB if present
+    await prisma.plan.upsert({
+      where: { slug: "free" },
+      update: {
+        name: "Savzyen Free",
+        description: "Essential AI tool directory and curated daily updates.",
+        price: 0,
+        currency: "INR",
+        billingType: "ONE_TIME",
+        durationDays: null,
+        isActive: true,
+        sortOrder: 1,
+        features: [
+          "AI Updates Daily 1",
+          "Weekly 1 news",
+        ],
+      },
+      create: {
+        name: "Savzyen Free",
+        slug: "free",
+        description: "Essential AI tool directory and curated daily updates.",
+        price: 0,
+        currency: "INR",
+        billingType: "ONE_TIME",
+        durationDays: null,
+        isActive: true,
+        sortOrder: 1,
+        features: [
+          "AI Updates Daily 1",
+          "Weekly 1 news",
+        ],
+      },
+    });
 
-      // Deactivate old legacy plans if present
-      await prisma.plan.updateMany({
-        where: { slug: { in: ["pro-monthly", "pro-lifetime"] } },
-        data: { isActive: false },
-      });
-    }
+    // Deactivate old legacy plans if present
+    await prisma.plan.updateMany({
+      where: { slug: { in: ["pro-monthly", "pro-lifetime"] } },
+      data: { isActive: false },
+    });
 
     const dbPlans = await prisma.plan.findMany({
       where: {

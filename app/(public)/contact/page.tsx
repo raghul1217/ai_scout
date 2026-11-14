@@ -2,14 +2,37 @@
 
 import { useState } from "react";
 import type { Metadata } from "next";
-import { Mail, MessageCircle, MapPin, Send, CheckCircle, Loader2 } from "lucide-react";
+import { Mail, MessageCircle, MapPin, Send, CheckCircle, Loader2, Phone } from "lucide-react";
 
 // Metadata not usable in client components — moved to separate layout/head
 // Contact page is a client component for form state
 
 const contactMethods = [
-  { icon: Mail, label: "Email", value: "hello@savzyen.com", href: "mailto:hello@savzyen.com" },
-  { icon: MessageCircle, label: "WhatsApp Community", value: "Join our community", href: "#community" },
+  {
+    icon: Mail,
+    label: "Email Support",
+    value: "support@savzyen.si",
+    href: "mailto:support@savzyen.si",
+  },
+  {
+    icon: Phone,
+    label: "Phone",
+    value: "+91 8660768366",
+    href: "tel:+918660768366",
+  },
+  {
+    icon: MapPin,
+    label: "Office Address",
+    value:
+      "[Ground Floor, WeWork], Vaishnavi Signature, No. 78/9, Outer Ring Road, Bellandur, Bengaluru, Karnataka – 560103, India",
+    subtext: "(Landmark: Beside Centro Mall)",
+  },
+  {
+    icon: MessageCircle,
+    label: "WhatsApp Community",
+    value: "Join our Community",
+    href: process.env.NEXT_PUBLIC_WHATSAPP_COMMUNITY_URL ?? "/community",
+  },
 ];
 
 const enquiryTypes = [
@@ -61,17 +84,31 @@ export default function ContactPage() {
               </p>
             </div>
 
-            {contactMethods.map(({ icon: Icon, label, value, href }) => (
-              <div key={label} className="flex items-start gap-4">
-                <div className="w-10 h-10 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center shrink-0">
-                  <Icon className="w-5 h-5 text-purple-400" />
+            {contactMethods.map((method) => {
+              const Icon = method.icon;
+              return (
+                <div key={method.label} className="flex items-start gap-4">
+                  <div className="w-10 h-10 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center shrink-0">
+                    <Icon className="w-5 h-5 text-purple-400" />
+                  </div>
+                  <div className="text-sm flex-1">
+                    <p className="text-xs text-[#6b7fa3] uppercase tracking-wider mb-0.5">{method.label}</p>
+                    {method.href ? (
+                      <a href={method.href} className="text-[#f8fafc] hover:text-purple-300 transition-colors font-medium">
+                        {method.value}
+                      </a>
+                    ) : (
+                      <div>
+                        <p className="text-[#f8fafc] font-medium leading-relaxed">{method.value}</p>
+                        {method.subtext && (
+                          <p className="text-xs text-[#6b7fa3] mt-0.5">{method.subtext}</p>
+                        )}
+                      </div>
+                    )}
+                  </div>
                 </div>
-                <div>
-                  <p className="text-xs text-[#6b7fa3] uppercase tracking-wider">{label}</p>
-                  <a href={href} className="text-[#f8fafc] hover:text-purple-300 transition-colors font-medium">{value}</a>
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
 
           {/* Right: Form */}

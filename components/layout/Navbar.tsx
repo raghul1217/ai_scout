@@ -244,14 +244,14 @@ export function Navbar({ user }: NavbarProps) {
                 </div>
               </div>
             ) : currentUser ? (
-              /* Signed in Free user: Show Join • ₹499 + Collab + User Icon */
+              /* Signed in Free user: Show Join • ₹499/year + Collab + User Icon */
               <div className="flex items-center gap-2.5">
                 <Link
                   href="/register?plan=pro"
                   id="nav-join-pro-btn"
                   className="relative inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold text-white bg-gradient-to-r from-[#7C3AED] to-[#3B82F6] hover:opacity-95 shadow-lg shadow-[#7C3AED]/25 hover:shadow-[#7C3AED]/40 transition-all group"
                 >
-                  <span>Join • ₹499</span>
+                  <span>Join • ₹499/year</span>
                 </Link>
 
                 <Link
@@ -321,7 +321,7 @@ export function Navbar({ user }: NavbarProps) {
                         onClick={() => setUserMenuOpen(false)}
                         className="flex items-center gap-2.5 px-3.5 py-2 text-xs font-semibold text-yellow-400 hover:text-yellow-300 hover:bg-white/5 transition-colors"
                       >
-                        <Crown className="w-4 h-4 text-yellow-400" /> Upgrade to Pro (₹499)
+                        <Crown className="w-4 h-4 text-yellow-400" /> Upgrade to Pro (₹499/year)
                       </Link>
                       {currentUser.role === "ADMIN" && (
                         <Link
@@ -345,7 +345,7 @@ export function Navbar({ user }: NavbarProps) {
                 </div>
               </div>
             ) : (
-              /* User NOT Signed In: Join • ₹499 button, Collab and subtle Log In */
+              /* User NOT Signed In: Join • ₹499/year button, Collab and subtle Log In */
               <div className="flex items-center gap-2.5">
                 <Link
                   href="/login"
@@ -359,7 +359,7 @@ export function Navbar({ user }: NavbarProps) {
                   id="nav-join-pro-btn"
                   className="relative inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-bold text-white bg-gradient-to-r from-[#7C3AED] to-[#3B82F6] hover:opacity-95 shadow-lg shadow-[#7C3AED]/25 hover:shadow-[#7C3AED]/40 transition-all group"
                 >
-                  <span>Join • ₹499</span>
+                  <span>Join • ₹499/year</span>
                 </Link>
                 <Link
                   href="/collab"
@@ -394,7 +394,7 @@ export function Navbar({ user }: NavbarProps) {
                 href="/register?plan=pro"
                 className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-bold text-white bg-gradient-to-r from-[#7C3AED] to-[#3B82F6] shadow-sm"
               >
-                <span>Join ₹499</span>
+                <span>Join ₹499/year</span>
               </Link>
             )}
 
@@ -531,7 +531,7 @@ export function Navbar({ user }: NavbarProps) {
                   className="btn btn-primary w-full text-xs font-bold flex items-center justify-center gap-1.5 shadow-lg shadow-purple-500/20"
                 >
                   <Sparkles className="w-3.5 h-3.5 text-yellow-300" />
-                  Upgrade to Pro • ₹499
+                  Upgrade to Pro • ₹499/year
                 </Link>
               )}
               <Link
@@ -564,7 +564,7 @@ export function Navbar({ user }: NavbarProps) {
                 className="btn btn-primary w-full text-xs font-bold flex items-center justify-center gap-1.5 shadow-lg shadow-purple-500/20"
                 onClick={() => setMobileOpen(false)}
               >
-                Join Savzyen Pro • ₹499
+                Join Savzyen Pro • ₹499/year
               </Link>
               <Link
                 href="/login"

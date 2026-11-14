@@ -130,13 +130,8 @@ export function CollaboratorMarquee() {
           <div className="w-6 h-6 rounded-lg bg-gradient-brand flex items-center justify-center shadow-md">
             <Handshake className="w-3.5 h-3.5 text-white" />
           </div>
-          <span className="text-xs font-bold text-white uppercase tracking-widest flex items-center gap-2">
-            Academic & Industry Network
-            <span className="hidden sm:inline text-[#6B7FA3] font-normal">•</span>
-            <span className="text-[#10B981] font-semibold hidden sm:inline flex items-center gap-1">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#10B981] animate-ping" />
-              18,500+ Students Engaged
-            </span>
+          <span className="text-xs font-bold text-white uppercase tracking-widest">
+            OUR COLLABORATIONS &amp; PARTNERSHIPS
           </span>
         </div>
 

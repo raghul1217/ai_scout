@@ -16,7 +16,7 @@ const communityBenefits = [
 ];
 
 export default function CommunityPage() {
-  const whatsappUrl = process.env.NEXT_PUBLIC_WHATSAPP_COMMUNITY_URL ?? "#";
+  const whatsappUrl = process.env.NEXT_PUBLIC_WHATSAPP_COMMUNITY_URL;
 
   return (
     <div className="min-h-screen py-12">
@@ -30,26 +30,34 @@ export default function CommunityPage() {
           </h1>
           <p className="text-[#a7b2cc] text-lg leading-relaxed mb-8">
             A growing community of AI enthusiasts, learners, and practitioners. 
-            Stay connected through our WhatsApp community for daily updates and discussions.
+            Connect with peers, access curated learning resources, and accelerate your AI journey.
           </p>
-          {whatsappUrl !== "#" ? (
-            <a
-              href={whatsappUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              id="community-join-whatsapp-btn"
-              className="btn btn-success btn-lg"
+
+          <div className="flex flex-wrap items-center justify-center gap-4">
+            <Link
+              href="/register"
+              id="community-join-btn"
+              className="btn btn-primary btn-lg inline-flex items-center gap-2 shadow-lg shadow-purple-500/25"
             >
-              <MessageCircle className="w-5 h-5" />
-              Join WhatsApp Community
-              <ExternalLink className="w-4 h-4" />
-            </a>
-          ) : (
-            <div className="btn btn-success btn-lg opacity-60 cursor-not-allowed">
-              <MessageCircle className="w-5 h-5" />
-              WhatsApp Community Link Coming Soon
-            </div>
-          )}
+              <Users className="w-5 h-5" />
+              Join Community
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+
+            {whatsappUrl && whatsappUrl !== "#" && (
+              <a
+                href={whatsappUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                id="community-join-whatsapp-btn"
+                className="btn btn-success btn-lg inline-flex items-center gap-2"
+              >
+                <MessageCircle className="w-5 h-5" />
+                Join WhatsApp Community
+                <ExternalLink className="w-4 h-4" />
+              </a>
+            )}
+          </div>
         </div>
 
         {/* Benefits */}

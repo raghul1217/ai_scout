@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Search, Calendar, Clock, Lock, Sparkles, ArrowRight } from "lucide-react";
+import { Search, Calendar, Clock, Lock, Sparkles, Crown } from "lucide-react";
 import { prisma } from "@/lib/db/prisma";
 import { formatDate } from "@/lib/utils";
+import { FEATURED_ARTICLES } from "@/lib/news/featured-news";
 
 export const metadata: Metadata = {
   title: "AI News & Intelligence | Savzyen",
-  description: "Curated updates on artificial intelligence, model releases, research benchmarks, and industry developments.",
+  description:
+    "Curated updates on artificial intelligence, model releases, research benchmarks, and industry developments.",
   alternates: { canonical: "/news" },
 };
 
@@ -19,8 +21,8 @@ export default async function NewsPage({
   const currentPage = Math.max(1, parseInt(page ?? "1", 10) || 1);
   const pageSize = 9;
 
-  let articles: any[] = [];
-  let totalArticles = 0;
+  let dbArticles: any[] = [];
+  let dbTotal = 0;
   let categories: any[] = [];
 
   try {
@@ -41,7 +43,7 @@ export default async function NewsPage({
       };
     }
 
-    [articles, totalArticles, categories] = await Promise.all([
+    [dbArticles, dbTotal, categories] = await Promise.all([
       prisma.article.findMany({
         where: whereClause,
         include: { category: true },
@@ -56,6 +58,40 @@ export default async function NewsPage({
     console.warn("DB query fallback for news:", error);
   }
 
+  // Prepend all featured news articles (including the remaining ones: Operator, Gemini 2.0, DeepSeek-V3)
+  const featuredNewsItems = FEATURED_ARTICLES.map((fa) => ({
+    id: fa.id,
+    slug: fa.slug,
+    title: fa.title,
+    summary: fa.summary,
+    coverImage: fa.imageUrl,
+    accessLevel: fa.accessLevel,
+    readTimeMinutes: fa.readTimeMinutes,
+    publishedAt: new Date(),
+    category: {
+      id: fa.id,
+      name: fa.category,
+      slug: fa.category.toLowerCase().replace(/[^a-z0-9]+/g, "-"),
+    },
+  }));
+
+  const dbSlugs = new Set(dbArticles.map((a) => a.slug));
+  const filteredFeatured = featuredNewsItems.filter((fa) => {
+    if (dbSlugs.has(fa.slug)) return false;
+    if (q) {
+      const query = q.toLowerCase();
+      if (!fa.title.toLowerCase().includes(query) && !fa.summary.toLowerCase().includes(query)) {
+        return false;
+      }
+    }
+    if (category && category !== "All") {
+      if (fa.category.slug !== category) return false;
+    }
+    return true;
+  });
+
+  const articles = [...filteredFeatured, ...dbArticles];
+  const totalArticles = dbTotal + filteredFeatured.length;
   const totalPages = Math.ceil(totalArticles / pageSize) || 1;
 
   return (
@@ -132,46 +168,83 @@ export default async function NewsPage({
           </div>
         ) : (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {articles.map((article) => (
-              <Link
-                key={article.id}
-                href={`/news/${article.slug}`}
-                className="group relative bg-[#0D1730] border border-[#24314F] hover:border-[#3B82F6] rounded-2xl p-6 transition flex flex-col justify-between"
-              >
-                <div>
-                  <div className="flex items-center justify-between gap-2 mb-3">
-                    <span className="text-[11px] font-bold text-[#60A5FA] uppercase tracking-wider">
-                      {article.category?.name ?? "Updates"}
-                    </span>
-                    {article.accessLevel === "PREMIUM" && (
-                      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold bg-[#7C3AED]/20 text-[#9F67FF] border border-[#7C3AED]/40">
-                        <Lock className="w-2.5 h-2.5" />
-                        PREMIUM
+            {articles.map((article) => {
+              const isPremium = article.accessLevel === "PREMIUM";
+
+              return (
+                <Link
+                  key={article.id}
+                  href={`/news/${article.slug}`}
+                  className="group relative bg-[#0D1730] border border-[#24314F] hover:border-[#7C3AED]/70 rounded-2xl p-5 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-purple-500/10 flex flex-col justify-between overflow-hidden"
+                >
+                  <div>
+                    {/* Thumbnail if coverImage exists */}
+                    {article.coverImage && (
+                      <div className="relative h-44 w-full rounded-xl overflow-hidden bg-[#070B1E] mb-4 flex items-center justify-center border border-[#24314F]/60">
+                        <img
+                          src={article.coverImage}
+                          alt=""
+                          aria-hidden="true"
+                          className="absolute inset-0 w-full h-full object-cover blur-lg opacity-35 scale-110 pointer-events-none"
+                        />
+                        <img
+                          src={article.coverImage}
+                          alt={article.title}
+                          className="relative z-10 w-full h-full object-contain p-2 group-hover:scale-105 transition-transform duration-300"
+                        />
+                      </div>
+                    )}
+
+                    <div className="flex items-center justify-between gap-2 mb-3">
+                      <span className="text-[11px] font-bold text-[#60A5FA] uppercase tracking-wider">
+                        {article.category?.name ?? "Updates"}
                       </span>
+                      {isPremium ? (
+                        <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-[#7C3AED]/25 text-[#C4B5FD] border border-[#7C3AED]/50">
+                          <Lock className="w-2.5 h-2.5 text-yellow-300" />
+                          PRO ONLY
+                        </span>
+                      ) : (
+                        <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">
+                          FREE
+                        </span>
+                      )}
+                    </div>
+
+                    <h2 className="text-base sm:text-lg font-bold text-white group-hover:text-purple-300 transition leading-snug mb-3 line-clamp-2">
+                      {article.title}
+                    </h2>
+
+                    {isPremium ? (
+                      <div className="space-y-2 mb-4">
+                        <p className="text-xs text-[#A7B2CC] line-clamp-2 leading-relaxed">
+                          {article.summary}
+                        </p>
+                        <div className="flex items-center gap-1.5 text-[11px] font-semibold text-yellow-400 bg-yellow-500/10 border border-yellow-500/25 px-2.5 py-1 rounded-lg w-fit">
+                          <Crown className="w-3 h-3 text-yellow-400" />
+                          <span>Pro Members Only • Click to Unlock</span>
+                        </div>
+                      </div>
+                    ) : (
+                      <p className="text-xs text-[#A7B2CC] line-clamp-3 leading-relaxed mb-6">
+                        {article.summary}
+                      </p>
                     )}
                   </div>
 
-                  <h2 className="text-lg font-bold text-white group-hover:text-[#60A5FA] transition leading-snug mb-3">
-                    {article.title}
-                  </h2>
-
-                  <p className="text-xs text-[#A7B2CC] line-clamp-3 leading-relaxed mb-6">
-                    {article.summary}
-                  </p>
-                </div>
-
-                <div className="flex items-center justify-between text-xs text-[#6B7FA3] pt-4 border-t border-[#24314F]/50">
-                  <span className="flex items-center gap-1.5">
-                    <Calendar className="w-3.5 h-3.5" />
-                    {article.publishedAt ? formatDate(article.publishedAt) : "Recent"}
-                  </span>
-                  <span className="flex items-center gap-1.5">
-                    <Clock className="w-3.5 h-3.5" />
-                    {article.readTimeMinutes} min read
-                  </span>
-                </div>
-              </Link>
-            ))}
+                  <div className="flex items-center justify-between text-xs text-[#6B7FA3] pt-4 border-t border-[#24314F]/50">
+                    <span className="flex items-center gap-1.5">
+                      <Calendar className="w-3.5 h-3.5 text-purple-400" />
+                      {article.publishedAt ? formatDate(article.publishedAt) : "Recent"}
+                    </span>
+                    <span className="flex items-center gap-1.5">
+                      <Clock className="w-3.5 h-3.5 text-[#60A5FA]" />
+                      {article.readTimeMinutes} min read
+                    </span>
+                  </div>
+                </Link>
+              );
+            })}
           </div>
         )}
 
@@ -199,8 +272,8 @@ export default async function NewsPage({
                   href={`/news?page=${p}${category ? `&category=${category}` : ""}${q ? `&q=${encodeURIComponent(q)}` : ""}`}
                   className={`w-8 h-8 rounded-lg text-xs font-bold flex items-center justify-center transition border ${
                     p === currentPage
-                      ? "bg-[#3B82F6] text-white border-[#3B82F6] shadow-md shadow-blue-500/20"
-                      : "bg-[#0D1730] border-[#24314F] text-[#A7B2CC] hover:text-white hover:border-[#3B82F6]"
+                      ? "bg-[#3B82F6] border-[#3B82F6] text-white"
+                      : "bg-[#0D1730] border-[#24314F] text-[#A7B2CC] hover:border-[#3B82F6]"
                   }`}
                 >
                   {p}

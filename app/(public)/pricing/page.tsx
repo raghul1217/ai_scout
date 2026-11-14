@@ -36,34 +36,36 @@ export default async function PricingPage({
     plans = [
       {
         id: "plan_free",
-        name: "Free Community",
+        name: "Savzyen Free",
         slug: "free",
-        description: "Essential AI tool directory and weekly curated updates.",
+        description: "Essential AI tool directory and curated daily updates.",
         price: 0,
         currency: "INR",
         billingType: "ONE_TIME",
         features: [
-          "Curated directory of 150+ verified AI tools",
-          "Weekly AI newsletter & curated headlines",
-          "Public community access on WhatsApp",
-          "Basic search and filtering",
+          "AI Updates Daily 1",
+          "Weekly 1 news",
         ],
       },
       {
         id: "plan_pro",
-        name: "Savzyen Pro",
+        name: "SAVZYEN Premium",
         slug: "pro",
-        description: "Full lifetime access to premium blueprints, advanced prompt packs, and member lounge.",
+        description: "Stay Ahead. Learn Faster. Build Smarter.",
         price: 49900,
         currency: "INR",
-        billingType: "LIFETIME",
+        billingType: "YEARLY",
         features: [
-          "Everything in Free Community",
-          "Access to all Premium Blueprints & Guides",
-          "Production-tested agent prompt libraries",
-          "Monthly commercial AI benchmark reports",
-          "Priority VIP community lounge",
-          "Lifetime access with zero recurring fees",
+          "Daily AI News & Industry Updates",
+          "Latest AI Tools & Feature Discoveries",
+          "Practical AI Daily Challenges with Tutorials & Learning Resources",
+          "Industry Insights & Weekly Reports",
+          "Weekly AI Challenges",
+          "Tech Events, Meetups & Conferences",
+          "Exclusive Live Sessions with Founders & Experts",
+          "Exclusive Learning & Career Opportunities",
+          "GitHub News, Projects & Trending Repositories",
+          "Build Real-Time AI Agents & Practical Modules",
         ],
       },
     ];
@@ -82,7 +84,7 @@ export default async function PricingPage({
             Invest in High-Leverage <span className="text-gradient">AI Competence</span>
           </h1>
           <p className="text-sm md:text-base text-[#A7B2CC] leading-relaxed">
-            Choose the tier that matches your roadmap. Cancel anytime or secure lifetime access.
+            Choose the tier that matches your roadmap. Upgrade to SAVZYEN Premium for ₹499/year.
           </p>
 
           {reason === "premium_required" && (

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { HeroSection } from "@/components/home/HeroSection";
-import { CollaboratorMarquee } from "@/components/home/CollaboratorMarquee";
+// import { CollaboratorMarquee } from "@/components/home/CollaboratorMarquee";
 import { FeaturedSection } from "@/components/home/FeaturedSection";
 import { ToolsSection } from "@/components/home/ToolsSection";
 import { LearnSection } from "@/components/home/LearnSection";
@@ -18,7 +18,7 @@ export default function HomePage() {
   return (
     <>
       <HeroSection />
-      <CollaboratorMarquee />
+      {/* <CollaboratorMarquee /> */}
       <FeaturedSection />
       <ToolsSection />
       <LearnSection />

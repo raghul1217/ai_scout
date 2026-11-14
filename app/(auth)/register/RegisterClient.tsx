@@ -86,38 +86,42 @@ export function RegisterClient({ plans }: RegisterClientProps) {
     plans.find((p) => p.slug === "pro") ||
     plans.find((p) => p.price === 49900) || {
       id: "plan_pro",
-      name: "Savzyen Pro",
+      name: "SAVZYEN Premium",
       slug: "pro",
-      description: "Full lifetime access to premium blueprints, advanced prompt packs, and member lounge.",
+      description: "Stay Ahead. Learn Faster. Build Smarter.",
       price: 49900,
       currency: "INR",
-      billingType: "LIFETIME",
+      billingType: "YEARLY",
       features: [
-        "Everything in Free Community",
-        "Access to all Premium Blueprints & Guides",
-        "Production-tested agent prompt libraries",
-        "Monthly commercial AI benchmark reports",
-        "Priority VIP community lounge",
-        "Lifetime access with zero recurring fees",
+        "Daily AI News & Industry Updates",
+        "Latest AI Tools & Feature Discoveries",
+        "Practical AI Daily Challenges with Tutorials & Learning Resources",
+        "Industry Insights & Weekly Reports",
+        "Weekly AI Challenges",
+        "Tech Events, Meetups & Conferences",
+        "Exclusive Live Sessions with Founders & Experts",
+        "Exclusive Learning & Career Opportunities",
+        "GitHub News, Projects & Trending Repositories",
+        "Build Real-Time AI Agents & Practical Modules",
       ],
     };
 
-  const freePlan =
-    plans.find((p) => p.slug === "free" || p.price === 0) || {
-      id: "plan_free",
-      name: "Free Community",
-      slug: "free",
-      description: "Essential AI tool directory and weekly curated updates.",
-      price: 0,
-      currency: "INR",
-      billingType: "ONE_TIME",
-      features: [
-        "Curated directory of 150+ verified AI tools",
-        "Weekly AI newsletter & curated headlines",
-        "Public community access on WhatsApp",
-        "Basic search and filtering",
-      ],
-    };
+  const freePlanRaw = plans.find((p) => p.slug === "free" || p.price === 0);
+  const freePlan = freePlanRaw
+    ? { ...freePlanRaw, name: freePlanRaw.name === "Free" ? "Savzyen Free" : freePlanRaw.name }
+    : {
+        id: "plan_free",
+        name: "Savzyen Free",
+        slug: "free",
+        description: "Essential AI tool directory and curated daily updates.",
+        price: 0,
+        currency: "INR",
+        billingType: "ONE_TIME",
+        features: [
+          "AI Updates Daily 1",
+          "Weekly 1 news",
+        ],
+      };
 
   const [selectedSlug, setSelectedSlug] = useState<string>(
     requestedPlan === "free" ? "free" : "pro"
@@ -315,7 +319,7 @@ export function RegisterClient({ plans }: RegisterClientProps) {
               }`}
             >
               <Crown className="w-3.5 h-3.5 text-yellow-300" />
-              Pro Access • ₹499
+              SAVZYEN Premium • ₹499/year
             </button>
             <button
               type="button"
@@ -326,7 +330,7 @@ export function RegisterClient({ plans }: RegisterClientProps) {
                   : "text-[#A7B2CC] hover:text-white"
               }`}
             >
-              Free Community (₹0)
+              Savzyen Free (₹0)
             </button>
           </div>
         </div>
@@ -340,15 +344,15 @@ export function RegisterClient({ plans }: RegisterClientProps) {
             <div>
               <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#7C3AED]/20 border border-[#7C3AED]/40 text-[11px] font-bold text-[#9F67FF] mb-3">
                 <Crown className="w-3.5 h-3.5 text-yellow-300" />
-                {isPro ? "Full Access Membership" : "Community Tier"}
+                {isPro ? "SAVZYEN Premium" : "Free Tier"}
               </div>
               <h2 className="text-2xl font-black text-white">{currentPlan.name}</h2>
               <div className="mt-3 flex items-baseline gap-2">
                 <span className="text-3xl md:text-4xl font-extrabold text-white">
-                  {currentPlan.price === 0 ? "Free" : `₹${currentPlan.price / 100}`}
+                  {currentPlan.price === 0 ? "Free" : `₹${currentPlan.price / 100}/year`}
                 </span>
                 <span className="text-xs text-[#A7B2CC]">
-                  {currentPlan.price === 0 ? "forever" : "one-time payment"}
+                  {currentPlan.price === 0 ? "forever" : "annual access"}
                 </span>
               </div>
               <p className="text-xs text-[#A7B2CC] mt-2 leading-relaxed">
@@ -404,13 +408,13 @@ export function RegisterClient({ plans }: RegisterClientProps) {
                   <div className="flex justify-between text-[#A7B2CC]">
                     <span>Billing Type</span>
                     <span className="font-semibold text-white">
-                      {isPro ? "Lifetime Access" : "Free"}
+                      {isPro ? "Annual (1 Year)" : "Free"}
                     </span>
                   </div>
                   <div className="pt-2 border-t border-[#24314F] flex justify-between text-sm font-bold text-white">
                     <span>Total Due</span>
                     <span className="text-gradient">
-                      {currentPlan.price === 0 ? "₹0" : `₹${currentPlan.price / 100}`}
+                      {currentPlan.price === 0 ? "₹0" : `₹${currentPlan.price / 100}/year`}
                     </span>
                   </div>
                 </div>
@@ -434,7 +438,7 @@ export function RegisterClient({ plans }: RegisterClientProps) {
                   ) : isPro ? (
                     <>
                       <Lock className="w-4 h-4" />
-                      Proceed to Pay ₹{currentPlan.price / 100}
+                      Proceed to Pay ₹{currentPlan.price / 100}/year
                     </>
                   ) : (
                     <>
@@ -520,7 +524,7 @@ export function RegisterClient({ plans }: RegisterClientProps) {
                     <span>Order Total:</span>
                   </div>
                   <span className="font-extrabold text-white text-sm">
-                    {currentPlan.price === 0 ? "₹0 (Free)" : `₹${currentPlan.price / 100}`}
+                    {currentPlan.price === 0 ? "₹0 (Free)" : `₹${currentPlan.price / 100}/year`}
                   </span>
                 </div>
 
@@ -543,7 +547,7 @@ export function RegisterClient({ plans }: RegisterClientProps) {
                   ) : isPro ? (
                     <>
                       <Lock className="w-4 h-4" />
-                      Pay ₹{currentPlan.price / 100} & Join Pro
+                      Pay ₹{currentPlan.price / 100}/year & Join Pro
                     </>
                   ) : (
                     <>

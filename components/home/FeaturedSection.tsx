@@ -1,90 +1,52 @@
 import Link from "next/link";
-import { ArrowRight, Calendar, Clock, Tag } from "lucide-react";
-import { formatDate, estimateReadingTime } from "@/lib/utils";
-
-// Static featured items for Phase 2 — replaced with DB data in Phase 4
-const featuredItems = [
-  {
-    id: "1",
-    type: "news" as const,
-    title: "OpenAI Releases GPT-5 with Enhanced Reasoning",
-    excerpt: "The latest model from OpenAI brings significant improvements in multi-step reasoning, code generation, and factual accuracy across benchmarks.",
-    category: "Industry News",
-    date: new Date("2026-10-20"),
-    readTime: 4,
-    imageGradient: "from-purple-600/30 to-blue-600/20",
-    href: "/news",
-    badge: "Hot",
-  },
-  {
-    id: "2",
-    type: "tool" as const,
-    title: "Perplexity AI Pro",
-    excerpt: "An AI-powered search engine that provides direct, cited answers with real-time web access. Perfect for research and fact-checking.",
-    category: "Productivity",
-    date: new Date("2026-10-18"),
-    readTime: 3,
-    imageGradient: "from-blue-600/30 to-cyan-600/20",
-    href: "/tools",
-    badge: "Freemium",
-  },
-  {
-    id: "3",
-    type: "learn" as const,
-    title: "Build Your First AI Agent with LangChain",
-    excerpt: "A hands-on tutorial that walks you through building an autonomous AI agent from scratch using LangChain and Python.",
-    category: "Beginner",
-    date: new Date("2026-10-17"),
-    readTime: 12,
-    imageGradient: "from-green-600/30 to-teal-600/20",
-    href: "/learn",
-    badge: "Tutorial",
-  },
-];
-
-const typeBadge = {
-  news: { label: "News", class: "badge-blue" },
-  tool: { label: "Tool", class: "badge-purple" },
-  learn: { label: "Tutorial", class: "badge-green" },
-};
+import { ArrowRight, Calendar, Clock, Sparkles, Lock, Crown } from "lucide-react";
+import {
+  FEATURED_SECTION_HEADER,
+  FEATURED_ARTICLES,
+  type FeaturedArticle,
+} from "@/lib/news/featured-news";
 
 export function FeaturedSection() {
+  // Only first three are displayed on the home page
+  const homeFeaturedArticles = FEATURED_ARTICLES.slice(0, 3);
+
   return (
     <section className="py-20 bg-[#0a1024]">
       <div className="container-max">
-        {/* Section Header */}
+        {/* Section Header (dynamically configured via JSON) */}
         <div className="flex items-center justify-between mb-10">
           <div>
-            <p className="text-xs font-semibold text-purple-400 uppercase tracking-widest mb-2">
-              This Week
-            </p>
-            <h2 className="text-3xl font-bold text-[#f8fafc]">
-              Featured This Week
+            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-purple-500/10 text-purple-400 border border-purple-500/20 uppercase tracking-widest mb-2.5">
+              <Sparkles className="w-3 h-3" />
+              <span>{FEATURED_SECTION_HEADER.badge}</span>
+            </div>
+            <h2 className="text-3xl sm:text-4xl font-bold text-[#f8fafc] tracking-tight">
+              {FEATURED_SECTION_HEADER.title}
             </h2>
-            <p className="text-[#a7b2cc] mt-2">
-              Hand-picked AI news, tools, and tutorials
+            <p className="text-sm text-[#a7b2cc] mt-1.5">
+              {FEATURED_SECTION_HEADER.description}
             </p>
           </div>
           <Link
-            href="/news"
-            className="hidden sm:flex items-center gap-2 text-sm text-[#a7b2cc] hover:text-[#f8fafc] transition-colors group"
+            href={FEATURED_SECTION_HEADER.viewAllHref}
+            className="hidden sm:flex items-center gap-2 text-xs font-bold text-[#60A5FA] hover:text-white transition-colors group"
           >
-            View All
+            <span>{FEATURED_SECTION_HEADER.viewAllText}</span>
             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </Link>
         </div>
 
-        {/* Cards Grid */}
+        {/* Cards Grid: Only 3 displayed on homepage */}
         <div className="grid md:grid-cols-3 gap-6">
-          {featuredItems.map((item) => (
+          {homeFeaturedArticles.map((item) => (
             <FeaturedCard key={item.id} item={item} />
           ))}
         </div>
 
         {/* Mobile View All */}
         <div className="mt-8 text-center sm:hidden">
-          <Link href="/news" className="btn btn-secondary btn-sm">
-            View All Content
+          <Link href={FEATURED_SECTION_HEADER.viewAllHref} className="btn btn-secondary btn-sm">
+            {FEATURED_SECTION_HEADER.viewAllText}
             <ArrowRight className="w-4 h-4" />
           </Link>
         </div>
@@ -93,54 +55,95 @@ export function FeaturedSection() {
   );
 }
 
-function FeaturedCard({ item }: { item: typeof featuredItems[0] }) {
-  const type = typeBadge[item.type];
+function FeaturedCard({ item }: { item: FeaturedArticle }) {
+  const isPremium = item.accessLevel === "PREMIUM";
 
   return (
-    <Link href={item.href} className="card card-glow block group overflow-hidden">
-      {/* Thumbnail */}
-      <div className={`h-44 bg-gradient-to-br ${item.imageGradient} relative`}>
-        <div className="absolute inset-0 flex items-center justify-center opacity-20">
-          <div className="w-20 h-20 rounded-full border-2 border-white/30" />
-          <div className="absolute w-32 h-32 rounded-full border border-white/10" />
+    <Link
+      href={`/news/${item.slug}`}
+      className="card card-glow block group overflow-hidden border border-[#24314F] hover:border-[#7C3AED]/70 bg-[#0D1730] transition-all duration-300 hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-purple-500/15 flex flex-col justify-between rounded-2xl"
+    >
+      <div>
+        {/* Responsive, Aspect-ratio aware Thumbnail Container */}
+        <div className="relative h-52 sm:h-56 w-full overflow-hidden bg-[#070B1E] flex items-center justify-center border-b border-[#24314F]/70">
+          {/* Ambient blurred backdrop to harmonize any portrait/landscape variance */}
+          <img
+            src={item.imageUrl}
+            alt=""
+            aria-hidden="true"
+            className="absolute inset-0 w-full h-full object-cover blur-xl opacity-35 scale-110 pointer-events-none"
+          />
+
+          {/* Foreground Crisp Image (object-contain ensures zero clipping of texts or badges) */}
+          <img
+            src={item.imageUrl}
+            alt={item.imageAlt}
+            className="relative z-10 w-full h-full object-contain p-2.5 group-hover:scale-105 transition-transform duration-300"
+          />
+
+          {/* Badges Overlay */}
+          <div className="absolute top-3 left-3 z-20 flex items-center gap-1.5">
+            <span
+              className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold tracking-wider uppercase border shadow-md backdrop-blur-md ${
+                item.badge === "Breaking"
+                  ? "bg-red-500/20 text-red-300 border-red-500/40"
+                  : item.badge === "Analysis"
+                  ? "bg-purple-500/20 text-purple-300 border-purple-500/40"
+                  : "bg-amber-500/20 text-amber-300 border-amber-500/40"
+              }`}
+            >
+              {item.badge}
+            </span>
+
+            {isPremium ? (
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-[#7C3AED]/30 text-[#C4B5FD] border border-[#7C3AED]/50 backdrop-blur-md shadow-sm">
+                <Lock className="w-2.5 h-2.5 text-yellow-300" />
+                <span>PRO</span>
+              </span>
+            ) : (
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 backdrop-blur-md">
+                <span>FREE</span>
+              </span>
+            )}
+          </div>
         </div>
-        {/* Type + Badge */}
-        <div className="absolute top-3 left-3 flex items-center gap-2">
-          <span className={`badge ${type.class}`}>{type.label}</span>
-          {item.badge && (
-            <span className="badge badge-yellow">{item.badge}</span>
-          )}
+
+        {/* Content */}
+        <div className="p-5 space-y-3">
+          <div className="flex items-center gap-3 text-xs text-[#6B7FA3]">
+            <span className="flex items-center gap-1">
+              <Calendar className="w-3.5 h-3.5 text-purple-400" />
+              {item.date}
+            </span>
+            <span>•</span>
+            <span className="flex items-center gap-1">
+              <Clock className="w-3.5 h-3.5 text-[#60A5FA]" />
+              {item.readTimeMinutes} min read
+            </span>
+          </div>
+
+          <h3 className="text-base font-bold text-white group-hover:text-purple-300 transition-colors line-clamp-2 leading-snug">
+            {item.title}
+          </h3>
+
+          <p className="text-xs text-[#A7B2CC] line-clamp-3 leading-relaxed">
+            {item.excerpt}
+          </p>
         </div>
       </div>
 
-      {/* Content */}
-      <div className="p-5 space-y-3">
-        <div className="flex items-center gap-3 text-xs text-[#6b7fa3]">
-          <span className="flex items-center gap-1">
-            <Tag className="w-3 h-3" />
-            {item.category}
+      <div className="px-5 pb-5 pt-1">
+        <div className="flex items-center justify-between text-xs font-semibold">
+          <span className="text-[#60A5FA] group-hover:text-purple-400 flex items-center gap-1 transition-colors">
+            <span>{isPremium ? "Read Pro Analysis" : "Read Full Story"}</span>
+            <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
           </span>
-          <span className="flex items-center gap-1">
-            <Calendar className="w-3 h-3" />
-            {formatDate(item.date)}
-          </span>
-          <span className="flex items-center gap-1">
-            <Clock className="w-3 h-3" />
-            {item.readTime}m
-          </span>
-        </div>
-
-        <h3 className="text-base font-semibold text-[#f8fafc] leading-snug group-hover:text-purple-300 transition-colors line-clamp-2">
-          {item.title}
-        </h3>
-
-        <p className="text-sm text-[#a7b2cc] leading-relaxed line-clamp-2">
-          {item.excerpt}
-        </p>
-
-        <div className="flex items-center gap-1 text-sm text-purple-400 font-medium pt-1">
-          Read more
-          <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+          {isPremium && (
+            <span className="text-[11px] text-yellow-400/90 font-medium flex items-center gap-1">
+              <Crown className="w-3 h-3 text-yellow-400" />
+              <span>Pro Report</span>
+            </span>
+          )}
         </div>
       </div>
     </Link>
