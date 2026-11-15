@@ -494,9 +494,9 @@ export async function sendPremiumActivatedEmail(data: PremiumActivatedEmailData)
       </head>
       <body style="margin: 0; padding: 12px 6px; background-color: #050816; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%;">
         <!-- Main Container Table -->
-        <table width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="width: 100%; max-width: 560px; margin: 0 auto; background-color: #0D1730; border: 1px solid #24314F; border-radius: 12px; overflow: hidden;">
+        <table width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="width: 100%; max-width: 560px; margin: 0 auto; background-color: #0D1730; border: 1px solid #24314F; border-radius: 12px; table-layout: fixed; overflow: hidden;">
           <tr>
-            <td style="padding: 24px 18px; color: #F8FAFC;">
+            <td style="padding: 24px 16px; color: #F8FAFC;">
               
               <!-- Brand Header -->
               <div style="font-size: 20px; font-weight: 900; color: #FFFFFF; letter-spacing: -0.5px; margin-bottom: 16px;">
@@ -523,9 +523,9 @@ export async function sendPremiumActivatedEmail(data: PremiumActivatedEmailData)
                 Here's what you can explore with SAVZYEN Premium:
               </div>
 
-              <table width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="width: 100%; background-color: #050816; border: 1px solid #1E293B; border-radius: 8px; margin: 0 0 20px 0;">
+              <table width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="width: 100%; table-layout: fixed; background-color: #050816; border: 1px solid #1E293B; border-radius: 8px; margin: 0 0 20px 0;">
                 <tr>
-                  <td style="padding: 14px 14px; font-size: 13px; line-height: 1.8; color: #E2E8F0;">
+                  <td style="padding: 14px 14px; font-size: 13px; line-height: 1.8; color: #E2E8F0; word-break: break-word;">
                     <div style="margin: 2px 0;">&#8226; &nbsp;Daily AI News &amp; Industry Updates</div>
                     <div style="margin: 2px 0;">&#8226; &nbsp;Latest AI Tools &amp; Features</div>
                     <div style="margin: 2px 0;">&#8226; &nbsp;AI Tutorials &amp; Learning Resources</div>
@@ -542,34 +542,34 @@ export async function sendPremiumActivatedEmail(data: PremiumActivatedEmailData)
                 Your Membership Details
               </div>
 
-              <table width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="width: 100%; background-color: #050816; border: 1px solid #1E293B; border-radius: 8px; border-collapse: collapse; margin: 0 0 22px 0;">
+              <table width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="width: 100%; table-layout: fixed; background-color: #050816; border: 1px solid #1E293B; border-radius: 8px; border-collapse: collapse; margin: 0 0 22px 0;">
                 <tr>
-                  <td style="padding: 10px 12px; font-size: 13px; color: #94A3B8; border-bottom: 1px solid #1E293B; width: 38%; white-space: nowrap;">Name</td>
-                  <td style="padding: 10px 12px; font-size: 13px; color: #FFFFFF; font-weight: 600; border-bottom: 1px solid #1E293B; word-break: break-word;">${data.userName}</td>
+                  <td style="padding: 10px 12px; font-size: 13px; color: #94A3B8; border-bottom: 1px solid #1E293B; width: 40%; vertical-align: top;">Name</td>
+                  <td style="padding: 10px 12px; font-size: 13px; color: #FFFFFF; font-weight: 600; border-bottom: 1px solid #1E293B; width: 60%; text-align: right; word-break: break-word;">${data.userName}</td>
                 </tr>
                 <tr>
-                  <td style="padding: 10px 12px; font-size: 13px; color: #94A3B8; border-bottom: 1px solid #1E293B; white-space: nowrap;">Email</td>
-                  <td style="padding: 10px 12px; font-size: 13px; color: #FFFFFF; font-weight: 600; border-bottom: 1px solid #1E293B; word-break: break-all;">${data.userEmail}</td>
+                  <td style="padding: 10px 12px; font-size: 13px; color: #94A3B8; border-bottom: 1px solid #1E293B; width: 40%; vertical-align: top;">Email</td>
+                  <td style="padding: 10px 12px; font-size: 13px; color: #FFFFFF; font-weight: 600; border-bottom: 1px solid #1E293B; width: 60%; text-align: right; word-break: break-all;">${data.userEmail}</td>
                 </tr>
                 <tr>
-                  <td style="padding: 10px 12px; font-size: 13px; color: #94A3B8; border-bottom: 1px solid #1E293B; white-space: nowrap;">Amount Paid</td>
-                  <td style="padding: 10px 12px; font-size: 13px; color: #FFFFFF; font-weight: 600; border-bottom: 1px solid #1E293B;">${amountPaid}</td>
+                  <td style="padding: 10px 12px; font-size: 13px; color: #94A3B8; border-bottom: 1px solid #1E293B; width: 40%; vertical-align: top;">Amount Paid</td>
+                  <td style="padding: 10px 12px; font-size: 13px; color: #FFFFFF; font-weight: 600; border-bottom: 1px solid #1E293B; width: 60%; text-align: right;">${amountPaid}</td>
                 </tr>
                 <tr>
-                  <td style="padding: 10px 12px; font-size: 13px; color: #94A3B8; border-bottom: 1px solid #1E293B; white-space: nowrap;">Membership</td>
-                  <td style="padding: 10px 12px; font-size: 13px; color: #FFFFFF; font-weight: 600; border-bottom: 1px solid #1E293B;">${data.planName || "Premium – 1 Year"}</td>
+                  <td style="padding: 10px 12px; font-size: 13px; color: #94A3B8; border-bottom: 1px solid #1E293B; width: 40%; vertical-align: top;">Membership</td>
+                  <td style="padding: 10px 12px; font-size: 13px; color: #FFFFFF; font-weight: 600; border-bottom: 1px solid #1E293B; width: 60%; text-align: right; word-break: break-word;">${data.planName || "Premium – 1 Year"}</td>
                 </tr>
                 <tr>
-                  <td style="padding: 10px 12px; font-size: 13px; color: #94A3B8; border-bottom: 1px solid #1E293B; white-space: nowrap;">Payment ID</td>
-                  <td style="padding: 10px 12px; font-size: 13px; color: #60A5FA; font-weight: 600; font-family: monospace; border-bottom: 1px solid #1E293B; word-break: break-all;">${paymentId}</td>
+                  <td style="padding: 10px 12px; font-size: 13px; color: #94A3B8; border-bottom: 1px solid #1E293B; width: 40%; vertical-align: top;">Payment ID</td>
+                  <td style="padding: 10px 12px; font-size: 12px; color: #60A5FA; font-weight: 600; font-family: monospace; border-bottom: 1px solid #1E293B; width: 60%; text-align: right; word-break: break-all;">${paymentId}</td>
                 </tr>
                 <tr>
-                  <td style="padding: 10px 12px; font-size: 13px; color: #94A3B8; border-bottom: 1px solid #1E293B; white-space: nowrap;">Valid Until</td>
-                  <td style="padding: 10px 12px; font-size: 13px; color: #FFFFFF; font-weight: 600; border-bottom: 1px solid #1E293B;">${formattedEndDate}</td>
+                  <td style="padding: 10px 12px; font-size: 13px; color: #94A3B8; border-bottom: 1px solid #1E293B; width: 40%; vertical-align: top;">Valid Until</td>
+                  <td style="padding: 10px 12px; font-size: 13px; color: #FFFFFF; font-weight: 600; border-bottom: 1px solid #1E293B; width: 60%; text-align: right; word-break: break-word;">${formattedEndDate}</td>
                 </tr>
                 <tr>
-                  <td style="padding: 10px 12px; font-size: 13px; color: #94A3B8; white-space: nowrap;">Status</td>
-                  <td style="padding: 10px 12px; font-size: 12px; color: #34D399; font-weight: 700;">ACTIVE</td>
+                  <td style="padding: 10px 12px; font-size: 13px; color: #94A3B8; width: 40%; vertical-align: top;">Status</td>
+                  <td style="padding: 10px 12px; font-size: 12px; color: #34D399; font-weight: 700; width: 60%; text-align: right;">ACTIVE</td>
                 </tr>
               </table>
 
