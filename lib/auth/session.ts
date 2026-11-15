@@ -1,3 +1,4 @@
+import { cache } from "react";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { auth } from "./auth";
@@ -18,7 +19,7 @@ export interface AuthenticatedUser {
   } | null;
 }
 
-export async function getServerSession() {
+export const getServerSession = cache(async () => {
   try {
     const reqHeaders = await headers();
     return await auth.api.getSession({
@@ -27,9 +28,9 @@ export async function getServerSession() {
   } catch (error) {
     return null;
   }
-}
+});
 
-export async function getCurrentUser(): Promise<AuthenticatedUser | null> {
+export const getCurrentUser = cache(async (): Promise<AuthenticatedUser | null> => {
   try {
     const session = await getServerSession();
     if (!session || !session.user) {
@@ -81,7 +82,7 @@ export async function getCurrentUser(): Promise<AuthenticatedUser | null> {
     console.error("Error fetching current user:", error);
     return null;
   }
-}
+});
 
 export async function requireAuth(returnUrl?: string): Promise<AuthenticatedUser> {
   const user = await getCurrentUser();

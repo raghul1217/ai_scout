@@ -137,6 +137,7 @@ export function Navbar({ user }: NavbarProps) {
               <li key={link.href}>
                 <Link
                   href={link.href}
+                  prefetch={true}
                   className={cn(
                     "nav-link",
                     pathname === link.href && "active"
@@ -460,6 +461,7 @@ export function Navbar({ user }: NavbarProps) {
                 <li key={link.href}>
                   <Link
                     href={link.href}
+                    prefetch={true}
                     onClick={() => setMobileOpen(false)}
                     className={cn(
                       "flex items-center px-3.5 py-2.5 rounded-lg text-sm font-medium transition-colors",

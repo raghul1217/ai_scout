@@ -117,6 +117,7 @@ export function AdminSidebar({ admin }: AdminSidebarProps) {
               <Link
                 key={item.href}
                 href={item.href}
+                prefetch={true}
                 className={`flex items-center rounded-xl text-xs font-semibold transition-all group ${
                   isCollapsed
                     ? "justify-center p-2.5"
