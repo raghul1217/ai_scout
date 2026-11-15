@@ -3,6 +3,7 @@ import type { NextRequest } from "next/server";
 import { getCurrentUser } from "@/lib/auth/session";
 import { verifyPaymentSignature } from "@/lib/payments/razorpay";
 import { prisma } from "@/lib/db/prisma";
+import { sendPremiumActivatedEmail } from "@/lib/email/sender";
 import { z } from "zod";
 
 const verifySchema = z.object({
@@ -101,6 +102,20 @@ export async function POST(request: NextRequest) {
         },
       }),
     ]);
+
+    // Dispatch official activation email via Resend
+    try {
+      await sendPremiumActivatedEmail({
+        userName: user.name,
+        userEmail: user.email,
+        planName: payment.plan.name || "Premium – 1 Year",
+        amount: Math.round(payment.amount / 100),
+        paymentId: razorpay_payment_id,
+        endDate,
+      });
+    } catch (emailErr) {
+      console.error("[Razorpay Verify - Email Dispatch Error]:", emailErr);
+    }
 
     return NextResponse.json({
       success: true,

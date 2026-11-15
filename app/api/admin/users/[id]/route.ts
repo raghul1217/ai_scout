@@ -94,7 +94,9 @@ export async function PATCH(
             await sendPremiumActivatedEmail({
               userName: user.name,
               userEmail: user.email,
-              planName: proPlan?.name || "SAVZYEN Premium",
+              planName: proPlan?.name || "Premium – 1 Year",
+              amount: 499,
+              paymentId: `ADM-UPG-${id.slice(-6).toUpperCase()}`,
               endDate,
             });
           } catch (emailErr) {

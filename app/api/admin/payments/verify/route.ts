@@ -111,7 +111,9 @@ export async function POST(req: NextRequest) {
       await sendPremiumActivatedEmail({
         userName: payment.user.name,
         userEmail: payment.user.email,
-        planName: payment.plan.name || "SAVZYEN Premium",
+        planName: payment.plan.name || "Premium – 1 Year",
+        amount: Math.round(payment.amount / 100) || 499,
+        paymentId: (payment.rawPayload as any)?.utrNumber || payment.id,
         endDate: oneYearFromNow,
       });
     } catch (emailErr) {

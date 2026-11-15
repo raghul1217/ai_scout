@@ -189,7 +189,7 @@ export async function sendContactEnquiryEmails(data: ContactEnquiryData) {
           </div>
           <p>If you have urgent questions, you can also reach us directly at <a href="mailto:support@savzyen.si" style="color: #60A5FA; text-decoration: none;">support@savzyen.si</a>.</p>
           <div class="footer">
-            © ${new Date().getFullYear()} Savzyen. Discover, Learn & Build with Modern AI.
+            © ${new Date().getFullYear()} Savzyen • Become the Top 1% in the AI Era.
           </div>
         </div>
       </body>
@@ -298,7 +298,7 @@ export async function sendCollabProposalEmails(data: CollabProposalData) {
           </div>
           <p>For urgent questions or scheduling requests, feel free to reply directly to <a href="mailto:support@savzyen.si" style="color: #10B981; text-decoration: none;">support@savzyen.si</a>.</p>
           <div class="footer">
-            © ${new Date().getFullYear()} Savzyen. Building the Future of Applied AI.
+            © ${new Date().getFullYear()} Savzyen • Become the Top 1% in the AI Era.
           </div>
         </div>
       </body>
@@ -337,7 +337,9 @@ export interface PaymentProofEmailData {
 export interface PremiumActivatedEmailData {
   userName: string;
   userEmail: string;
-  planName: string;
+  planName?: string;
+  amount?: number;
+  paymentId?: string;
   endDate: Date | string | null;
 }
 
@@ -433,7 +435,7 @@ export async function sendPaymentProofSubmittedEmails(data: PaymentProofEmailDat
           <p>Our team is verifying your payment. Once approved, your account will be upgraded to Pro automatically, and you will receive an activation email.</p>
           <p>If you have any questions or need immediate assistance, simply reply directly to this email or reach us at <a href="mailto:support@savzyen.si" style="color: #60A5FA; text-decoration: none;">support@savzyen.si</a>.</p>
           <div class="footer">
-            © ${new Date().getFullYear()} Savzyen. Stay Ahead. Learn Faster. Build Smarter.
+            © ${new Date().getFullYear()} Savzyen • Become the Top 1% in the AI Era.
           </div>
         </div>
       </body>
@@ -458,7 +460,8 @@ export async function sendPaymentProofSubmittedEmails(data: PaymentProofEmailDat
 }
 
 /**
- * Dispatches Celebration & Confirmation Email when Admin Activates Pro Membership
+ * Dispatches Official Payment Confirmation & Membership Activation Email
+ * Mobile-First, bulletproof HTML email with 100% inline styles for flawless Gmail & Outlook rendering.
  */
 export async function sendPremiumActivatedEmail(data: PremiumActivatedEmailData) {
   const formattedEndDate = data.endDate
@@ -470,68 +473,149 @@ export async function sendPremiumActivatedEmail(data: PremiumActivatedEmailData)
       })
     : "1 Year";
 
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://savzyen.si";
+  // Use live domain for emails so mobile users can click directly
+  const appUrl =
+    process.env.NEXT_PUBLIC_APP_URL && !process.env.NEXT_PUBLIC_APP_URL.includes("localhost")
+      ? process.env.NEXT_PUBLIC_APP_URL
+      : "https://savzyen.si";
+  const displayUrl = appUrl.replace(/^https?:\/\//, "");
+  const amountPaid = data.amount ? `₹${data.amount}` : "₹499";
+  const paymentId = data.paymentId || `SAV-${Date.now().toString(36).toUpperCase()}`;
 
   const emailHtml = `
     <!DOCTYPE html>
-    <html>
+    <html lang="en">
       <head>
         <meta charset="utf-8">
-        <style>
-          body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #050816; color: #f8fafc; margin: 0; padding: 24px; }
-          .card { max-width: 600px; margin: 0 auto; background: #0D1730; border: 1px solid #10B981; border-radius: 16px; padding: 32px; box-shadow: 0 10px 40px rgba(16, 185, 129, 0.1); }
-          .logo { font-size: 22px; font-weight: 900; color: #ffffff; margin-bottom: 24px; }
-          .logo span { background: linear-gradient(135deg, #10B981, #3B82F6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-          .crown-badge { display: inline-block; padding: 6px 16px; background: rgba(245, 158, 11, 0.15); border: 1px solid #F59E0B; color: #FBBF24; border-radius: 9999px; font-size: 12px; font-weight: 800; text-transform: uppercase; margin-bottom: 16px; }
-          h2 { margin: 0 0 16px 0; color: #ffffff; font-size: 24px; font-weight: 800; }
-          p { font-size: 14px; line-height: 1.6; color: #A7B2CC; margin: 0 0 16px 0; }
-          .features-box { background: #050816; border: 1px solid #24314F; border-radius: 12px; padding: 20px; margin: 24px 0; }
-          .feature-item { display: flex; align-items: center; gap: 8px; font-size: 13px; color: #E2E8F0; padding: 5px 0; }
-          .btn { display: inline-block; padding: 14px 32px; background: linear-gradient(135deg, #7C3AED, #3B82F6); color: #ffffff; font-weight: bold; text-decoration: none; border-radius: 12px; font-size: 14px; margin-top: 12px; box-shadow: 0 4px 20px rgba(124, 58, 237, 0.35); }
-          .footer { margin-top: 32px; padding-top: 20px; border-top: 1px solid #1E293B; font-size: 12px; color: #6B7FA3; text-align: center; }
-        </style>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>SAVZYEN Premium Membership Confirmation</title>
       </head>
-      <body>
-        <div class="card">
-          <div class="logo">Sav<span>zyen</span></div>
-          <div class="crown-badge">👑 Pro Membership Activated</div>
-          <h2>Welcome to Savzyen Pro, ${data.userName}!</h2>
-          <p>Your payment has been successfully verified, and your <strong>${data.planName}</strong> is now officially active.</p>
-          
-          <div style="background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 8px; padding: 12px 16px; font-size: 13px; color: #6EE7B7; margin: 16px 0;">
-            ✓ <strong>Access Valid Until:</strong> ${formattedEndDate} (1 Year Annual Access)
-          </div>
+      <body style="margin: 0; padding: 12px 6px; background-color: #050816; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%;">
+        <!-- Main Container Table -->
+        <table width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="width: 100%; max-width: 560px; margin: 0 auto; background-color: #0D1730; border: 1px solid #24314F; border-radius: 12px; overflow: hidden;">
+          <tr>
+            <td style="padding: 24px 18px; color: #F8FAFC;">
+              
+              <!-- Brand Header -->
+              <div style="font-size: 20px; font-weight: 900; color: #FFFFFF; letter-spacing: -0.5px; margin-bottom: 16px;">
+                SAV<span style="color: #60A5FA;">ZYEN</span>
+              </div>
 
-          <div class="features-box">
-            <div style="font-size: 12px; font-weight: bold; color: #A7B2CC; text-transform: uppercase; margin-bottom: 12px;">
-              Your Pro Privileges Are Now Unlocked:
-            </div>
-            <div class="feature-item">⚡ <strong>Daily AI News & Curated Intelligence</strong></div>
-            <div class="feature-item">⚡ <strong>Latest AI Tools & Practical Modules</strong></div>
-            <div class="feature-item">⚡ <strong>Practical AI Daily Challenges & Blueprints</strong></div>
-            <div class="feature-item">⚡ <strong>Exclusive Live Sessions with Founders & Experts</strong></div>
-            <div class="feature-item">⚡ <strong>Build Real-Time AI Agents & Career Opportunities</strong></div>
-          </div>
+              <!-- Greeting & Welcome -->
+              <p style="font-size: 15px; color: #FFFFFF; font-weight: 600; margin: 0 0 6px 0;">
+                Hi ${data.userName},
+              </p>
+              <h1 style="font-size: 22px; font-weight: 800; color: #FFFFFF; margin: 0 0 14px 0; line-height: 1.3;">
+                Welcome to SAVZYEN!
+              </h1>
 
-          <div style="text-align: center; margin: 24px 0;">
-            <a href="${appUrl}/premium" class="btn">Enter Member Vault →</a>
-          </div>
+              <p style="font-size: 14px; line-height: 1.5; color: #E2E8F0; margin: 0 0 10px 0;">
+                Your payment has been successfully received, and your Premium Membership is now <strong>ACTIVE</strong>!
+              </p>
+              <p style="font-size: 13px; line-height: 1.5; color: #A7B2CC; margin: 0 0 20px 0;">
+                You're officially part of a community that believes in staying ahead of the future.
+              </p>
 
-          <p style="font-size: 13px; color: #6B7FA3; text-align: center;">
-            You can manage your subscription anytime in your <a href="${appUrl}/account" style="color: #60A5FA;">Account Settings</a>.
-          </p>
+              <!-- Features Section -->
+              <div style="font-size: 12px; font-weight: 700; color: #FFFFFF; text-transform: uppercase; letter-spacing: 0.5px; margin: 20px 0 10px 0;">
+                Here's what you can explore with SAVZYEN Premium:
+              </div>
 
-          <div class="footer">
-            © ${new Date().getFullYear()} Savzyen • Discover, Learn & Build with Modern AI.
-          </div>
-        </div>
+              <table width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="width: 100%; background-color: #050816; border: 1px solid #1E293B; border-radius: 8px; margin: 0 0 20px 0;">
+                <tr>
+                  <td style="padding: 14px 14px; font-size: 13px; line-height: 1.8; color: #E2E8F0;">
+                    <div style="margin: 2px 0;">&#8226; &nbsp;Daily AI News &amp; Industry Updates</div>
+                    <div style="margin: 2px 0;">&#8226; &nbsp;Latest AI Tools &amp; Features</div>
+                    <div style="margin: 2px 0;">&#8226; &nbsp;AI Tutorials &amp; Learning Resources</div>
+                    <div style="margin: 2px 0;">&#8226; &nbsp;Industry Trends &amp; Weekly Reports</div>
+                    <div style="margin: 2px 0;">&#8226; &nbsp;Tech Events, Meetups &amp; Conferences</div>
+                    <div style="margin: 2px 0;">&#8226; &nbsp;Exclusive Live Sessions &amp; Expert Insights</div>
+                    <div style="margin: 2px 0;">&#8226; &nbsp;Exclusive Learning Opportunities</div>
+                  </td>
+                </tr>
+              </table>
+
+              <!-- Membership Details Section -->
+              <div style="font-size: 12px; font-weight: 700; color: #FFFFFF; text-transform: uppercase; letter-spacing: 0.5px; margin: 20px 0 10px 0;">
+                Your Membership Details
+              </div>
+
+              <table width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="width: 100%; background-color: #050816; border: 1px solid #1E293B; border-radius: 8px; border-collapse: collapse; margin: 0 0 22px 0;">
+                <tr>
+                  <td style="padding: 10px 12px; font-size: 13px; color: #94A3B8; border-bottom: 1px solid #1E293B; width: 38%; white-space: nowrap;">Name</td>
+                  <td style="padding: 10px 12px; font-size: 13px; color: #FFFFFF; font-weight: 600; border-bottom: 1px solid #1E293B; word-break: break-word;">${data.userName}</td>
+                </tr>
+                <tr>
+                  <td style="padding: 10px 12px; font-size: 13px; color: #94A3B8; border-bottom: 1px solid #1E293B; white-space: nowrap;">Email</td>
+                  <td style="padding: 10px 12px; font-size: 13px; color: #FFFFFF; font-weight: 600; border-bottom: 1px solid #1E293B; word-break: break-all;">${data.userEmail}</td>
+                </tr>
+                <tr>
+                  <td style="padding: 10px 12px; font-size: 13px; color: #94A3B8; border-bottom: 1px solid #1E293B; white-space: nowrap;">Amount Paid</td>
+                  <td style="padding: 10px 12px; font-size: 13px; color: #FFFFFF; font-weight: 600; border-bottom: 1px solid #1E293B;">${amountPaid}</td>
+                </tr>
+                <tr>
+                  <td style="padding: 10px 12px; font-size: 13px; color: #94A3B8; border-bottom: 1px solid #1E293B; white-space: nowrap;">Membership</td>
+                  <td style="padding: 10px 12px; font-size: 13px; color: #FFFFFF; font-weight: 600; border-bottom: 1px solid #1E293B;">${data.planName || "Premium – 1 Year"}</td>
+                </tr>
+                <tr>
+                  <td style="padding: 10px 12px; font-size: 13px; color: #94A3B8; border-bottom: 1px solid #1E293B; white-space: nowrap;">Payment ID</td>
+                  <td style="padding: 10px 12px; font-size: 13px; color: #60A5FA; font-weight: 600; font-family: monospace; border-bottom: 1px solid #1E293B; word-break: break-all;">${paymentId}</td>
+                </tr>
+                <tr>
+                  <td style="padding: 10px 12px; font-size: 13px; color: #94A3B8; border-bottom: 1px solid #1E293B; white-space: nowrap;">Valid Until</td>
+                  <td style="padding: 10px 12px; font-size: 13px; color: #FFFFFF; font-weight: 600; border-bottom: 1px solid #1E293B;">${formattedEndDate}</td>
+                </tr>
+                <tr>
+                  <td style="padding: 10px 12px; font-size: 13px; color: #94A3B8; white-space: nowrap;">Status</td>
+                  <td style="padding: 10px 12px; font-size: 12px; color: #34D399; font-weight: 700;">ACTIVE</td>
+                </tr>
+              </table>
+
+              <!-- Access Call To Action -->
+              <div style="text-align: center; margin: 24px 0 22px 0;">
+                <p style="font-size: 13px; color: #CBD5E1; font-weight: 600; margin: 0 0 10px 0;">
+                  Access Your Premium Membership:
+                </p>
+                <a href="${appUrl}" target="_blank" style="display: inline-block; background-color: #2563EB; color: #FFFFFF; font-size: 14px; font-weight: 700; text-decoration: none; padding: 12px 28px; border-radius: 8px;">
+                  Access SAVZYEN Premium
+                </a>
+                <p style="font-size: 12px; margin: 10px 0 0 0; word-break: break-all;">
+                  <a href="${appUrl}" target="_blank" style="color: #60A5FA; text-decoration: underline;">
+                    ${appUrl}
+                  </a>
+                </p>
+              </div>
+
+              <!-- Closing -->
+              <div style="border-top: 1px solid #1E293B; padding-top: 18px; margin-top: 20px;">
+                <p style="font-size: 13px; line-height: 1.5; color: #A7B2CC; margin: 0 0 10px 0;">
+                  Thank you for choosing SAVZYEN. We're excited to be part of your learning journey.
+                </p>
+                <p style="font-size: 13px; line-height: 1.5; color: #FFFFFF; font-weight: 600; margin: 0 0 18px 0;">
+                  Stay curious. Stay ahead. Shape the future.
+                </p>
+                <div style="font-size: 13px; color: #A7B2CC; line-height: 1.5;">
+                  Best Regards,<br/>
+                  <strong style="color: #FFFFFF;">Team SAVZYEN</strong><br/>
+                  <a href="${appUrl}" target="_blank" style="color: #60A5FA; text-decoration: none;">${displayUrl}</a>
+                </div>
+              </div>
+
+              <!-- Footer Tagline -->
+              <div style="margin-top: 28px; padding-top: 16px; border-top: 1px solid #1E293B; font-size: 11px; color: #6B7FA3; text-align: center;">
+                &copy; ${new Date().getFullYear()} SAVZYEN &bull; Become the Top 1% in the AI Era.
+              </div>
+
+            </td>
+          </tr>
+        </table>
       </body>
     </html>
   `;
 
   return await sendEmail({
     to: data.userEmail,
-    subject: `Payment Verified — Your Savzyen Pro Membership is Now Active!`,
+    subject: `Payment Successful — Welcome to SAVZYEN Premium!`,
     html: emailHtml,
   });
 }
