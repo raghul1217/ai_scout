@@ -69,6 +69,18 @@ export function Navbar({ user }: NavbarProps) {
     setUserMenuOpen(false);
   }, [pathname]);
 
+  // Prevent body scroll when mobile menu is open
+  useEffect(() => {
+    if (mobileOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [mobileOpen]);
+
   // Click outside to close user menu dropdown
   useEffect(() => {
     if (!userMenuOpen) return;
@@ -401,8 +413,8 @@ export function Navbar({ user }: NavbarProps) {
             {/* Mobile Menu Toggle - NEVER shows on desktop because no .btn overrides md:hidden */}
             <button
               className="flex md:hidden items-center justify-center w-9 h-9 rounded-lg text-[#a7b2cc] hover:text-[#f8fafc] hover:bg-white/5 transition-colors border border-[#24314f]/60"
-              onClick={() => setMobileOpen((v) => !v)}
-              aria-label={mobileOpen ? "Close menu" : "Open menu"}
+              onClick={() => setMobileOpen(true)}
+              aria-label="Open menu"
               aria-expanded={mobileOpen}
               id="nav-mobile-toggle"
             >
@@ -412,167 +424,165 @@ export function Navbar({ user }: NavbarProps) {
         </nav>
       </header>
 
-      {/* Mobile Menu Overlay */}
+      {/* Mobile Menu Fullscreen Overlay */}
       {mobileOpen && (
-        <div
-          className="fixed inset-0 z-50 md:hidden bg-black/60 backdrop-blur-sm animate-fade-in"
-          onClick={() => setMobileOpen(false)}
-          aria-hidden="true"
-        />
-      )}
+        <div className="fixed inset-0 z-[100] bg-[#050816] md:hidden flex flex-col animate-fade-in">
+          {/* Header matching main navbar height and padding */}
+          <div className="flex items-center justify-between h-16 px-6 border-b border-[#24314f]/50">
+            <Link
+              href="/"
+              className="flex items-center gap-2.5 group shrink-0"
+              onClick={() => setMobileOpen(false)}
+            >
+              <div className="w-8 h-8 rounded-lg bg-gradient-brand flex items-center justify-center shadow-lg">
+                <Zap className="w-4 h-4 text-white fill-white" />
+              </div>
+              <span className="font-bold text-lg tracking-tight">
+                <span className="text-[#f8fafc]">Sav</span>
+                <span className="gradient-text">zyen</span>
+              </span>
+            </Link>
 
-      {/* Mobile Menu Drawer */}
-      <div
-        className={cn(
-          "fixed top-0 right-0 bottom-0 z-[60] w-72 bg-[#0D1730] border-l border-[#24314f] md:hidden transition-transform duration-300 flex flex-col shadow-2xl",
-          mobileOpen ? "translate-x-0" : "translate-x-full"
-        )}
-      >
-        <div className="flex items-center justify-between p-4 border-b border-[#24314f]">
-          <Link href="/" className="flex items-center gap-2" onClick={() => setMobileOpen(false)}>
-            <div className="w-7 h-7 rounded-lg bg-gradient-brand flex items-center justify-center">
-              <Zap className="w-3.5 h-3.5 text-white fill-white" />
-            </div>
-            <span className="font-bold">
-              <span className="text-[#f8fafc]">Sav</span>
-              <span className="gradient-text">zyen</span>
-            </span>
-          </Link>
-          <button
-            onClick={() => setMobileOpen(false)}
-            className="p-1.5 text-[#a7b2cc] hover:text-[#f8fafc] rounded-lg hover:bg-white/5 transition-colors"
-            aria-label="Close menu"
-          >
-            <X className="w-5 h-5" />
-          </button>
-        </div>
+            {/* Single Close Button */}
+            <button
+              onClick={() => setMobileOpen(false)}
+              className="flex items-center justify-center w-9 h-9 text-[#a7b2cc] hover:text-[#f8fafc] rounded-lg hover:bg-white/5 transition-colors border border-[#24314f]/60"
+              aria-label="Close menu"
+            >
+              <X className="w-5 h-5" />
+            </button>
+          </div>
 
-        <nav className="flex-1 overflow-y-auto p-4">
-          <ul className="space-y-1" role="list">
-            {navLinks.map((link) => (
-              <li key={link.href}>
+          {/* Navigation Items */}
+          <nav className="flex-1 overflow-y-auto px-6 py-5">
+            <ul className="space-y-1.5" role="list">
+              {navLinks.map((link) => (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    onClick={() => setMobileOpen(false)}
+                    className={cn(
+                      "flex items-center px-3.5 py-2.5 rounded-lg text-sm font-medium transition-colors",
+                      pathname === link.href
+                        ? "bg-purple-500/10 text-[#f8fafc] border border-purple-500/20"
+                        : "text-[#a7b2cc] hover:text-[#f8fafc] hover:bg-white/5"
+                    )}
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+              <li>
                 <Link
-                  href={link.href}
+                  href="/collab"
+                  onClick={() => setMobileOpen(false)}
                   className={cn(
-                    "flex items-center px-3 py-2.5 rounded-lg text-sm font-medium transition-colors",
-                    pathname === link.href
-                      ? "bg-purple-500/10 text-[#f8fafc] border border-purple-500/20"
-                      : "text-[#a7b2cc] hover:text-[#f8fafc] hover:bg-white/5"
+                    "flex items-center justify-between px-3.5 py-2.5 rounded-lg text-sm font-semibold transition-colors border mt-1",
+                    pathname === "/collab"
+                      ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/30"
+                      : "text-[#10B981] border-emerald-500/20 bg-emerald-500/5 hover:bg-emerald-500/10"
                   )}
                 >
-                  {link.label}
+                  <span className="flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full bg-[#10B981] animate-pulse" />
+                    Collaborate with Us
+                  </span>
+                  <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/20 font-bold uppercase">
+                    Partner
+                  </span>
                 </Link>
               </li>
-            ))}
-            <li>
-              <Link
-                href="/collab"
-                onClick={() => setMobileOpen(false)}
-                className={cn(
-                  "flex items-center justify-between px-3 py-2.5 rounded-lg text-sm font-semibold transition-colors border",
-                  pathname === "/collab"
-                    ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/30"
-                    : "text-[#10B981] border-emerald-500/20 bg-emerald-500/5 hover:bg-emerald-500/10"
+            </ul>
+
+            {currentUser && (
+              <div className="mt-5 pt-5 border-t border-[#24314f]/50 space-y-1">
+                <Link
+                  href="/account"
+                  onClick={() => setMobileOpen(false)}
+                  className="flex items-center gap-2.5 px-3.5 py-2.5 rounded-lg text-sm text-[#a7b2cc] hover:text-[#f8fafc] hover:bg-white/5 transition-colors"
+                >
+                  <User className="w-4 h-4 text-[#3b82f6]" /> My Account
+                </Link>
+                {currentUser.isPremium && (
+                  <Link
+                    href="/premium"
+                    onClick={() => setMobileOpen(false)}
+                    className="flex items-center gap-2.5 px-3.5 py-2.5 rounded-lg text-sm text-[#a7b2cc] hover:text-[#f8fafc] hover:bg-white/5 transition-colors"
+                  >
+                    <Crown className="w-4 h-4 text-yellow-400" /> Member Vault
+                  </Link>
                 )}
-              >
-                <span className="flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-[#10B981] animate-pulse" />
-                  Collaborate with Us
-                </span>
-                <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/20 font-bold uppercase">
-                  Partner
-                </span>
-              </Link>
-            </li>
-          </ul>
+                {currentUser.role === "ADMIN" && (
+                  <Link
+                    href="/admin"
+                    onClick={() => setMobileOpen(false)}
+                    className="flex items-center gap-2.5 px-3.5 py-2.5 rounded-lg text-sm text-[#a7b2cc] hover:text-[#f8fafc] hover:bg-white/5 transition-colors"
+                  >
+                    <Settings className="w-4 h-4 text-purple-400" /> Admin Dashboard
+                  </Link>
+                )}
+              </div>
+            )}
+          </nav>
 
-          {currentUser && (
-            <div className="mt-4 pt-4 border-t border-[#24314f] space-y-1">
-              <Link
-                href="/account"
-                onClick={() => setMobileOpen(false)}
-                className="flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm text-[#a7b2cc] hover:text-[#f8fafc] hover:bg-white/5 transition-colors"
-              >
-                <User className="w-4 h-4 text-[#3b82f6]" /> My Account
-              </Link>
-              {currentUser.isPremium && (
+          {/* Bottom Card / CTA */}
+          <div className="p-6 border-t border-[#24314f]/50 space-y-2.5 bg-[#0a1024]">
+            {currentUser ? (
+              <div className="space-y-2">
+                {!currentUser.isPremium && (
+                  <Link
+                    href="/register?plan=pro"
+                    onClick={() => setMobileOpen(false)}
+                    className="btn btn-primary w-full text-xs font-bold flex items-center justify-center gap-1.5 shadow-lg shadow-purple-500/20"
+                  >
+                    <Sparkles className="w-3.5 h-3.5 text-yellow-300" />
+                    Upgrade to Pro • ₹499/year
+                  </Link>
+                )}
                 <Link
-                  href="/premium"
+                  href="/account"
                   onClick={() => setMobileOpen(false)}
-                  className="flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm text-[#a7b2cc] hover:text-[#f8fafc] hover:bg-white/5 transition-colors"
+                  className="flex items-center gap-2.5 px-3 py-2 rounded-xl bg-white/5 border border-[#24314f] hover:border-[#7c3aed] transition-colors"
                 >
-                  <Crown className="w-4 h-4 text-yellow-400" /> Member Vault
+                  <div className="w-8 h-8 rounded-full bg-gradient-brand flex items-center justify-center text-white shrink-0">
+                    <User className="w-4 h-4 text-white" />
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <p className="text-sm font-medium text-[#f8fafc] truncate">{currentUser.name}</p>
+                    <p className="text-xs text-[#6b7fa3] truncate">{currentUser.email}</p>
+                  </div>
+                  {currentUser.isPremium && (
+                    <Crown className="w-3.5 h-3.5 text-yellow-400 shrink-0" />
+                  )}
                 </Link>
-              )}
-              {currentUser.role === "ADMIN" && (
-                <Link
-                  href="/admin"
-                  onClick={() => setMobileOpen(false)}
-                  className="flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm text-[#a7b2cc] hover:text-[#f8fafc] hover:bg-white/5 transition-colors"
+                <button
+                  onClick={handleSignOut}
+                  className="btn btn-secondary w-full"
                 >
-                  <Settings className="w-4 h-4 text-purple-400" /> Admin Dashboard
-                </Link>
-              )}
-            </div>
-          )}
-        </nav>
-
-        <div className="p-4 border-t border-[#24314f] space-y-2">
-          {currentUser ? (
-            <div className="space-y-2">
-              {!currentUser.isPremium && (
+                  <LogOut className="w-4 h-4" /> Sign Out
+                </button>
+              </div>
+            ) : (
+              <div className="space-y-2">
                 <Link
                   href="/register?plan=pro"
-                  onClick={() => setMobileOpen(false)}
                   className="btn btn-primary w-full text-xs font-bold flex items-center justify-center gap-1.5 shadow-lg shadow-purple-500/20"
+                  onClick={() => setMobileOpen(false)}
                 >
-                  <Sparkles className="w-3.5 h-3.5 text-yellow-300" />
-                  Upgrade to Pro • ₹499/year
+                  Join Savzyen Pro • ₹499/year
                 </Link>
-              )}
-              <Link
-                href="/account"
-                onClick={() => setMobileOpen(false)}
-                className="flex items-center gap-2.5 px-3 py-2 rounded-xl bg-white/5 border border-[#24314f] hover:border-[#7c3aed] transition-colors"
-              >
-                <div className="w-8 h-8 rounded-full bg-gradient-brand flex items-center justify-center text-white shrink-0">
-                  <User className="w-4 h-4 text-white" />
-                </div>
-                <div className="min-w-0 flex-1">
-                  <p className="text-sm font-medium text-[#f8fafc] truncate">{currentUser.name}</p>
-                  <p className="text-xs text-[#6b7fa3] truncate">{currentUser.email}</p>
-                </div>
-                {currentUser.isPremium && (
-                  <Crown className="w-3.5 h-3.5 text-yellow-400 shrink-0" />
-                )}
-              </Link>
-              <button
-                onClick={handleSignOut}
-                className="btn btn-secondary w-full"
-              >
-                <LogOut className="w-4 h-4" /> Sign Out
-              </button>
-            </div>
-          ) : (
-            <div className="space-y-2">
-              <Link
-                href="/register?plan=pro"
-                className="btn btn-primary w-full text-xs font-bold flex items-center justify-center gap-1.5 shadow-lg shadow-purple-500/20"
-                onClick={() => setMobileOpen(false)}
-              >
-                Join Savzyen Pro • ₹499/year
-              </Link>
-              <Link
-                href="/login"
-                className="btn btn-secondary w-full"
-                onClick={() => setMobileOpen(false)}
-              >
-                Log In
-              </Link>
-            </div>
-          )}
+                <Link
+                  href="/login"
+                  className="btn btn-secondary w-full"
+                  onClick={() => setMobileOpen(false)}
+                >
+                  Log In
+                </Link>
+              </div>
+            )}
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Search Modal */}
       {searchOpen && (

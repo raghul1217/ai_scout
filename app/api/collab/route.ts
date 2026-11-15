@@ -2,6 +2,7 @@ import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { prisma } from "@/lib/db/prisma";
+import { sendCollabProposalEmails } from "@/lib/email/sender";
 
 export const dynamic = "force-dynamic";
 
@@ -14,7 +15,7 @@ const collabSchema = z.object({
   phone: z.string().max(30).optional(),
   studentCount: z.string().max(50).optional(),
   interests: z.array(z.string()).min(1, "Select at least one collaboration interest"),
-  message: z.string().min(10, "Please share some details about your collaboration goals").max(3000),
+  message: z.string().min(3, "Please share some details about your collaboration goals").max(3000),
 });
 
 export async function POST(req: NextRequest) {
@@ -37,7 +38,7 @@ export async function POST(req: NextRequest) {
 
     const data = result.data;
 
-    // Persist into database if available
+    // 1. Persist into database if available
     try {
       await prisma.contactEnquiry.create({
         data: {
@@ -50,7 +51,7 @@ export async function POST(req: NextRequest) {
         },
       });
     } catch (dbErr) {
-      console.warn("[Collab API DB Notice]: Could not insert to DB, logging to console:", dbErr);
+      console.warn("[Collab API DB Notice]: Could not insert to DB (offline fallback active):", dbErr);
     }
 
     console.log("[New Collaboration Proposal Received]", {
@@ -62,6 +63,23 @@ export async function POST(req: NextRequest) {
       interests: data.interests,
       timestamp: new Date().toISOString(),
     });
+
+    // 2. Dispatch Live Emails via Resend (Admin Notification + Partner Confirmation)
+    try {
+      await sendCollabProposalEmails({
+        name: data.name,
+        email: data.email,
+        organization: data.organization,
+        category: data.category,
+        role: data.role,
+        phone: data.phone,
+        studentCount: data.studentCount,
+        interests: data.interests,
+        message: data.message,
+      });
+    } catch (emailErr) {
+      console.error("[Collab Email Dispatch Error]:", emailErr);
+    }
 
     return NextResponse.json({
       success: true,
@@ -76,4 +94,3 @@ export async function POST(req: NextRequest) {
 export async function GET() {
   return NextResponse.json({ error: "Method not allowed" }, { status: 405 });
 }
-
