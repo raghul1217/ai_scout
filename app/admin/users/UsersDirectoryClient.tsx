@@ -21,6 +21,7 @@ interface UserItem {
   id: string;
   name: string;
   email: string;
+  phone?: string | null;
   role: "USER" | "ADMIN";
   isPremium: boolean;
   membership: {
@@ -288,6 +289,14 @@ export function UsersDirectoryClient({ initialUsers }: { initialUsers: UserItem[
                           >
                             {u.email}
                           </p>
+                          {u.phone && (
+                            <p
+                              className="text-[#34D399] text-[10px] font-mono truncate"
+                              title={u.phone}
+                            >
+                              {u.phone}
+                            </p>
+                          )}
                         </div>
                       </div>
                     </td>

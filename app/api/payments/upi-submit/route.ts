@@ -11,6 +11,7 @@ export const dynamic = "force-dynamic";
 const upiSubmitSchema = z.object({
   name: z.string().min(2, "Name is required").max(100),
   email: z.string().email("Valid email is required"),
+  phone: z.string().optional(),
   password: z.string().min(8, "Password must be at least 8 characters").optional(),
   utrNumber: z.string().min(6, "Valid 12-digit UTR or Transaction ID is required").max(50),
   screenshotBase64: z.string().optional(),
@@ -27,7 +28,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: errorMsg }, { status: 400 });
     }
 
-    const { name, email, password, utrNumber, screenshotBase64, planSlug } = result.data;
+    const { name, email, phone, password, utrNumber, screenshotBase64, planSlug } = result.data;
 
     // 1. Check if user is already logged in or exists
     const loggedInUser = await getCurrentUser();
@@ -47,6 +48,7 @@ export async function POST(req: NextRequest) {
                 name: name.trim(),
                 email: email.toLowerCase().trim(),
                 password,
+                phone: phone ? phone.trim() : undefined,
               },
             });
             targetUserId = authRes?.user?.id;
@@ -60,14 +62,27 @@ export async function POST(req: NextRequest) {
             data: {
               name: name.trim(),
               email: email.toLowerCase().trim(),
+              phone: phone ? phone.trim() : null,
               role: "USER",
-            },
+            } as any,
           });
           targetUserId = newUser.id;
         }
       } else {
         targetUserId = existingUser.id;
+        // Update phone if missing
+        if (phone && !(existingUser as any).phone) {
+          await prisma.user.update({
+            where: { id: existingUser.id },
+            data: { phone: phone.trim() } as any,
+          });
+        }
       }
+    } else if (phone) {
+      await prisma.user.update({
+        where: { id: targetUserId },
+        data: { phone: phone.trim() } as any,
+      });
     }
 
     // 2. Fetch the SAVZYEN Premium Plan
@@ -126,6 +141,7 @@ export async function POST(req: NextRequest) {
           payeeUpi: "prabhasreddy093-1@oksbi",
           payeeName: "Prabhas Reddy",
           utrNumber: cleanUtr,
+          userPhone: phone || null,
           screenshotUrl: screenshotBase64 ? screenshotBase64.slice(0, 500) + "..." : null,
           hasFullScreenshot: Boolean(screenshotBase64),
           submittedAt: new Date().toISOString(),
@@ -138,6 +154,7 @@ export async function POST(req: NextRequest) {
       await sendPaymentProofSubmittedEmails({
         userName: name,
         userEmail: email,
+        userPhone: phone,
         utrNumber: cleanUtr,
         amount: Math.round((plan.price || 49900) / 100),
         screenshotUrl: screenshotBase64,

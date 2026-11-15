@@ -141,6 +141,7 @@ export function RegisterClient({ plans }: RegisterClientProps) {
   const [form, setForm] = useState({
     name: "",
     email: "",
+    phone: "",
     password: "",
   });
   const [showPassword, setShowPassword] = useState(false);
@@ -190,6 +191,7 @@ export function RegisterClient({ plans }: RegisterClientProps) {
 
     const activeName = loggedInUser?.name || form.name.trim();
     const activeEmail = loggedInUser?.email || form.email.trim();
+    const activePhone = form.phone.trim();
 
     if (!activeName) {
       setErrorMsg("Please enter your full name.");
@@ -197,6 +199,10 @@ export function RegisterClient({ plans }: RegisterClientProps) {
     }
     if (!activeEmail) {
       setErrorMsg("Please enter your email address.");
+      return;
+    }
+    if (!loggedInUser && !activePhone) {
+      setErrorMsg("Please enter your mobile number.");
       return;
     }
     if (!loggedInUser && form.password.length < 8) {
@@ -215,6 +221,7 @@ export function RegisterClient({ plans }: RegisterClientProps) {
             body: JSON.stringify({
               name: form.name.trim(),
               email: form.email.trim().toLowerCase(),
+              phone: activePhone,
               password: form.password,
             }),
           });
@@ -251,6 +258,7 @@ export function RegisterClient({ plans }: RegisterClientProps) {
     try {
       const activeName = loggedInUser?.name || form.name.trim();
       const activeEmail = loggedInUser?.email || form.email.trim();
+      const activePhone = form.phone.trim();
 
       const res = await fetch("/api/payments/upi-submit", {
         method: "POST",
@@ -258,6 +266,7 @@ export function RegisterClient({ plans }: RegisterClientProps) {
         body: JSON.stringify({
           name: activeName,
           email: activeEmail,
+          phone: activePhone,
           password: loggedInUser ? undefined : form.password,
           utrNumber: cleanUtr,
           screenshotBase64: screenshotBase64 || undefined,
@@ -609,6 +618,22 @@ export function RegisterClient({ plans }: RegisterClientProps) {
                         placeholder="alex@example.com"
                         value={form.email}
                         onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))}
+                        className="input text-sm"
+                        disabled={status === "loading"}
+                      />
+                    </div>
+
+                    <div className="space-y-1.5">
+                      <label htmlFor="phone" className="text-xs font-medium text-[#A7B2CC]">
+                        Mobile / WhatsApp Number <span className="text-red-400">*</span>
+                      </label>
+                      <input
+                        id="phone"
+                        type="tel"
+                        required
+                        placeholder="+91 98765 43210"
+                        value={form.phone}
+                        onChange={(e) => setForm((f) => ({ ...f, phone: e.target.value }))}
                         className="input text-sm"
                         disabled={status === "loading"}
                       />

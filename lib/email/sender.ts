@@ -329,6 +329,7 @@ export async function sendCollabProposalEmails(data: CollabProposalData) {
 export interface PaymentProofEmailData {
   userName: string;
   userEmail: string;
+  userPhone?: string;
   utrNumber: string;
   amount: number; // e.g. 499
   screenshotUrl?: string;
@@ -382,6 +383,7 @@ export async function sendPaymentProofSubmittedEmails(data: PaymentProofEmailDat
           <table class="info-table">
             <tr><td class="label">User Name</td><td class="value">${data.userName}</td></tr>
             <tr><td class="label">User Email</td><td class="value">${data.userEmail}</td></tr>
+            ${data.userPhone ? `<tr><td class="label">Mobile Number</td><td class="value">${data.userPhone}</td></tr>` : ""}
             <tr><td class="label">Plan</td><td class="value">SAVZYEN Premium (Annual)</td></tr>
             <tr><td class="label">Amount Due</td><td class="value">₹${data.amount}.00</td></tr>
             <tr><td class="label">Submitted</td><td class="value">${formattedDate} (IST)</td></tr>
