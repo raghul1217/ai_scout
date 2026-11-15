@@ -22,13 +22,11 @@ export function LearnSection() {
             </div>
 
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight">
-              Learn AI by Doing{" "}
-              <span className="gradient-text">— 3 AI-Only Challenges</span>
+              Learn AI by Doing
             </h2>
 
             <p className="text-[#A7B2CC] max-w-2xl mt-3 text-sm sm:text-base leading-relaxed">
-              Step into the role of a founder, marketer, or AI engineer. Complete practical workflows
-              using actual prompts, modern tool stacks, and concrete deliverables.
+              Get hands-on experience with real-world AI workflows. Build practical projects using tested prompts, modern tool stacks, and step-by-step guides.
             </p>
           </div>
 

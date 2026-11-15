@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { Star, ExternalLink, CheckCircle } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 export interface ToolCardProps {
   tool: {
@@ -23,9 +24,10 @@ export interface ToolCardProps {
       slug: string;
     } | null;
   };
+  className?: string;
 }
 
-export function ToolCard({ tool }: ToolCardProps) {
+export function ToolCard({ tool, className }: ToolCardProps) {
   const [imgError, setImgError] = useState(false);
 
   // Derive domain for fallback favicon
@@ -50,7 +52,12 @@ export function ToolCard({ tool }: ToolCardProps) {
     .toUpperCase();
 
   return (
-    <div className="group relative bg-[#0D1730] hover:bg-[#112040] border border-[#24314F] hover:border-[#3B82F6]/60 rounded-xl p-4 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-[#3B82F6]/5 flex flex-col justify-between">
+    <div
+      className={cn(
+        "group relative bg-[#0D1730] hover:bg-[#112040] border border-[#24314F] hover:border-[#3B82F6]/60 rounded-xl p-4 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-[#3B82F6]/5 flex flex-col justify-between",
+        className
+      )}
+    >
       <div>
         {/* Top Header: Logo + Name + Pricing Badge */}
         <div className="flex items-start justify-between gap-2.5 mb-2.5">

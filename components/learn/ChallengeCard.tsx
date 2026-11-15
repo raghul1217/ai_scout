@@ -8,12 +8,6 @@ const challengeIcons = {
   "3": Bot,
 };
 
-const difficultyBadge = {
-  Beginner: "bg-emerald-500/15 text-emerald-400 border-emerald-500/30",
-  Intermediate: "bg-blue-500/15 text-blue-400 border-blue-500/30",
-  Advanced: "bg-amber-500/15 text-amber-400 border-amber-500/30",
-};
-
 export function ChallengeCard({ challenge }: { challenge: LearnChallenge }) {
   const Icon = challengeIcons[challenge.id as keyof typeof challengeIcons] || Briefcase;
 
@@ -42,18 +36,10 @@ export function ChallengeCard({ challenge }: { challenge: LearnChallenge }) {
         {/* Gradient overlay for text contrast */}
         <div className="absolute inset-0 bg-gradient-to-t from-[#0D1730] via-[#0D1730]/40 to-transparent" />
 
-        {/* Top Badges */}
+        {/* Top Badge */}
         <div className="absolute top-3.5 left-3.5 right-3.5 flex items-center justify-between gap-2 z-10">
           <span className="px-2.5 py-1 rounded-full text-xs font-mono font-bold bg-[#050816]/85 backdrop-blur-md text-white border border-[#24314F] shadow-sm">
             {challenge.badge}
-          </span>
-
-          <span
-            className={`px-2.5 py-0.5 rounded-full text-[11px] font-bold border backdrop-blur-md ${
-              difficultyBadge[challenge.difficulty]
-            }`}
-          >
-            {challenge.difficulty}
           </span>
         </div>
 

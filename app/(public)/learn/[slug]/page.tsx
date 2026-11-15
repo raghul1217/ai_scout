@@ -117,8 +117,7 @@ export default async function LearnDetailPage({ params }: PageProps) {
 
             {/* Challenge Scenario Quote Box */}
             <div className="p-5 rounded-2xl bg-[#0D1730] border border-[#24314F] relative overflow-hidden">
-              <div className="text-xs font-bold uppercase tracking-wider text-purple-400 mb-2 flex items-center gap-1.5">
-                <Sparkles className="w-3.5 h-3.5" />
+              <div className="text-xs font-bold uppercase tracking-wider text-purple-400 mb-2">
                 <span>The Challenge Scenario</span>
               </div>
               <p className="text-sm sm:text-base text-[#F8FAFC] leading-relaxed">

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, Calendar, Clock, Sparkles, Lock, Crown } from "lucide-react";
+import { ArrowRight, Calendar, Clock, Lock, Crown } from "lucide-react";
 import {
   FEATURED_SECTION_HEADER,
   FEATURED_ARTICLES,
@@ -16,8 +16,7 @@ export function FeaturedSection() {
         {/* Section Header (dynamically configured via JSON) */}
         <div className="flex items-center justify-between mb-10">
           <div>
-            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-purple-500/10 text-purple-400 border border-purple-500/20 uppercase tracking-widest mb-2.5">
-              <Sparkles className="w-3 h-3" />
+            <div className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-purple-500/10 text-purple-400 border border-purple-500/20 uppercase tracking-widest mb-2.5">
               <span>{FEATURED_SECTION_HEADER.badge}</span>
             </div>
             <h2 className="text-3xl sm:text-4xl font-bold text-[#f8fafc] tracking-tight">

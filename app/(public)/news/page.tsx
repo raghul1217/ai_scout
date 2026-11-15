@@ -99,9 +99,8 @@ export default async function NewsPage({
       <div className="container-max">
         {/* Header */}
         <div className="mb-10 max-w-2xl">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#3B82F6]/10 border border-[#3B82F6]/30 text-xs font-semibold text-[#60A5FA] mb-3">
-            <Sparkles className="w-3.5 h-3.5" />
-            Curated Intelligence
+          <div className="inline-flex items-center px-3 py-1 rounded-full bg-[#3B82F6]/10 border border-[#3B82F6]/30 text-xs font-semibold text-[#60A5FA] mb-3">
+            <span>Curated Intelligence</span>
           </div>
           <h1 className="text-3xl md:text-5xl font-black text-white tracking-tight mb-3">
             AI News & Reports

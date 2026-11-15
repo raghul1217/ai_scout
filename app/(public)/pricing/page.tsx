@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { prisma } from "@/lib/db/prisma";
 import { PricingClient } from "@/components/payment/PricingClient";
-import { Crown, Sparkles, Shield, Zap } from "lucide-react";
+import { Crown, Sparkles, Shield, Zap, Lock } from "lucide-react";
 
 export const dynamic = "force-dynamic";
 
@@ -88,8 +88,9 @@ export default async function PricingPage({
           </p>
 
           {reason === "premium_required" && (
-            <div className="p-3.5 rounded-xl bg-[#7C3AED]/15 border border-[#7C3AED]/40 text-xs text-[#9F67FF] font-medium">
-              🔒 That content requires an active Savzyen Pro membership. Select a plan below to unlock immediate access.
+            <div className="p-3.5 rounded-xl bg-[#7C3AED]/15 border border-[#7C3AED]/40 text-xs text-[#9F67FF] font-medium flex items-center justify-center gap-2">
+              <Lock className="w-3.5 h-3.5 text-[#9F67FF] shrink-0" />
+              <span>That content requires an active Savzyen Pro membership. Select a plan below to unlock immediate access.</span>
             </div>
           )}
         </div>

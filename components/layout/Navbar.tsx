@@ -406,11 +406,7 @@ export function Navbar({ user }: NavbarProps) {
               aria-expanded={mobileOpen}
               id="nav-mobile-toggle"
             >
-              {mobileOpen ? (
-                <X className="w-5 h-5" />
-              ) : (
-                <Menu className="w-5 h-5" />
-              )}
+              <Menu className="w-5 h-5" />
             </button>
           </div>
         </nav>
@@ -419,7 +415,7 @@ export function Navbar({ user }: NavbarProps) {
       {/* Mobile Menu Overlay */}
       {mobileOpen && (
         <div
-          className="fixed inset-0 z-40 md:hidden bg-black/60 backdrop-blur-sm animate-fade-in"
+          className="fixed inset-0 z-50 md:hidden bg-black/60 backdrop-blur-sm animate-fade-in"
           onClick={() => setMobileOpen(false)}
           aria-hidden="true"
         />
@@ -428,7 +424,7 @@ export function Navbar({ user }: NavbarProps) {
       {/* Mobile Menu Drawer */}
       <div
         className={cn(
-          "fixed top-0 right-0 bottom-0 z-50 w-72 glass-dark border-l border-[#24314f] md:hidden transition-transform duration-300 flex flex-col shadow-2xl",
+          "fixed top-0 right-0 bottom-0 z-[60] w-72 bg-[#0D1730] border-l border-[#24314f] md:hidden transition-transform duration-300 flex flex-col shadow-2xl",
           mobileOpen ? "translate-x-0" : "translate-x-full"
         )}
       >

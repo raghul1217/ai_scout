@@ -13,6 +13,7 @@ import {
   CheckCircle2,
   AlertTriangle,
   Sparkles,
+  Zap,
 } from "lucide-react";
 import { prisma } from "@/lib/db/prisma";
 import { getCurrentUser } from "@/lib/auth/session";
@@ -172,8 +173,7 @@ export default async function NewsArticlePage({ params }: PageProps) {
 
           {/* Summary Callout Box */}
           <div className="p-5 sm:p-6 rounded-2xl bg-gradient-to-br from-[#0D1730] to-[#112040] border border-[#24314F] mb-10 space-y-2">
-            <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#60A5FA]">
-              <Sparkles className="w-3.5 h-3.5" />
+            <div className="text-xs font-bold uppercase tracking-wider text-[#60A5FA]">
               <span>Key Takeaway</span>
             </div>
             <p className="text-sm sm:text-base text-[#F8FAFC] leading-relaxed font-medium">
@@ -315,8 +315,9 @@ export default async function NewsArticlePage({ params }: PageProps) {
                     )}
                   </div>
 
-                  <p className="text-[11px] text-[#6B7FA3] pt-1">
-                    ⚡ ₹499/year • Instant access to all blueprints, daily updates & exclusive sessions
+                  <p className="text-[11px] text-[#6B7FA3] pt-1 flex items-center justify-center gap-1.5">
+                    <Zap className="w-3.5 h-3.5 text-yellow-400 shrink-0" />
+                    <span>₹499/year • Instant access to all blueprints, daily updates & exclusive sessions</span>
                   </p>
                 </div>
               </div>

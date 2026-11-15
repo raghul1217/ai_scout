@@ -432,7 +432,7 @@ export function CollabClient() {
                 </div>
                 {collab.stats && (
                   <p className="text-[11px] text-[#6B7FA3] font-medium">
-                    ⚡ {collab.stats}
+                    {collab.stats}
                   </p>
                 )}
               </div>

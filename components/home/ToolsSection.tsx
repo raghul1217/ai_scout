@@ -86,10 +86,14 @@ export function ToolsSection() {
           ))}
         </div>
 
-        {/* Small Tools Grid (4 columns on desktop, Best of AI style) */}
+        {/* Small Tools Grid (4 columns on desktop, Best of AI style; max 10 tools on mobile) */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4">
-          {filtered.map((tool) => (
-            <ToolCard key={tool.id} tool={tool} />
+          {filtered.map((tool, index) => (
+            <ToolCard
+              key={tool.id}
+              tool={tool}
+              className={index >= 10 ? "hidden sm:flex" : undefined}
+            />
           ))}
         </div>
 
