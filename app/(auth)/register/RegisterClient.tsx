@@ -23,7 +23,7 @@ import {
   Smartphone,
   ExternalLink,
 } from "lucide-react";
-import { useSession } from "@/lib/auth/auth-client";
+import { authClient, useSession } from "@/lib/auth/auth-client";
 
 export interface PlanItem {
   id: string;
@@ -215,19 +215,14 @@ export function RegisterClient({ plans }: RegisterClientProps) {
       setStatus("loading");
       try {
         if (!loggedInUser) {
-          const res = await fetch("/api/auth/sign-up/email", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              name: form.name.trim(),
-              email: form.email.trim().toLowerCase(),
-              phone: activePhone,
-              password: form.password,
-            }),
-          });
-          if (!res.ok) {
-            const data = await res.json().catch(() => ({}));
-            throw new Error(data.error ?? "Registration failed.");
+          const { data, error } = await authClient.signUp.email({
+            name: form.name.trim(),
+            email: form.email.trim().toLowerCase(),
+            password: form.password,
+            phone: activePhone,
+          } as any);
+          if (error) {
+            throw new Error(error.message || "Registration failed.");
           }
         }
         window.location.href = "/account";

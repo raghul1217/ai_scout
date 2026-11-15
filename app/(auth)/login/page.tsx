@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Eye, EyeOff, Loader2, Zap, ArrowRight } from "lucide-react";
+import { authClient } from "@/lib/auth/auth-client";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -17,23 +18,24 @@ export default function LoginPage() {
     setStatus("loading");
     setErrorMsg("");
 
+    const cleanEmail = form.email.trim().toLowerCase();
+    const cleanPassword = form.password;
+
     try {
-      const res = await fetch("/api/auth/sign-in/email", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
+      const { data, error } = await authClient.signIn.email({
+        email: cleanEmail,
+        password: cleanPassword,
       });
 
-      if (!res.ok) {
-        const data = await res.json().catch(() => ({}));
-        throw new Error(data.error ?? "Invalid email or password");
+      if (error) {
+        throw new Error(error.message || "Invalid email or password");
       }
 
       router.push("/account");
       router.refresh();
-    } catch (err) {
+    } catch (err: any) {
       setStatus("error");
-      setErrorMsg(err instanceof Error ? err.message : "Something went wrong");
+      setErrorMsg(err.message || "Something went wrong");
     }
   };
 
