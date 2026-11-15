@@ -37,7 +37,7 @@ const nextConfig: NextConfig = {
     return [
       {
         source: "/join",
-        destination: "/register",
+        destination: "/register?plan=pro",
         permanent: false,
       },
     ];

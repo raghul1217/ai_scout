@@ -32,30 +32,30 @@ export default async function AdminContentPage() {
         </div>
       </div>
 
-      <div className="bg-[#0D1730] border border-[#24314F] rounded-2xl p-6">
+      <div className="bg-[#0D1730] border border-[#24314F] rounded-xl overflow-hidden shadow-xl">
         {articles.length === 0 ? (
-          <p className="text-xs text-[#6B7FA3]">No articles created yet.</p>
+          <p className="p-6 text-xs text-[#6B7FA3]">No articles created yet.</p>
         ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs">
+          <div className="overflow-x-auto scrollbar-thin">
+            <table className="w-full text-left text-xs min-w-[650px]">
               <thead>
-                <tr className="border-b border-[#24314F] text-[#6B7FA3] uppercase tracking-wider">
-                  <th className="pb-3">Title</th>
-                  <th className="pb-3">Category</th>
-                  <th className="pb-3">Access</th>
-                  <th className="pb-3">Status</th>
-                  <th className="pb-3">Date</th>
-                  <th className="pb-3">Link</th>
+                <tr className="border-b border-[#24314F] text-[#6B7FA3] uppercase tracking-wider bg-[#0A1024]">
+                  <th className="py-3 px-4 font-semibold">Title</th>
+                  <th className="py-3 px-4 font-semibold">Category</th>
+                  <th className="py-3 px-4 font-semibold">Access</th>
+                  <th className="py-3 px-4 font-semibold">Status</th>
+                  <th className="py-3 px-4 font-semibold">Date</th>
+                  <th className="py-3 px-4 font-semibold text-right">Link</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-[#24314F]/50 text-[#A7B2CC]">
                 {articles.map((art) => (
-                  <tr key={art.id}>
-                    <td className="py-3 font-semibold text-white max-w-xs truncate">
+                  <tr key={art.id} className="hover:bg-white/[0.02] transition-colors">
+                    <td className="py-3 px-4 font-semibold text-white max-w-[260px] truncate" title={art.title}>
                       {art.title}
                     </td>
-                    <td className="py-3">{art.category?.name ?? "General"}</td>
-                    <td className="py-3">
+                    <td className="py-3 px-4 whitespace-nowrap">{art.category?.name ?? "General"}</td>
+                    <td className="py-3 px-4 whitespace-nowrap">
                       <span
                         className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase ${
                           art.accessLevel === "PREMIUM"
@@ -66,7 +66,7 @@ export default async function AdminContentPage() {
                         {art.accessLevel}
                       </span>
                     </td>
-                    <td className="py-3">
+                    <td className="py-3 px-4 whitespace-nowrap">
                       <span
                         className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase ${
                           art.status === "PUBLISHED"
@@ -77,14 +77,14 @@ export default async function AdminContentPage() {
                         {art.status}
                       </span>
                     </td>
-                    <td className="py-3">{formatDate(art.createdAt)}</td>
-                    <td className="py-3">
+                    <td className="py-3 px-4 whitespace-nowrap text-[#6B7FA3]">{formatDate(art.createdAt)}</td>
+                    <td className="py-3 px-4 text-right whitespace-nowrap">
                       <Link
                         href={`/news/${art.slug}`}
                         target="_blank"
-                        className="text-[#60A5FA] hover:underline"
+                        className="text-[#60A5FA] hover:underline font-semibold"
                       >
-                        View
+                        View →
                       </Link>
                     </td>
                   </tr>

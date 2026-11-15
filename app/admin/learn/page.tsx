@@ -31,31 +31,31 @@ export default async function AdminLearnPage() {
         </div>
       </div>
 
-      <div className="bg-[#0D1730] border border-[#24314F] rounded-2xl p-6">
+      <div className="bg-[#0D1730] border border-[#24314F] rounded-xl overflow-hidden shadow-xl">
         {resources.length === 0 ? (
-          <p className="text-xs text-[#6B7FA3]">No learning resources found.</p>
+          <p className="p-6 text-xs text-[#6B7FA3]">No learning resources found.</p>
         ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs">
+          <div className="overflow-x-auto scrollbar-thin">
+            <table className="w-full text-left text-xs min-w-[650px]">
               <thead>
-                <tr className="border-b border-[#24314F] text-[#6B7FA3] uppercase tracking-wider">
-                  <th className="pb-3">Title</th>
-                  <th className="pb-3">Difficulty</th>
-                  <th className="pb-3">Format</th>
-                  <th className="pb-3">Access</th>
-                  <th className="pb-3">Hours</th>
-                  <th className="pb-3">Link</th>
+                <tr className="border-b border-[#24314F] text-[#6B7FA3] uppercase tracking-wider bg-[#0A1024]">
+                  <th className="py-3 px-4 font-semibold">Title</th>
+                  <th className="py-3 px-4 font-semibold">Difficulty</th>
+                  <th className="py-3 px-4 font-semibold">Format</th>
+                  <th className="py-3 px-4 font-semibold">Access</th>
+                  <th className="py-3 px-4 font-semibold">Hours</th>
+                  <th className="py-3 px-4 font-semibold text-right">Link</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-[#24314F]/50 text-[#A7B2CC]">
                 {resources.map((res) => (
-                  <tr key={res.id}>
-                    <td className="py-3 font-semibold text-white max-w-xs truncate">
+                  <tr key={res.id} className="hover:bg-white/[0.02] transition-colors">
+                    <td className="py-3 px-4 font-semibold text-white max-w-[260px] truncate" title={res.title}>
                       {res.title}
                     </td>
-                    <td className="py-3">{res.difficulty}</td>
-                    <td className="py-3">{res.format}</td>
-                    <td className="py-3">
+                    <td className="py-3 px-4 whitespace-nowrap">{res.difficulty}</td>
+                    <td className="py-3 px-4 whitespace-nowrap">{res.format}</td>
+                    <td className="py-3 px-4 whitespace-nowrap">
                       <span
                         className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase ${
                           res.accessLevel === "PREMIUM"
@@ -66,14 +66,14 @@ export default async function AdminLearnPage() {
                         {res.accessLevel}
                       </span>
                     </td>
-                    <td className="py-3">~{res.estimatedHours}h</td>
-                    <td className="py-3">
+                    <td className="py-3 px-4 whitespace-nowrap">~{res.estimatedHours}h</td>
+                    <td className="py-3 px-4 text-right whitespace-nowrap">
                       <Link
                         href={`/learn/${res.slug}`}
                         target="_blank"
-                        className="text-[#60A5FA] hover:underline"
+                        className="text-[#60A5FA] hover:underline font-semibold"
                       >
-                        View
+                        View →
                       </Link>
                     </td>
                   </tr>

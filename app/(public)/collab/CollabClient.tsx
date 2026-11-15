@@ -17,6 +17,7 @@ import {
   BookOpen,
   ArrowRight,
   BadgeCheck,
+  X,
 } from "lucide-react";
 
 interface Collaborator {
@@ -260,12 +261,24 @@ export function CollabClient() {
   const [errorMsg, setErrorMsg] = useState("");
   const [successMsg, setSuccessMsg] = useState("");
 
+  const updateField = (field: string, value: any) => {
+    if (status === "error") {
+      setStatus("idle");
+      setErrorMsg("");
+    }
+    setForm((prev) => ({ ...prev, [field]: value }));
+  };
+
   const filteredCollaborators =
     activeTab === "ALL"
       ? COLLABORATORS
       : COLLABORATORS.filter((c) => c.type === activeTab);
 
   const toggleInterest = (interest: string) => {
+    if (status === "error") {
+      setStatus("idle");
+      setErrorMsg("");
+    }
     setForm((prev) => {
       const exists = prev.interests.includes(interest);
       if (exists) {
@@ -541,9 +554,22 @@ export function CollabClient() {
           ) : (
             <form onSubmit={handleSubmit} className="space-y-6 relative z-10">
               {status === "error" && (
-                <div className="p-3.5 rounded-xl bg-red-500/10 border border-red-500/30 text-red-400 text-xs flex items-center gap-2">
-                  <AlertCircle className="w-4 h-4 shrink-0" />
-                  <span>{errorMsg}</span>
+                <div className="p-3.5 rounded-xl bg-red-500/10 border border-red-500/30 text-red-400 text-xs flex items-center justify-between gap-2">
+                  <div className="flex items-center gap-2">
+                    <AlertCircle className="w-4 h-4 shrink-0" />
+                    <span>{errorMsg}</span>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setStatus("idle");
+                      setErrorMsg("");
+                    }}
+                    className="p-1 hover:bg-red-500/20 rounded-md transition text-red-400 hover:text-white"
+                    aria-label="Dismiss error"
+                  >
+                    <X className="w-3.5 h-3.5" />
+                  </button>
                 </div>
               )}
 
@@ -559,7 +585,7 @@ export function CollabClient() {
                     required
                     placeholder="e.g. Prof. R. Ramanathan"
                     value={form.name}
-                    onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
+                    onChange={(e) => updateField("name", e.target.value)}
                     className="w-full px-3.5 py-2.5 rounded-xl bg-[#112040] border border-[#24314F] text-xs text-white placeholder-[#6B7FA3] focus:outline-none focus:border-[#3B82F6] transition"
                     disabled={status === "loading"}
                   />
@@ -575,7 +601,7 @@ export function CollabClient() {
                     required
                     placeholder="e.g. dean@university.edu or name@company.com"
                     value={form.email}
-                    onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))}
+                    onChange={(e) => updateField("email", e.target.value)}
                     className="w-full px-3.5 py-2.5 rounded-xl bg-[#112040] border border-[#24314F] text-xs text-white placeholder-[#6B7FA3] focus:outline-none focus:border-[#3B82F6] transition"
                     disabled={status === "loading"}
                   />
@@ -591,7 +617,7 @@ export function CollabClient() {
                   <select
                     id="collab-type"
                     value={form.category}
-                    onChange={(e) => setForm((f) => ({ ...f, category: e.target.value }))}
+                    onChange={(e) => updateField("category", e.target.value)}
                     className="w-full px-3.5 py-2.5 rounded-xl bg-[#112040] border border-[#24314F] text-xs text-white focus:outline-none focus:border-[#3B82F6] transition"
                     disabled={status === "loading"}
                   >
@@ -613,7 +639,7 @@ export function CollabClient() {
                     required
                     placeholder="e.g. Madras Institute of Technology or Acme AI"
                     value={form.organization}
-                    onChange={(e) => setForm((f) => ({ ...f, organization: e.target.value }))}
+                    onChange={(e) => updateField("organization", e.target.value)}
                     className="w-full px-3.5 py-2.5 rounded-xl bg-[#112040] border border-[#24314F] text-xs text-white placeholder-[#6B7FA3] focus:outline-none focus:border-[#3B82F6] transition"
                     disabled={status === "loading"}
                   />
@@ -632,7 +658,7 @@ export function CollabClient() {
                     required
                     placeholder="e.g. HOD Computer Science / Placement Officer / Founder"
                     value={form.role}
-                    onChange={(e) => setForm((f) => ({ ...f, role: e.target.value }))}
+                    onChange={(e) => updateField("role", e.target.value)}
                     className="w-full px-3.5 py-2.5 rounded-xl bg-[#112040] border border-[#24314F] text-xs text-white placeholder-[#6B7FA3] focus:outline-none focus:border-[#3B82F6] transition"
                     disabled={status === "loading"}
                   />
@@ -647,7 +673,7 @@ export function CollabClient() {
                     type="tel"
                     placeholder="+91 98765 43210"
                     value={form.phone}
-                    onChange={(e) => setForm((f) => ({ ...f, phone: e.target.value }))}
+                    onChange={(e) => updateField("phone", e.target.value)}
                     className="w-full px-3.5 py-2.5 rounded-xl bg-[#112040] border border-[#24314F] text-xs text-white placeholder-[#6B7FA3] focus:outline-none focus:border-[#3B82F6] transition"
                     disabled={status === "loading"}
                   />
@@ -663,7 +689,7 @@ export function CollabClient() {
                   <select
                     id="collab-students"
                     value={form.studentCount}
-                    onChange={(e) => setForm((f) => ({ ...f, studentCount: e.target.value }))}
+                    onChange={(e) => updateField("studentCount", e.target.value)}
                     className="w-full px-3.5 py-2.5 rounded-xl bg-[#112040] border border-[#24314F] text-xs text-white focus:outline-none focus:border-[#3B82F6] transition"
                     disabled={status === "loading"}
                   >
@@ -713,7 +739,7 @@ export function CollabClient() {
                   rows={4}
                   placeholder="Share a brief overview of your college/company, timeline, what you'd like to achieve together, or any specific dates..."
                   value={form.message}
-                  onChange={(e) => setForm((f) => ({ ...f, message: e.target.value }))}
+                  onChange={(e) => updateField("message", e.target.value)}
                   className="w-full px-3.5 py-2.5 rounded-xl bg-[#112040] border border-[#24314F] text-xs text-white placeholder-[#6B7FA3] focus:outline-none focus:border-[#3B82F6] transition resize-none leading-relaxed"
                   disabled={status === "loading"}
                 />

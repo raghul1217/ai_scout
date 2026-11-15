@@ -322,3 +322,218 @@ export async function sendCollabProposalEmails(data: CollabProposalData) {
   return { adminResult, partnerResult };
 }
 
+// ─────────────────────────────────────────────────────────────────────────────
+// UPI PAYMENT & PRO MEMBERSHIP ACTIVATION EMAILS
+// ─────────────────────────────────────────────────────────────────────────────
+
+export interface PaymentProofEmailData {
+  userName: string;
+  userEmail: string;
+  utrNumber: string;
+  amount: number; // e.g. 499
+  screenshotUrl?: string;
+}
+
+export interface PremiumActivatedEmailData {
+  userName: string;
+  userEmail: string;
+  planName: string;
+  endDate: Date | string | null;
+}
+
+/**
+ * Dispatches Admin Alert and User Acknowledgment when UPI proof is submitted
+ */
+export async function sendPaymentProofSubmittedEmails(data: PaymentProofEmailData) {
+  const formattedDate = new Date().toLocaleString("en-IN", {
+    timeZone: "Asia/Kolkata",
+    dateStyle: "medium",
+    timeStyle: "short",
+  });
+
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://savzyen.si";
+
+  // 1. Admin Alert Email HTML
+  const adminHtml = `
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <meta charset="utf-8">
+        <style>
+          body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #050816; color: #f8fafc; margin: 0; padding: 24px; }
+          .card { max-width: 600px; margin: 0 auto; background: #0D1730; border: 1px solid #7C3AED; border-radius: 16px; padding: 32px; }
+          .badge { display: inline-block; padding: 4px 12px; background: rgba(124, 58, 237, 0.2); border: 1px solid #7C3AED; color: #C4B5FD; border-radius: 9999px; font-size: 11px; font-weight: bold; text-transform: uppercase; margin-bottom: 16px; }
+          h2 { margin: 0 0 16px 0; color: #ffffff; font-size: 22px; font-weight: 800; }
+          .info-table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+          .info-table td { padding: 10px 12px; border-bottom: 1px solid #1E293B; font-size: 13px; }
+          .info-table td.label { color: #A7B2CC; width: 35%; font-weight: 600; }
+          .info-table td.value { color: #FFFFFF; font-weight: 700; }
+          .utr-box { background: #050816; border: 1px solid #7C3AED; border-radius: 10px; padding: 14px; font-size: 16px; font-family: monospace; color: #60A5FA; font-weight: bold; margin-top: 10px; text-align: center; }
+          .btn { display: inline-block; padding: 12px 24px; background: linear-gradient(135deg, #7C3AED, #3B82F6); color: #ffffff; font-weight: bold; text-decoration: none; border-radius: 10px; font-size: 13px; margin-top: 20px; text-align: center; }
+          .footer { margin-top: 24px; font-size: 11px; color: #6B7FA3; text-align: center; }
+        </style>
+      </head>
+      <body>
+        <div class="card">
+          <div class="badge">UPI Payment Action Required</div>
+          <h2>New ₹${data.amount} Payment Submitted</h2>
+          <table class="info-table">
+            <tr><td class="label">User Name</td><td class="value">${data.userName}</td></tr>
+            <tr><td class="label">User Email</td><td class="value">${data.userEmail}</td></tr>
+            <tr><td class="label">Plan</td><td class="value">SAVZYEN Premium (Annual)</td></tr>
+            <tr><td class="label">Amount Due</td><td class="value">₹${data.amount}.00</td></tr>
+            <tr><td class="label">Submitted</td><td class="value">${formattedDate} (IST)</td></tr>
+          </table>
+
+          <div style="font-size: 12px; color: #A7B2CC; font-weight: bold; margin-top: 14px;">12-Digit UTR / Transaction Reference:</div>
+          <div class="utr-box">${data.utrNumber}</div>
+
+          ${data.screenshotUrl ? `<p style="font-size: 12px; color: #60A5FA; margin-top: 12px;">Payment screenshot attached in system.</p>` : ""}
+
+          <div style="text-align: center;">
+            <a href="${appUrl}/admin/payments" class="btn">Open Admin Verification Queue</a>
+          </div>
+
+          <div class="footer">
+            Savzyen Payment Operations • Verify against bank/UPI app then approve in admin panel.
+          </div>
+        </div>
+      </body>
+    </html>
+  `;
+
+  // 2. User Acknowledgment Email HTML
+  const userHtml = `
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <meta charset="utf-8">
+        <style>
+          body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #050816; color: #f8fafc; margin: 0; padding: 24px; }
+          .card { max-width: 600px; margin: 0 auto; background: #0D1730; border: 1px solid #24314F; border-radius: 16px; padding: 32px; }
+          .logo { font-size: 20px; font-weight: 900; color: #ffffff; margin-bottom: 24px; }
+          .logo span { background: linear-gradient(135deg, #7C3AED, #3B82F6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+          h2 { margin: 0 0 16px 0; color: #ffffff; font-size: 20px; font-weight: 700; }
+          p { font-size: 14px; line-height: 1.6; color: #A7B2CC; margin: 0 0 16px 0; }
+          .highlight { background: #050816; border-left: 3px solid #7C3AED; padding: 14px 16px; border-radius: 4px; font-size: 13px; color: #E2E8F0; margin: 20px 0; }
+          .footer { margin-top: 32px; padding-top: 20px; border-top: 1px solid #1E293B; font-size: 12px; color: #6B7FA3; text-align: center; }
+        </style>
+      </head>
+      <body>
+        <div class="card">
+          <div class="logo">Sav<span>zyen</span></div>
+          <h2>Payment Proof Received, ${data.userName}!</h2>
+          <p>Thank you for subscribing to <strong>SAVZYEN Premium (₹${data.amount}/year)</strong>.</p>
+          <div class="highlight">
+            <strong>Transaction Details:</strong><br/>
+            • <strong>UTR / Reference ID:</strong> ${data.utrNumber}<br/>
+            • <strong>Amount:</strong> ₹${data.amount}.00<br/>
+            • <strong>Status:</strong> Verification in Progress
+          </div>
+          <p>Our team is verifying your payment. Once approved, your account will be upgraded to Pro automatically, and you will receive an activation email.</p>
+          <p>If you have any questions or need immediate assistance, simply reply directly to this email or reach us at <a href="mailto:support@savzyen.si" style="color: #60A5FA; text-decoration: none;">support@savzyen.si</a>.</p>
+          <div class="footer">
+            © ${new Date().getFullYear()} Savzyen. Stay Ahead. Learn Faster. Build Smarter.
+          </div>
+        </div>
+      </body>
+    </html>
+  `;
+
+  const [adminResult, userResult] = await Promise.allSettled([
+    sendEmail({
+      to: ADMIN_EMAIL,
+      subject: `[Action Required] New ₹${data.amount} UPI Payment from ${data.userName} (UTR: ${data.utrNumber})`,
+      html: adminHtml,
+      replyTo: data.userEmail,
+    }),
+    sendEmail({
+      to: data.userEmail,
+      subject: `Payment Proof Received | Savzyen Pro Under Review`,
+      html: userHtml,
+    }),
+  ]);
+
+  return { adminResult, userResult };
+}
+
+/**
+ * Dispatches Celebration & Confirmation Email when Admin Activates Pro Membership
+ */
+export async function sendPremiumActivatedEmail(data: PremiumActivatedEmailData) {
+  const formattedEndDate = data.endDate
+    ? new Date(data.endDate).toLocaleDateString("en-IN", {
+        timeZone: "Asia/Kolkata",
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      })
+    : "1 Year";
+
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://savzyen.si";
+
+  const emailHtml = `
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <meta charset="utf-8">
+        <style>
+          body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #050816; color: #f8fafc; margin: 0; padding: 24px; }
+          .card { max-width: 600px; margin: 0 auto; background: #0D1730; border: 1px solid #10B981; border-radius: 16px; padding: 32px; box-shadow: 0 10px 40px rgba(16, 185, 129, 0.1); }
+          .logo { font-size: 22px; font-weight: 900; color: #ffffff; margin-bottom: 24px; }
+          .logo span { background: linear-gradient(135deg, #10B981, #3B82F6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+          .crown-badge { display: inline-block; padding: 6px 16px; background: rgba(245, 158, 11, 0.15); border: 1px solid #F59E0B; color: #FBBF24; border-radius: 9999px; font-size: 12px; font-weight: 800; text-transform: uppercase; margin-bottom: 16px; }
+          h2 { margin: 0 0 16px 0; color: #ffffff; font-size: 24px; font-weight: 800; }
+          p { font-size: 14px; line-height: 1.6; color: #A7B2CC; margin: 0 0 16px 0; }
+          .features-box { background: #050816; border: 1px solid #24314F; border-radius: 12px; padding: 20px; margin: 24px 0; }
+          .feature-item { display: flex; align-items: center; gap: 8px; font-size: 13px; color: #E2E8F0; padding: 5px 0; }
+          .btn { display: inline-block; padding: 14px 32px; background: linear-gradient(135deg, #7C3AED, #3B82F6); color: #ffffff; font-weight: bold; text-decoration: none; border-radius: 12px; font-size: 14px; margin-top: 12px; box-shadow: 0 4px 20px rgba(124, 58, 237, 0.35); }
+          .footer { margin-top: 32px; padding-top: 20px; border-top: 1px solid #1E293B; font-size: 12px; color: #6B7FA3; text-align: center; }
+        </style>
+      </head>
+      <body>
+        <div class="card">
+          <div class="logo">Sav<span>zyen</span></div>
+          <div class="crown-badge">👑 Pro Membership Activated</div>
+          <h2>Welcome to Savzyen Pro, ${data.userName}!</h2>
+          <p>Your payment has been successfully verified, and your <strong>${data.planName}</strong> is now officially active.</p>
+          
+          <div style="background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 8px; padding: 12px 16px; font-size: 13px; color: #6EE7B7; margin: 16px 0;">
+            ✓ <strong>Access Valid Until:</strong> ${formattedEndDate} (1 Year Annual Access)
+          </div>
+
+          <div class="features-box">
+            <div style="font-size: 12px; font-weight: bold; color: #A7B2CC; text-transform: uppercase; margin-bottom: 12px;">
+              Your Pro Privileges Are Now Unlocked:
+            </div>
+            <div class="feature-item">⚡ <strong>Daily AI News & Curated Intelligence</strong></div>
+            <div class="feature-item">⚡ <strong>Latest AI Tools & Practical Modules</strong></div>
+            <div class="feature-item">⚡ <strong>Practical AI Daily Challenges & Blueprints</strong></div>
+            <div class="feature-item">⚡ <strong>Exclusive Live Sessions with Founders & Experts</strong></div>
+            <div class="feature-item">⚡ <strong>Build Real-Time AI Agents & Career Opportunities</strong></div>
+          </div>
+
+          <div style="text-align: center; margin: 24px 0;">
+            <a href="${appUrl}/premium" class="btn">Enter Member Vault →</a>
+          </div>
+
+          <p style="font-size: 13px; color: #6B7FA3; text-align: center;">
+            You can manage your subscription anytime in your <a href="${appUrl}/account" style="color: #60A5FA;">Account Settings</a>.
+          </p>
+
+          <div class="footer">
+            © ${new Date().getFullYear()} Savzyen • Discover, Learn & Build with Modern AI.
+          </div>
+        </div>
+      </body>
+    </html>
+  `;
+
+  return await sendEmail({
+    to: data.userEmail,
+    subject: `Payment Verified — Your Savzyen Pro Membership is Now Active!`,
+    html: emailHtml,
+  });
+}
+
+
