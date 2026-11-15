@@ -29,5 +29,5 @@ export const auth = betterAuth({
     updateAge: 60 * 60 * 24, // 1 day
   },
   secret: process.env.BETTER_AUTH_SECRET || "development_secret_32_characters_minimum_len_key_ai_scout_2026",
-  baseURL: process.env.BETTER_AUTH_URL || process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000",
+  baseURL: process.env.BETTER_AUTH_URL || process.env.APP_URL || process.env.NEXT_PUBLIC_APP_URL || "https://savzyen.si",
 });

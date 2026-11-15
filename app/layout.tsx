@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   keywords: ["AI tools", "AI news", "learn AI", "artificial intelligence", "AI community", "AI tutorials", "Savzyen"],
   authors: [{ name: "Savzyen" }],
   creator: "Savzyen",
-  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL ?? "https://savzyen.com"),
+  metadataBase: new URL(process.env.APP_URL || process.env.NEXT_PUBLIC_APP_URL || "https://savzyen.si"),
   openGraph: {
     type: "website",
     locale: "en_IN",

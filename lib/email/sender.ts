@@ -354,7 +354,7 @@ export async function sendPaymentProofSubmittedEmails(data: PaymentProofEmailDat
     timeStyle: "short",
   });
 
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://savzyen.si";
+  const appUrl = process.env.APP_URL || process.env.NEXT_PUBLIC_APP_URL || "https://savzyen.si";
 
   // 1. Admin Alert Email HTML
   const adminHtml = `
@@ -476,10 +476,8 @@ export async function sendPremiumActivatedEmail(data: PremiumActivatedEmailData)
     : "1 Year";
 
   // Use live domain for emails so mobile users can click directly
-  const appUrl =
-    process.env.NEXT_PUBLIC_APP_URL && !process.env.NEXT_PUBLIC_APP_URL.includes("localhost")
-      ? process.env.NEXT_PUBLIC_APP_URL
-      : "https://savzyen.si";
+  const rawUrl = process.env.APP_URL || process.env.NEXT_PUBLIC_APP_URL || "https://savzyen.si";
+  const appUrl = rawUrl.includes("localhost") ? "https://savzyen.si" : rawUrl;
   const displayUrl = appUrl.replace(/^https?:\/\//, "");
   const amountPaid = data.amount ? `₹${data.amount}` : "₹499";
   const paymentId = data.paymentId || `SAV-${Date.now().toString(36).toUpperCase()}`;

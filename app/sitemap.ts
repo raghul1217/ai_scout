@@ -3,7 +3,7 @@ import type { MetadataRoute } from "next";
 export const dynamic = "force-dynamic";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://savzyen.si";
+  const baseUrl = process.env.APP_URL || process.env.NEXT_PUBLIC_APP_URL || "https://savzyen.si";
   const now = new Date();
 
   // Static routes
