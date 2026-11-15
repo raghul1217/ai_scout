@@ -68,6 +68,36 @@ export default function RootLayout({
           href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap"
           rel="stylesheet"
         />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@graph": [
+                {
+                  "@type": "WebSite",
+                  "@id": "https://savzyen.si/#website",
+                  "url": "https://savzyen.si",
+                  "name": "Savzyen",
+                  "alternateName": ["SAVZYEN", "savzyen.si"],
+                  "description": "Your all-in-one AI discovery and learning platform. Curated tools, latest news, and practical blueprints to stay ahead in AI.",
+                  "potentialAction": {
+                    "@type": "SearchAction",
+                    "target": "https://savzyen.si/news?q={search_term_string}",
+                    "query-input": "required name=search_term_string"
+                  }
+                },
+                {
+                  "@type": "Organization",
+                  "@id": "https://savzyen.si/#organization",
+                  "name": "Savzyen",
+                  "url": "https://savzyen.si",
+                  "logo": "https://savzyen.si/og-image.png"
+                }
+              ]
+            }),
+          }}
+        />
       </head>
       <body className="bg-[#050816] text-[#f8fafc] font-sans antialiased" suppressHydrationWarning>
         {children}
