@@ -23,26 +23,32 @@ import {
   Video,
   Play,
   ArrowRight,
+  Code2,
+  DollarSign,
+  Eye,
+  Clock,
+  Wrench,
 } from "lucide-react";
 
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Premium Member Vault | Savzyen",
-  description: "Weekly intelligence briefings, vetted agent repositories, curated developer tools, and hands-on engineering challenges for Savzyen Premium members.",
+  description:
+    "Weekly intelligence briefings, vetted agent repositories, curated developer tools, and hands-on engineering challenges for Savzyen Premium members.",
 };
 
 export default async function PremiumVaultPage() {
   const user = await requirePremium();
 
   return (
-    <div className="min-h-screen bg-[#050816] text-[#F8FAFC] pb-24 pt-10 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-[#050816] text-[#F8FAFC] pb-24 pt-10 px-3 sm:px-6 lg:px-8">
       <div className="max-w-5xl mx-auto space-y-16">
 
         {/* ─── VAULT HERO HEADER ───────────────────────────────────────────── */}
-        <div className="relative rounded-3xl p-6 sm:p-10 border border-[#7C3AED]/40 bg-gradient-to-r from-[#0D1730] via-[#112040] to-[#0A1024] overflow-hidden shadow-2xl shadow-[#7C3AED]/10">
+        <div className="relative rounded-2xl sm:rounded-3xl p-5 sm:p-10 border border-[#7C3AED]/40 bg-gradient-to-r from-[#0D1730] via-[#112040] to-[#0A1024] overflow-hidden shadow-2xl shadow-[#7C3AED]/10">
           <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-br from-[#7C3AED]/20 to-[#3B82F6]/10 rounded-full blur-3xl pointer-events-none" />
-          
+
           <div className="relative z-10 max-w-3xl">
             <div className="flex flex-wrap items-center gap-2 mb-4">
               <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#7C3AED]/20 border border-[#7C3AED]/40 text-xs font-bold text-[#C4B5FD] uppercase tracking-wider">
@@ -59,20 +65,35 @@ export default async function PremiumVaultPage() {
             </div>
 
             <h1 className="text-2xl sm:text-4xl lg:text-5xl font-black tracking-tight text-white mb-4">
-              Weekly Intelligence & <span className="bg-gradient-to-r from-[#7C3AED] via-[#60A5FA] to-[#3B82F6] bg-clip-text text-transparent">Engineering Brief</span>
+              Weekly Intelligence &amp;{" "}
+              <span className="bg-gradient-to-r from-[#7C3AED] via-[#60A5FA] to-[#3B82F6] bg-clip-text text-transparent">
+                Engineering Brief
+              </span>
             </h1>
 
             <p className="text-sm sm:text-base text-[#A7B2CC] leading-relaxed mb-6">
-              Welcome, <strong className="text-white font-semibold">{user.name}</strong>. Here is your private weekly dossier: breaking AI hardware &amp; security developments, vetted open-source agent repositories, developer tools of the week, and a complete 24/7 cloud agent deployment walkthrough.
+              Welcome, <strong className="text-white font-semibold">{user.name}</strong>. Here is your private weekly dossier: Qwen 4 Max benchmark intelligence, building your own autonomous Grok Bot for free with OpenMausBot, executive security deep dives, and production agent deployment walkthroughs.
             </p>
 
             {/* Quick In-Page Navigation */}
             <div className="flex flex-wrap gap-2 text-xs">
               <a
+                href="#qwen-4-max"
+                className="px-3 py-1.5 rounded-lg bg-[#112040] hover:bg-[#3B82F6] text-[#CBD5E1] hover:text-white border border-[#24314F] transition"
+              >
+                Qwen 4 Max Deep Dive ↓
+              </a>
+              <a
+                href="#grok-bot"
+                className="px-3 py-1.5 rounded-lg bg-[#112040] hover:bg-[#3B82F6] text-[#CBD5E1] hover:text-white border border-[#24314F] transition"
+              >
+                Build Grok Bot for Free ↓
+              </a>
+              <a
                 href="#breaking-intelligence"
                 className="px-3 py-1.5 rounded-lg bg-[#112040] hover:bg-[#3B82F6] text-[#CBD5E1] hover:text-white border border-[#24314F] transition"
               >
-                Top Intelligence &amp; Stories ↓
+                Top Stories &amp; Audits ↓
               </a>
               <a
                 href="#tools-of-the-week"
@@ -90,7 +111,379 @@ export default async function PremiumVaultPage() {
           </div>
         </div>
 
-        {/* ─── SECTION 1: TOP INTELLIGENCE & DEEP DIVES ───────────────────── */}
+        {/* ─── NEW STORY 1: ALIBABA QWEN 4 MAX ───────────────────────────── */}
+        <section id="qwen-4-max" className="space-y-6 scroll-mt-20">
+          <div>
+            <div className="flex items-center gap-2 mb-2">
+              <Sparkles className="w-5 h-5 text-[#8B5CF6]" />
+              <span className="text-xs font-bold text-[#8B5CF6] uppercase tracking-widest">
+                Frontier Model Release • Benchmarks &amp; Efficiency
+              </span>
+            </div>
+            <h2 className="text-2xl sm:text-3xl font-black text-white">
+              What If You Could Build Software with AI at a Fraction of the Cost of Claude?
+            </h2>
+            <p className="text-xs sm:text-sm text-[#A7B2CC] mt-1">
+              Alibaba has unveiled Qwen 4 Max — a new flagship model making waves across autonomous coding and enterprise AI development.
+            </p>
+          </div>
+
+          <article className="bg-[#0D1730] border border-[#24314F] rounded-2xl overflow-hidden hover:border-[#8B5CF6]/60 transition shadow-xl">
+            <div className="p-5 sm:p-8 space-y-6">
+              {/* Header Badges */}
+              <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#24314F]/60 pb-4">
+                <div className="flex items-center gap-2">
+                  <span className="px-2.5 py-1 rounded-md text-[11px] font-bold bg-[#8B5CF6]/15 border border-[#8B5CF6]/30 text-[#C4B5FD] uppercase tracking-wide">
+                    Flagship Benchmark
+                  </span>
+                  <span className="text-xs text-[#6B7FA3]">Alibaba Cloud • Qwen Team</span>
+                </div>
+                <span className="text-xs font-medium text-emerald-400">
+                  DeepSui Score: 75.7
+                </span>
+              </div>
+
+              {/* Main Lead Paragraphs */}
+              <div className="text-sm text-[#CBD5E1] space-y-3 leading-relaxed">
+                <p>
+                  Building production-grade software with frontier AI agents has traditionally demanded premium API pricing from Claude and OpenAI. Alibaba&apos;s new flagship <strong className="text-white">Qwen 4 Max</strong> introduces frontier-tier coding performance, massive 1M token context windows, and dramatic cost reductions that shift the unit economics of AI engineering.
+                </p>
+                <p>
+                  Here is why developers, software architects, and tech businesses should pay close attention.
+                </p>
+              </div>
+
+              {/* Hero Image */}
+              <div className="pt-2">
+                <div className="rounded-xl overflow-hidden border border-[#24314F] bg-[#050816]">
+                  <Image
+                    src="/assets/premium_page/day2/qwen.jpeg"
+                    alt="Alibaba Qwen 4 Max Model Breakdown and Benchmarks"
+                    width={1200}
+                    height={675}
+                    priority
+                    className="w-full h-auto object-cover max-h-[550px]"
+                  />
+                </div>
+                <p className="text-[11px] text-[#6B7FA3] mt-2 text-center">
+                  Qwen 4 Max architecture evaluation: frontier coding throughput and cost optimization
+                </p>
+              </div>
+
+              {/* 4 Main Highlights Grid */}
+              <div className="space-y-3 pt-2">
+                <h3 className="text-base sm:text-lg font-bold text-white flex items-center gap-2">
+                  <Cpu className="w-4 h-4 text-[#8B5CF6]" />
+                  Main Architectural Highlights
+                </h3>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {/* Highlight 1 */}
+                  <div className="p-4 sm:p-5 rounded-xl bg-[#050816] border border-[#24314F] hover:border-[#8B5CF6]/50 transition space-y-2">
+                    <div className="flex items-center gap-2">
+                      <span className="w-6 h-6 rounded-md bg-[#8B5CF6]/20 text-[#C4B5FD] font-mono text-xs font-bold flex items-center justify-center shrink-0">
+                        01
+                      </span>
+                      <h4 className="font-bold text-sm text-white">
+                        Impressive Coding Performance
+                      </h4>
+                    </div>
+                    <ul className="text-xs text-[#A7B2CC] space-y-1.5 pl-8 list-disc">
+                      <li>
+                        Scored <strong className="text-white">75.7</strong> on the reported DeepSui benchmark.
+                      </li>
+                      <li>
+                        Reportedly outperformed Claude Opus 5.5 on this standardized evaluation.
+                      </li>
+                      <li>
+                        Engineered specifically for multi-file codebases and autonomous software development.
+                      </li>
+                    </ul>
+                  </div>
+
+                  {/* Highlight 2 */}
+                  <div className="p-4 sm:p-5 rounded-xl bg-[#050816] border border-[#24314F] hover:border-[#3B82F6]/50 transition space-y-2">
+                    <div className="flex items-center gap-2">
+                      <span className="w-6 h-6 rounded-md bg-[#3B82F6]/20 text-[#60A5FA] font-mono text-xs font-bold flex items-center justify-center shrink-0">
+                        02
+                      </span>
+                      <h4 className="font-bold text-sm text-white">
+                        1 Million Token Context Window
+                      </h4>
+                    </div>
+                    <ul className="text-xs text-[#A7B2CC] space-y-1.5 pl-8 list-disc">
+                      <li>
+                        Process entire multi-repository codebases without manual chunking.
+                      </li>
+                      <li>
+                        Ingest massive architectural blueprints, PDFs, and documentation sets.
+                      </li>
+                      <li>
+                        Maintain persistent memory across complex, multi-step agent workflows.
+                      </li>
+                    </ul>
+                  </div>
+
+                  {/* Highlight 3 */}
+                  <div className="p-4 sm:p-5 rounded-xl bg-[#050816] border border-[#24314F] hover:border-[#10B981]/50 transition space-y-2">
+                    <div className="flex items-center gap-2">
+                      <span className="w-6 h-6 rounded-md bg-[#10B981]/20 text-[#34D399] font-mono text-xs font-bold flex items-center justify-center shrink-0">
+                        03
+                      </span>
+                      <h4 className="font-bold text-sm text-white">
+                        Multimodal Capabilities
+                      </h4>
+                    </div>
+                    <ul className="text-xs text-[#A7B2CC] space-y-1.5 pl-8 list-disc">
+                      <li>
+                        Native cross-attention comprehension across text, high-res images, and video.
+                      </li>
+                      <li>
+                        Unlocks automated video analysis, UI test automation, and screen auditing.
+                      </li>
+                      <li>
+                        Transcribes and reasons over diagrams, architectural wireframes, and charts.
+                      </li>
+                    </ul>
+                  </div>
+
+                  {/* Highlight 4 */}
+                  <div className="p-4 sm:p-5 rounded-xl bg-[#050816] border border-[#24314F] hover:border-amber-500/50 transition space-y-2">
+                    <div className="flex items-center gap-2">
+                      <span className="w-6 h-6 rounded-md bg-amber-500/20 text-amber-300 font-mono text-xs font-bold flex items-center justify-center shrink-0">
+                        04
+                      </span>
+                      <h4 className="font-bold text-sm text-white">
+                        Significantly Lower Costs
+                      </h4>
+                    </div>
+                    <ul className="text-xs text-[#A7B2CC] space-y-1.5 pl-8 list-disc">
+                      <li>
+                        Uses up to <strong className="text-emerald-400">50% fewer tokens</strong> than previous flagship releases according to Alibaba.
+                      </li>
+                      <li>
+                        Reduces average task execution costs by <strong className="text-emerald-400">over 60%</strong>.
+                      </li>
+                      <li>
+                        Makes enterprise-scale autonomous AI adoption commercially viable.
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              {/* Where Can You Use It */}
+              <div className="p-5 rounded-xl bg-[#050816] border border-[#24314F] space-y-3">
+                <h4 className="font-bold text-sm text-white flex items-center gap-2">
+                  <ArrowRight className="w-4 h-4 text-[#8B5CF6]" />
+                  Where Can You Use It in Production?
+                </h4>
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 text-xs">
+                  <div className="p-2.5 rounded-lg bg-[#0D1730] border border-[#24314F] text-[#CBD5E1] flex items-center gap-2">
+                    <Code2 className="w-3.5 h-3.5 text-[#60A5FA] shrink-0" />
+                    <span>AI Coding Agents</span>
+                  </div>
+                  <div className="p-2.5 rounded-lg bg-[#0D1730] border border-[#24314F] text-[#CBD5E1] flex items-center gap-2">
+                    <Globe className="w-3.5 h-3.5 text-[#34D399] shrink-0" />
+                    <span>Website &amp; Frontend Development</span>
+                  </div>
+                  <div className="p-2.5 rounded-lg bg-[#0D1730] border border-[#24314F] text-[#CBD5E1] flex items-center gap-2">
+                    <Layers className="w-3.5 h-3.5 text-amber-300 shrink-0" />
+                    <span>Business Process Automation</span>
+                  </div>
+                  <div className="p-2.5 rounded-lg bg-[#0D1730] border border-[#24314F] text-[#CBD5E1] flex items-center gap-2">
+                    <Bot className="w-3.5 h-3.5 text-[#C4B5FD] shrink-0" />
+                    <span>Autonomous AI Applications</span>
+                  </div>
+                  <div className="p-2.5 rounded-lg bg-[#0D1730] border border-[#24314F] text-[#CBD5E1] flex items-center gap-2 sm:col-span-2 md:col-span-2">
+                    <Video className="w-3.5 h-3.5 text-rose-400 shrink-0" />
+                    <span>Video Intelligence &amp; Multi-Modal Auditing</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Mission Callout */}
+              <div className="p-4 rounded-xl bg-gradient-to-r from-[#7C3AED]/20 to-[#3B82F6]/10 border border-[#7C3AED]/40 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs sm:text-sm">
+                <span className="font-bold text-white tracking-wide">
+                  Become the Top 1% in the AI Era.
+                </span>
+                <span className="text-[#A7B2CC] font-mono text-xs uppercase tracking-wider">
+                  SAVZYEN | AI Intelligence for the Future
+                </span>
+              </div>
+            </div>
+          </article>
+        </section>
+
+        {/* ─── NEW STORY 2: BUILD YOUR OWN GROK BOT FOR FREE (OPENMAUSBOT) ── */}
+        <section id="grok-bot" className="space-y-6 scroll-mt-20">
+          <div>
+            <div className="flex items-center gap-2 mb-2">
+              <Bot className="w-5 h-5 text-emerald-400" />
+              <span className="text-xs font-bold text-emerald-400 uppercase tracking-widest">
+                Hands-On Engineering • Open Source Alternative
+              </span>
+            </div>
+            <h2 className="text-2xl sm:text-3xl font-black text-white">
+              Here Is How You Can Build Your Own Grok Bot for Free
+            </h2>
+            <p className="text-xs sm:text-sm text-[#A7B2CC] mt-1">
+              OpenMausBot is an open-source alternative to Grok Bot, Meta Muse, and OpenAI Operator with 22,000+ stars on GitHub.
+            </p>
+          </div>
+
+          <article className="bg-[#0D1730] border border-[#24314F] rounded-2xl overflow-hidden hover:border-emerald-500/60 transition shadow-xl">
+            <div className="p-5 sm:p-8 space-y-6">
+              {/* Header Badges */}
+              <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#24314F]/60 pb-4">
+                <div className="flex items-center gap-2">
+                  <span className="px-2.5 py-1 rounded-md text-[11px] font-bold bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 uppercase tracking-wide">
+                    22,000+ Stars on GitHub
+                  </span>
+                  <span className="text-xs text-[#6B7FA3]">License: Apache 2.0</span>
+                </div>
+                <a
+                  href="https://github.com/milind-soni/OpenMausBot"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-semibold bg-emerald-500/20 hover:bg-emerald-500 text-emerald-300 hover:text-white border border-emerald-500/40 transition shrink-0"
+                >
+                  View GitHub Repository <ExternalLink className="w-3 h-3" />
+                </a>
+              </div>
+
+              {/* Lead Paragraph */}
+              <div className="text-sm text-[#CBD5E1] space-y-3 leading-relaxed">
+                <p>
+                  You do not need an expensive enterprise subscription to deploy an autonomous assistant. <strong className="text-white">OpenMausBot</strong> runs on the Claude or ChatGPT plan you already pay for, providing an isolated computing sandbox, multi-app connectors, and persistent stateful memory.
+                </p>
+                <p>
+                  Follow this complete step-by-step setup to launch your bot fleet:
+                </p>
+              </div>
+
+              {/* Hero Image */}
+              <div className="pt-2">
+                <div className="rounded-xl overflow-hidden border border-[#24314F] bg-[#050816]">
+                  <Image
+                    src="/assets/premium_page/day2/grok.jpeg"
+                    alt="Build Your Own Grok Bot with OpenMausBot"
+                    width={1200}
+                    height={675}
+                    className="w-full h-auto object-cover max-h-[550px]"
+                  />
+                </div>
+                <p className="text-[11px] text-[#6B7FA3] mt-2 text-center">
+                  OpenMausBot interface: multi-agent task execution and app connectivity
+                </p>
+              </div>
+
+              {/* Step-by-Step Implementation */}
+              <div className="space-y-4 pt-2">
+                <h3 className="text-base sm:text-lg font-bold text-white flex items-center gap-2">
+                  <Wrench className="w-4 h-4 text-emerald-400" />
+                  Step-by-Step Configuration Guide
+                </h3>
+
+                <div className="space-y-3">
+                  {/* Step 1 */}
+                  <div className="p-4 sm:p-5 rounded-xl bg-[#050816] border border-[#24314F] space-y-2">
+                    <div className="flex items-center gap-3">
+                      <span className="w-7 h-7 rounded-full bg-emerald-500 text-white font-black text-xs flex items-center justify-center shrink-0">
+                        1
+                      </span>
+                      <h4 className="font-bold text-sm text-white">
+                        Create a Dedicated Bot for Every Job You Want to Automate
+                      </h4>
+                    </div>
+                    <p className="text-xs text-[#A7B2CC] leading-relaxed pl-10">
+                      Segment your workflows cleanly: Inbox Manager, Research Assistant, Script Researcher, and Video Editor. Each bot gets its own isolated virtual computer environment so workloads never collide or corrupt states.
+                    </p>
+                  </div>
+
+                  {/* Step 2 */}
+                  <div className="p-4 sm:p-5 rounded-xl bg-[#050816] border border-[#24314F] space-y-2">
+                    <div className="flex items-center gap-3">
+                      <span className="w-7 h-7 rounded-full bg-emerald-500 text-white font-black text-xs flex items-center justify-center shrink-0">
+                        2
+                      </span>
+                      <h4 className="font-bold text-sm text-white">
+                        Assign High-Level Autonomous Tasks
+                      </h4>
+                    </div>
+                    <p className="text-xs text-[#A7B2CC] leading-relaxed pl-10">
+                      Give it a clear prompt: <span className="text-emerald-400 font-mono text-[11px]">&ldquo;Find me this week&apos;s trending AI tools.&rdquo;</span> The bot boots its own isolated browser, searches the live internet, reads every webpage, and returns clean, cited summaries independently.
+                    </p>
+                  </div>
+
+                  {/* Step 3 */}
+                  <div className="p-4 sm:p-5 rounded-xl bg-[#050816] border border-[#24314F] space-y-2">
+                    <div className="flex items-center gap-3">
+                      <span className="w-7 h-7 rounded-full bg-emerald-500 text-white font-black text-xs flex items-center justify-center shrink-0">
+                        3
+                      </span>
+                      <h4 className="font-bold text-sm text-white">
+                        Connect Your Everyday Tools (500+ Integrations)
+                      </h4>
+                    </div>
+                    <p className="text-xs text-[#A7B2CC] leading-relaxed pl-10">
+                      Plugs directly into the software stack you already use: Gmail, Slack, Notion, and Google Calendar. Actions and outputs dispatch across these channels without manual copy-pasting.
+                    </p>
+                  </div>
+
+                  {/* Step 4 */}
+                  <div className="p-4 sm:p-5 rounded-xl bg-[#050816] border border-[#24314F] space-y-2">
+                    <div className="flex items-center gap-3">
+                      <span className="w-7 h-7 rounded-full bg-emerald-500 text-white font-black text-xs flex items-center justify-center shrink-0">
+                        4
+                      </span>
+                      <h4 className="font-bold text-sm text-white">
+                        Set Autonomous Execution Schedules
+                      </h4>
+                    </div>
+                    <p className="text-xs text-[#A7B2CC] leading-relaxed pl-10">
+                      Define automated recurrence: every morning, hourly, or on specific event triggers. Your bot operates autonomously in the background while you are offline or away from your workstation.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Memory & Privacy Guarantees */}
+              <div className="grid sm:grid-cols-2 gap-3 text-xs pt-2">
+                <div className="p-4 rounded-xl bg-[#050816] border border-emerald-500/30 space-y-1.5">
+                  <strong className="text-white block font-bold text-sm">
+                    Persistent Stateful Memory
+                  </strong>
+                  <p className="text-[#A7B2CC] leading-relaxed">
+                    Each bot remembers previous instructions, project requirements, and what you were working on last time. No repetitive prompt engineering or re-explaining context.
+                  </p>
+                </div>
+                <div className="p-4 rounded-xl bg-[#050816] border border-emerald-500/30 space-y-1.5">
+                  <strong className="text-white block font-bold text-sm">
+                    100% Privacy &amp; Local Ownership
+                  </strong>
+                  <p className="text-[#A7B2CC] leading-relaxed">
+                    Licensed under Apache 2.0. Your credentials, telemetry, and business data stay strictly on your private machine or self-hosted server without third-party snooping.
+                  </p>
+                </div>
+              </div>
+
+              {/* Action Button */}
+              <div className="pt-2">
+                <a
+                  href="https://github.com/milind-soni/OpenMausBot"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl text-xs sm:text-sm font-bold text-white bg-emerald-600 hover:bg-emerald-500 transition shadow-lg shadow-emerald-500/20"
+                >
+                  Try Out OpenMausBot on GitHub <ExternalLink className="w-4 h-4" />
+                </a>
+              </div>
+            </div>
+          </article>
+        </section>
+
+        {/* ─── SECTION 1: TOP STORIES & STRATEGIC DEEP DIVES (EXISTING STORIES) ─ */}
         <section id="breaking-intelligence" className="space-y-8 scroll-mt-20">
           <div>
             <div className="flex items-center gap-2 mb-2">
@@ -110,7 +503,7 @@ export default async function PremiumVaultPage() {
           <div className="space-y-8">
             {/* Story 1: Claude & Crypto Miner */}
             <article className="bg-[#0D1730] border border-[#24314F] rounded-2xl overflow-hidden hover:border-[#3B82F6]/60 transition shadow-xl">
-              <div className="p-6 sm:p-8 space-y-6">
+              <div className="p-5 sm:p-8 space-y-6">
                 <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#24314F]/60 pb-4">
                   <div className="flex items-center gap-2">
                     <span className="px-2.5 py-1 rounded-md text-[11px] font-bold bg-rose-500/10 border border-rose-500/30 text-rose-400 uppercase tracking-wide">
@@ -128,13 +521,13 @@ export default async function PremiumVaultPage() {
 
                   <div className="text-sm text-[#CBD5E1] space-y-3 leading-relaxed">
                     <p>
-                      This developer on Reddit asked Claude Code to build a small utility app to show his Mac's internal CPU temperature. When the raw sensor readings looked suspiciously high—peaking at <strong className="text-rose-400">112°C</strong>—Claude didn't just display the number; it investigated what was driving the workload.
+                      This developer on Reddit asked Claude Code to build a small utility app to show his Mac&apos;s internal CPU temperature. When the raw sensor readings looked suspiciously high—peaking at <strong className="text-rose-400">112°C</strong>—Claude didn&apos;t just display the number; it investigated what was driving the workload.
                     </p>
                     <p>
                       It discovered that the Mac was secretly running an <code className="px-1.5 py-0.5 rounded bg-[#050816] text-[#60A5FA] font-mono text-xs">xmrig</code> cryptocurrency miner, consuming 12 cores and pushing the CPU to 1175% capacity.
                     </p>
                     <p>
-                      The miner had been quietly running since August, anchored by a persistent startup item at <code className="px-1.5 py-0.5 rounded bg-[#050816] text-[#A7B2CC] font-mono text-xs">~/Library/LaunchAgents/com.rymbotqcjoiqlqbp.plist</code> configured with <code className="px-1.5 py-0.5 rounded bg-[#050816] text-[#A7B2CC] font-mono text-xs">KeepAlive</code> to restart every time the Mac booted. Because the malicious process had root access, the developer's GitHub login credentials on that machine were exposed the entire time.
+                      The miner had been quietly running since August, anchored by a persistent startup item at <code className="px-1.5 py-0.5 rounded bg-[#050816] text-[#A7B2CC] font-mono text-xs">~/Library/LaunchAgents/com.rymbotqcjoiqlqbp.plist</code> configured with <code className="px-1.5 py-0.5 rounded bg-[#050816] text-[#A7B2CC] font-mono text-xs">KeepAlive</code> to restart every time the Mac booted. Because the malicious process had root access, the developer&apos;s GitHub login credentials on that machine were exposed the entire time.
                     </p>
                     <p>
                       Crucially, Claude demonstrated textbook agent safety: it did not touch, delete, or alter any system files on its own. It detailed the exact persistence path, isolated the threat, and asked for explicit user permission to quarantine the payload.
@@ -166,7 +559,7 @@ export default async function PremiumVaultPage() {
 
             {/* Story 2: 5 Free Repos for Building Agents */}
             <article className="bg-[#0D1730] border border-[#24314F] rounded-2xl overflow-hidden hover:border-[#7C3AED]/60 transition shadow-xl">
-              <div className="p-6 sm:p-8 space-y-6">
+              <div className="p-5 sm:p-8 space-y-6">
                 <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#24314F]/60 pb-4">
                   <div className="flex items-center gap-2">
                     <span className="px-2.5 py-1 rounded-md text-[11px] font-bold bg-[#7C3AED]/20 border border-[#7C3AED]/40 text-[#C4B5FD] uppercase tracking-wide">
@@ -305,7 +698,7 @@ export default async function PremiumVaultPage() {
 
             {/* Story 3: Nvidia Succession Crisis */}
             <article className="bg-[#0D1730] border border-[#24314F] rounded-2xl overflow-hidden hover:border-[#10B981]/60 transition shadow-xl">
-              <div className="p-6 sm:p-8 space-y-6">
+              <div className="p-5 sm:p-8 space-y-6">
                 <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#24314F]/60 pb-4">
                   <div className="flex items-center gap-2">
                     <span className="px-2.5 py-1 rounded-md text-[11px] font-bold bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 uppercase tracking-wide">
@@ -320,7 +713,7 @@ export default async function PremiumVaultPage() {
                     className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 hover:bg-emerald-500 hover:text-white transition"
                   >
                     <Video className="w-3.5 h-3.5" />
-                    Watch Exclusive Video Analysis <ExternalLink className="w-3 h-3" />
+                    Watch Video Analysis <ExternalLink className="w-3 h-3" />
                   </a>
                 </div>
 
@@ -371,7 +764,7 @@ export default async function PremiumVaultPage() {
                   </div>
                 </div>
 
-                {/* Generated High-End Editorial Graphic */}
+                {/* Generated Editorial Graphic */}
                 <div className="pt-2">
                   <div className="rounded-xl overflow-hidden border border-[#24314F] bg-[#050816] relative group">
                     <Image
@@ -390,11 +783,11 @@ export default async function PremiumVaultPage() {
                       <div className="w-12 h-12 rounded-full bg-emerald-500 flex items-center justify-center text-white shadow-xl shadow-emerald-500/50">
                         <Play className="w-5 h-5 fill-white ml-0.5" />
                       </div>
-                      <span>Click to Watch Confidential Video Breakdown</span>
+                      <span>Click to Watch Video Breakdown</span>
                     </a>
                   </div>
                   <div className="flex items-center justify-between text-[11px] text-[#6B7FA3] mt-2 px-1">
-                    <span>Generated Editorial Graphic • Executive Deliberation</span>
+                    <span>Executive Deliberation &amp; Roadmap</span>
                     <a
                       href="https://drive.google.com/file/d/1jA3Yp6o0yG0Dlb9-d0mqr3l43OdKHcNP/view?usp=sharing"
                       target="_blank"
@@ -540,7 +933,7 @@ export default async function PremiumVaultPage() {
             </p>
           </div>
 
-          <div className="bg-[#0D1730] border border-[#24314F] rounded-3xl p-6 sm:p-10 space-y-10 shadow-2xl">
+          <div className="bg-[#0D1730] border border-[#24314F] rounded-2xl sm:rounded-3xl p-5 sm:p-10 space-y-10 shadow-2xl">
             {/* The Core Bottleneck */}
             <div className="space-y-3 pb-8 border-b border-[#24314F]">
               <h3 className="text-lg sm:text-xl font-bold text-white flex items-center gap-2">

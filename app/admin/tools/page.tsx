@@ -12,11 +12,19 @@ export const metadata: Metadata = {
 
 export default async function AdminToolsPage() {
   let tools: any[] = [];
+  let totalCount = 0;
+  let freeCount = 0;
+
   try {
-    tools = await prisma.aITool.findMany({
-      include: { category: true },
-      orderBy: { createdAt: "desc" },
-    });
+    [totalCount, freeCount, tools] = await Promise.all([
+      prisma.aITool.count(),
+      prisma.aITool.count({ where: { pricingType: "FREE" } }),
+      prisma.aITool.findMany({
+        include: { category: true },
+        orderBy: { createdAt: "desc" },
+        take: 100,
+      }),
+    ]);
   } catch (error) {
     console.warn("DB not ready in admin tools page:", error);
   }
@@ -27,7 +35,7 @@ export default async function AdminToolsPage() {
         <div>
           <h1 className="text-2xl font-black text-white">AI Tools Directory</h1>
           <p className="text-xs text-[#A7B2CC] mt-1">
-            Review listed tools, ratings, and category assignments synchronized from Best of AI.
+            Total Tools in Supabase: <strong className="text-white">{totalCount}</strong> • 100% Free: <strong className="text-emerald-400">{freeCount}</strong> (showing latest 100 below).
           </p>
         </div>
         <SyncBestOfAIButton />
@@ -58,7 +66,9 @@ export default async function AdminToolsPage() {
                     </td>
                     <td className="py-3 px-4 whitespace-nowrap">{tool.category?.name ?? "General"}</td>
                     <td className="py-3 px-4 whitespace-nowrap">
-                      <span className="px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-[#112040] text-white">
+                      <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase ${
+                        tool.pricingType === "FREE" ? "bg-emerald-500/20 text-emerald-400 border border-emerald-500/30" : "bg-[#112040] text-white"
+                      }`}>
                         {tool.pricingType}
                       </span>
                     </td>

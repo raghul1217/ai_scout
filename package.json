@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "eslint",
     "make:admin": "tsx scripts/make-admin.ts",
-    "set:password": "tsx scripts/set-user-password.ts"
+    "set:password": "tsx scripts/set-user-password.ts",
+    "import:free-tools": "tsx scripts/import-all-free-tools.ts"
   },
   "dependencies": {
     "@prisma/client": "^6.19.3",
