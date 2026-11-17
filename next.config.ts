@@ -40,6 +40,11 @@ const nextConfig: NextConfig = {
         destination: "/register?plan=pro",
         permanent: false,
       },
+      {
+        source: "/pricing",
+        destination: "/register?plan=pro",
+        permanent: false,
+      },
     ];
   },
 };

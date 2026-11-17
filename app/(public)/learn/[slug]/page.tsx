@@ -392,7 +392,7 @@ export default async function LearnDetailPage({ params }: PageProps) {
               <p className="text-sm text-[#A7B2CC] max-w-md mx-auto">
                 Upgrade to Savzyen Pro to access full architectural code, repository files, and live execution notebooks.
               </p>
-              <Link href="/pricing" className="btn btn-primary inline-flex items-center gap-2">
+              <Link href="/join" className="btn btn-primary inline-flex items-center gap-2">
                 Upgrade to Pro <ArrowRight className="w-4 h-4" />
               </Link>
             </div>

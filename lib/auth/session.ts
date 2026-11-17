@@ -104,7 +104,7 @@ export async function requireAdmin(): Promise<AuthenticatedUser> {
 export async function requirePremium(): Promise<AuthenticatedUser> {
   const user = await requireAuth();
   if (!user.isPremium) {
-    redirect("/pricing?reason=premium_required");
+    redirect("/join?reason=premium_required");
   }
   return user;
 }

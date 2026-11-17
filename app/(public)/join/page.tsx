@@ -1,0 +1,7 @@
+import { redirect } from "next/navigation";
+
+export const dynamic = "force-dynamic";
+
+export default function JoinPage() {
+  redirect("/register?plan=pro");
+}

@@ -9,7 +9,7 @@ const footerLinks = {
     { label: "Learn AI", href: "/learn" },
     { label: "Community", href: "/community" },
     { label: "Collab", href: "/collab" },
-    { label: "Pricing", href: "/pricing" },
+    { label: "Membership", href: "/join" },
   ],
   Company: [
     { label: "About Savzyen", href: "/about" },

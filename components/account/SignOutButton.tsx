@@ -3,7 +3,11 @@
 import { LogOut } from "lucide-react";
 import { authClient } from "@/lib/auth/auth-client";
 
-export function SignOutButton() {
+interface SignOutButtonProps {
+  className?: string;
+}
+
+export function SignOutButton({ className }: SignOutButtonProps) {
   const handleSignOut = async () => {
     try {
       await authClient.signOut();
@@ -16,11 +20,13 @@ export function SignOutButton() {
   return (
     <button
       onClick={handleSignOut}
-      className="px-3.5 py-2 text-xs font-medium rounded-lg border border-red-500/30 text-red-400 hover:bg-red-500/10 hover:border-red-500/60 transition flex items-center gap-1.5"
+      className={
+        className ||
+        "inline-flex items-center justify-center gap-2 px-4 py-2.5 text-xs font-medium rounded-xl border border-red-500/30 bg-red-500/5 text-red-400 hover:bg-red-500/10 hover:border-red-500/60 transition text-center whitespace-nowrap"
+      }
     >
-      <LogOut className="w-3.5 h-3.5" />
+      <LogOut className="w-3.5 h-3.5 shrink-0" />
       Sign Out
     </button>
   );
 }
-
