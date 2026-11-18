@@ -1,6 +1,90 @@
 {
   "articles": [
     {
+      "id": "prem-uipath-agent-builders-bengaluru",
+      "slug": "uipath-agent-builders-community-day-bengaluru",
+      "title": "UiPath Bengaluru Presents: Agent Builders Community Day Bengaluru",
+      "subtitle": "Watch a working business process get rebuilt live from the ground up into a production AI agent — Saturday, 21 November 2026 at Jawaharlal Nehru Planetarium, Bengaluru.",
+      "summary": "Join Bengaluru's AI automation and agent engineering community on 21 November 2026 for a full-day in-person UiPath Community Day featuring a live on-stage agentic rebuild, architectural deep dives, and enterprise ROI insights.",
+      "category": "Tech Events",
+      "categorySlug": "tech-events",
+      "badge": "New",
+      "authorName": "UiPath Bengaluru Community",
+      "date": "21 Nov 2026",
+      "readTimeMinutes": 3,
+      "coverImage": "/assets/premium_page/day3/uipath-agent-builders-bengaluru.jpg",
+      "coverImageAlt": "UiPath Agent Builders Community Day Bengaluru official event graphic",
+      "tags": ["UiPath", "Agentic Orchestration", "Bengaluru Event", "AI Agents", "In-Person Meetup"],
+      "primaryActions": [
+        {
+          "label": "Register Free on UiPath Community",
+          "href": "https://community.uipath.com/events/details/uipath-bengaluru-presents-agent-builders-community-day-bengaluru/",
+          "variant": "primary"
+        }
+      ],
+      "sections": [
+        {
+          "heading": "One Stage. One Live Agentic Rebuild.",
+          "paragraphs": [
+            "A real business process that already works is about to get rebuilt live — from the ground up — into a working AI agent.",
+            "Hosted by the UiPath Bengaluru Community, Agent Builders Community Day Bengaluru brings together nearly 1,000+ developers, solution architects, business leaders, and automation builders for a full-day hands-on showcase of agentic orchestration."
+          ],
+          "images": [
+            {
+              "src": "/assets/premium_page/day3/uipath-agent-builders-banner.jpg",
+              "alt": "Agent Builders Day Bengaluru official widescreen banner",
+              "caption": "Agent Builders Community Day Bengaluru — Hosted by UiPath Community"
+            }
+          ]
+        },
+        {
+          "heading": "Event Schedule & Venue Details",
+          "paragraphs": [
+            "Mark your calendar and reserve your in-person seat early, as registration has limited availability:"
+          ],
+          "bulletPoints": [
+            {
+              "label": "Date & Time",
+              "text": "Saturday, 21 November 2026 — 8:30 AM to 5:00 PM IST."
+            },
+            {
+              "label": "Venue",
+              "text": "Jawaharlal Nehru Planetarium, Sankey Road, Bengaluru, Karnataka 560001."
+            },
+            {
+              "label": "Entry & Registration",
+              "text": "Free in-person RSVP required via the official UiPath Community portal (nearly 1,000 attendees already registered)."
+            }
+          ]
+        },
+        {
+          "heading": "What to Expect at the Event",
+          "paragraphs": [
+            "Rather than slide-heavy theory, the program walks through the real lifecycle of transforming a legacy workflow into an autonomous agent:"
+          ],
+          "bulletPoints": [
+            {
+              "label": "Live End-to-End Agent Rebuild",
+              "text": "A business leader presents a real operational process, a solution consultant maps the opportunity, an architect designs the agentic framework, and a developer constructs the working AI agent live on stage."
+            },
+            {
+              "label": "Platform Roadmap & Customer Use Cases",
+              "text": "Hear directly from UiPath product and community leaders on upcoming agentic orchestration capabilities and real-world enterprise deployments."
+            },
+            {
+              "label": "Measuring Real AI ROI & Networking",
+              "text": "Practical strategies for moving AI agents from prototype to measurable business impact, paired with networking across Bengaluru's local AI builder ecosystem."
+            }
+          ],
+          "callout": {
+            "type": "info",
+            "title": "RSVP Before Seats Fill Up",
+            "text": "Use the registration button above to RSVP directly on community.uipath.com for Agent Builders Community Day Bengaluru."
+          }
+        }
+      ]
+    },
+    {
       "id": "prem-openai-gpt-6-2-astra-sol",
       "slug": "openai-gpt-6-2-astra-sol",
       "title": "OpenAI Introduces GPT-6.2 Astra & Sol for Professional Work and Everyday Productivity",
